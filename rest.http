@@ -1,0 +1,10 @@
+POST http://localhost:5001/scanpal-f74da/us-central1/barizi/auth/register
+Content-Type: application/json
+
+{
+    "email":"baron@barizicommunications.com",
+    "password":"Waru11124"
+}
+
+###
+GET http://localhost:5001/scanpal-f74da/us-central1/barizi/auth/getuser/baron@barizicommunications.com

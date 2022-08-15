@@ -15,6 +15,7 @@ const peoplesCollection = db.collection("people");
 const partnersCollection= db.collection("partners");
 
 
+
 // export utils/refs
 
 module.exports= {

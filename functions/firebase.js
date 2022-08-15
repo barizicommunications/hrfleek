@@ -12,6 +12,7 @@ const types = admin.firestore;
 // collection references
 const usersCollection = db.collection("users");
 const peoplesCollection = db.collection("people");
+const partnersCollection= db.collection("partners");
 
 
 // export utils/refs
@@ -22,5 +23,6 @@ module.exports= {
   storage,
   types,
   usersCollection,
- peoplesCollection
+ peoplesCollection,
+ partnersCollection
 };

@@ -6,5 +6,34 @@ Content-Type: application/json
     "password":"Waru11124"
 }
 
-###
+### get user
 GET http://localhost:5001/scanpal-f74da/us-central1/barizi/auth/getuser/baron@barizicommunications.com
+### add client
+POST http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/create
+Content-Type: application/json
+
+{
+        "company_name": "Asanti consulting",
+        "company_email": "admin@belmacconsluting.com",
+        "number_of_employees": 23,
+        "company_phone": "0705122230",
+        "address": "2nd Avenue Ngong,I&M Towers"
+}
+### get all clients
+GET http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/get/all
+### get single
+GET http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/get/73Tzy8ojX6eYIweEcPXy
+### update client
+PATCH http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/update/73Tzy8ojX6eYIweEcPXy
+Content-Type: application/json
+
+{
+        "company_name": "Asanti consulting",
+        "company_email": "admin@asanticonsulting.com",
+        "number_of_employees": 23,
+        "company_phone": "0705122230",
+        "address": "2nd Avenue Ngong,I&M Towers"
+}
+### delete client
+DELETE http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/delete/73Tzy8ojX6eYIweEcPXy
+

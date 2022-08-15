@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const people = require("./routes/people");
 const auth =require('./routes/auth');
+const clients =require('./routes/clients');
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 //route handlers
 app.use("/auth", auth);
 app.use("/people", people);
+app.use("/clients",clients);
 //error handlers
 app.use((req, res, next) => {
   const error = new Error("Not Found");

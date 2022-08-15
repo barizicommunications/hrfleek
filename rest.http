@@ -22,9 +22,9 @@ Content-Type: application/json
 ### get all clients
 GET http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/get/all
 ### get single
-GET http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/get/73Tzy8ojX6eYIweEcPXy
+GET http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/get/sbB7Kzb7236AJBO7uKdc
 ### update client
-PATCH http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/update/73Tzy8ojX6eYIweEcPXy
+PATCH http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/update/sbB7Kzb7236AJBO7uKdc
 Content-Type: application/json
 
 {
@@ -36,4 +36,34 @@ Content-Type: application/json
 }
 ### delete client
 DELETE http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/delete/73Tzy8ojX6eYIweEcPXy
+### add employee
+POST http://localhost:5001/scanpal-f74da/us-central1/barizi/people/create/sbB7Kzb7236AJBO7uKdc
+Content-Type: application/json
+
+{
+                    "bank_name":"equity bank",
+                "account_number":"1239499940",
+                "accountName":"Warren Ochieng",
+                "bank_branch":"KU",       
+                "full_name":"Vincent Ochieng",
+                "department":"Engineering",
+                "designation":"fullstack developer",
+                "pay_rate":"300",
+                "hours_worked":"0",
+                "basic_pay":"3000",
+                "deductions":[
+                    {"name":"NHIF",
+                    "value":"4000"},
+                    {"name":"NSSF",
+                    "value":"4000"}
+                ],
+                "net_pay":"500"
+}
+
+### get all  employees
+GET http://localhost:5001/scanpal-f74da/us-central1/barizi/people/get/sbB7Kzb7236AJBO7uKdc
+
+### get single employee
+GET http://localhost:5001/scanpal-f74da/us-central1/barizi/people/get/sbB7Kzb7236AJBO7uKdc/single/YTlqFp3XDD0EcfSrknGS
+
 

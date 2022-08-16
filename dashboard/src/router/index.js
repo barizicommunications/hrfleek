@@ -37,31 +37,40 @@ let routes = [
 		  },
 	},
 	{
-		path: '/tables',
-		name: 'Tables',
+		path: '/employees',
+		name: 'employees',
 		layout: "dashboard",
-		component: () => import('../views/Tables.vue'),
+		component: () => import('../views/Employees.vue'),
 		meta: {
 			requiresAuth: true,
 		  },
 	},
 	{
-		path: '/billing',
-		name: 'Billing',
+		path: '/clients',
+		name: 'Clients',
 		layout: "dashboard",
-		component: () => import('../views/Billing.vue'),
+		component: () => import('../views/Clients.vue'),
 		meta: {
 			requiresAuth: true,
 		  },
 	},
 	{
-		path: '/rtl',
-		name: 'RTL',
-		layout: "dashboard-rtl",
-		meta: {
-			layoutClass: 'dashboard-rtl',
-		},
-		component: () => import('../views/RTL.vue'),
+		path: '/calendar',
+		name: 'Calendar',
+		layout: "dashboard",
+		component: () => import('../views/Calendar.vue'),
+	},
+	{
+		path: '/bulk-edits',
+		name: 'Bulk-Edits',
+		layout: "dashboard",
+		component: () => import('../views/BulkEdits.vue'),
+	},
+	{
+		path: '/reports',
+		name: 'Reports',
+		layout: "dashboard",
+		component: () => import('../views/Reports.vue'),
 	},
 	{
 		path: '/Profile',
@@ -77,14 +86,7 @@ let routes = [
 		name: 'Sign-In',
 		component: () => import('../views/Sign-In.vue'),
 	},
-	{
-		path: '/sign-up',
-		name: 'Sign-Up',
-		meta: {
-			layoutClass: 'layout-sign-up',
-		},
-		component: () => import('../views/Sign-Up.vue'),
-	},
+
 ]
 
 // Adding layout property from each route to the meta

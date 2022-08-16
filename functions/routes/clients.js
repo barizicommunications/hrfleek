@@ -44,9 +44,9 @@ router.post("/create", (req, res, next) => {
       .add({
         company_name: req.body.company_name,
         company_email: req.body.company_email,
-        number_of_employees: req.body.number_of_employees,
         company_phone: req.body.company_phone,
-        address: req.body.address
+        address: req.body.address,
+        logo:req.body.logo
       })
       .then(async (partner) => {
         res.status(201).send(partner);

@@ -1,26 +1,18 @@
-<!-- 
-	This is the dashboard page, it uses the dashboard layout in: 
-	"./layouts/Dashboard.vue" .
- -->
-
 <template>
 	<div>
-		<!-- Counter Widgets -->
-		<a-row :gutter="24">
-			<a-col :span="24" :lg="12" :xl="6" class="mb-24" v-for="(stat, index) in stats" :key="index">
-				<!-- Widget 1 Card -->
-				<WidgetCounter
-					:title="stat.title"
-					:value="stat.value"
-					:prefix="stat.prefix"
-					:suffix="stat.suffix"
-					:icon="stat.icon"
-					:status="stat.status"
-				></WidgetCounter>
-				<!-- / Widget 1 Card -->
+			<!-- Cards -->
+		<a-row :gutter="24" type="flex" align="stretch">
+			<a-col :span="24" :lg="8" class="mb-24">
+				<CardInfo></CardInfo>
+			</a-col>
+				<a-col :span="24" :lg="8" class="mb-24">
+				<CardInfo></CardInfo>
+			</a-col>
+				<a-col :span="24" :lg="8" class="mb-24">
+				<CardInfo></CardInfo>
 			</a-col>
 		</a-row>
-		<!-- / Counter Widgets -->
+		<!-- / Cards -->
 
 		<!-- Charts -->
 		<a-row :gutter="24" type="flex" align="stretch">
@@ -67,25 +59,6 @@
 			<!-- / Timeline -->
 		</a-row>
 		<!-- / Table & Timeline -->
-
-		<!-- Cards -->
-		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :xl="14" class="mb-24">
-
-				<!-- Information Card 1 -->
-				<CardInfo></CardInfo>
-				<!-- / Information Card 1 -->
-
-			</a-col>
-			<a-col :span="24" :xl="10" class="mb-24">
-
-				<!-- Information Card 2 -->
-				<CardInfo2></CardInfo2>
-				<!-- / Information Card 2 -->
-
-			</a-col>
-		</a-row>
-		<!-- / Cards -->
 
 	</div>
 </template>

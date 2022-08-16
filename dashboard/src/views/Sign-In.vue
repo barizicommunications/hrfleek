@@ -45,14 +45,12 @@
 					</a-form-item>
 				</a-form>
 				<!-- / Sign In Form -->
-
-				<p class="font-semibold text-muted">Don't have an account? <router-link to="/sign-in" class="font-bold text-dark">Sign Up</router-link></p>
 			</a-col>
 			<!-- / Sign In Form Column -->
 
 			<!-- Sign In Image Column -->
 			<a-col :span="24" :md="12" :lg="12" :xl="12" class="col-img">
-				<img src="images/img-signin.jpg" alt="">
+				<img src="images/signup-img.jpg" alt="">
 			</a-col>
 			<!-- Sign In Image Column -->
 
@@ -81,6 +79,7 @@
 				this.form.validateFields((err, values) => {
 					if ( !err ) {
 						console.log('Received values of form: ', values) ;
+						this.$store.dispatch("login",values)
 					}
 				});
 			},

@@ -76,6 +76,10 @@ export default new Vuex.Store({
       // set user profile in state
       commit("setUserProfile", userProfile);
     },
+        /**
+     * clients Section Starts Here
+     */
+    getClients(){}
   },
   modules: {
   }

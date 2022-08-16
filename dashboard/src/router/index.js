@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { auth } from "../firebase";
 
 Vue.use(VueRouter)
 
@@ -13,33 +14,45 @@ let routes = [
 		path: '/',
 		name: 'Home',
 		redirect: '/dashboard',
+		meta: {
+			requiresAuth: true,
+		  },
 	},
 	{
 		path: '/dashboard',
 		name: 'Dashboard',
 		layout: "dashboard",
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
 		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+		meta: {
+			requiresAuth: true,
+		  },
 	},
 	{
 		path: '/layout',
 		name: 'Layout',
 		layout: "dashboard",
 		component: () => import('../views/Layout.vue'),
+		meta: {
+			requiresAuth: true,
+		  },
 	},
 	{
 		path: '/tables',
 		name: 'Tables',
 		layout: "dashboard",
 		component: () => import('../views/Tables.vue'),
+		meta: {
+			requiresAuth: true,
+		  },
 	},
 	{
 		path: '/billing',
 		name: 'Billing',
 		layout: "dashboard",
 		component: () => import('../views/Billing.vue'),
+		meta: {
+			requiresAuth: true,
+		  },
 	},
 	{
 		path: '/rtl',
@@ -91,22 +104,16 @@ function addLayoutToRoute( route, parentLayout = "default" )
 routes = routes.map( ( route ) => addLayoutToRoute( route ) ) ;
 
 const router = new VueRouter({
-	mode: 'hash',
-	base: process.env.BASE_URL,
+	mode: 'history',
 	routes,
-	scrollBehavior (to, from, savedPosition) {
-		if ( to.hash ) {
-			return {
-				selector: to.hash,
-				behavior: 'smooth',
-			}
-		}
-		return {
-			x: 0,
-			y: 0,
-			behavior: 'smooth',
-		}
-	}
 })
-
+router.beforeEach((to, from, next) => {
+	const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
+  
+	if (requiresAuth && !auth.currentUser) {
+	  next("/Sign-In");
+	} else {
+	  next();
+	}
+  });
 export default router

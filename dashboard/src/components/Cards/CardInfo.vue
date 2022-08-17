@@ -1,13 +1,14 @@
 <template>
 	<a-row :gutter="24" type="flex" align="stretch">
-	<a-col :span="24" :lg="12" class="mb-24"  v-for="client in clients" :key="client.id">
+	<a-col :span="24" :lg="8" class="mb-24"  v-for="client in clients" :key="client.id">
 	<a-card :bordered="false" class="card-info" :span="24" :lg="12">
 		<a-row type="flex">
 			<a-col class="col-content" >
 				<div class="card-content">
 					<h5>{{client.company_name}}</h5>
 					<p>{{client.address}}</p>
-					<p>{{client.company_phone}},{{client.company_email}}</p>
+					<p>{{client.company_phone}}</p>
+					<p>{{client.company_email}}</p>
 				</div>
 				
 			</a-col>

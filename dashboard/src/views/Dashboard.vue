@@ -6,7 +6,7 @@
 		<!-- Table & Timeline -->
 		<a-row :gutter="24" type="flex" align="stretch">
 			<!-- Table -->
-			<a-col :span="24" :lg="16" class="mb-24">
+			<a-col :span="24" :lg="24" class="mb-24">
 				
 				<!-- Projects Table Card -->
 				<EmployeesTableVue/>
@@ -14,16 +14,6 @@
 				
 			</a-col>
 			<!-- / Table -->
-
-			<!-- Timeline -->
-			<a-col :span="24" :lg="8" class="mb-24">
-
-				<!-- Orders History Timeline Card -->
-				<CardAccountHistory></CardAccountHistory>
-				<!-- / Orders History Timeline Card -->
-
-			</a-col>
-			<!-- / Timeline -->
 		</a-row>
 		<!-- / Table & Timeline -->
 

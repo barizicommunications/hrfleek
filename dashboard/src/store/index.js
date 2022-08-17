@@ -10,7 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     userProfile: {},
-    clients:[]
+    clients:[],
+    employees:[]
   },
   mutations: {
     setUserProfile(state, val) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     setClients(state,val){
       state.clients =val
+    },
+    setEmployees(state,val){
+      state.employees =val
     }
   },
   actions: {
@@ -119,7 +123,51 @@ export default new Vuex.Store({
       .catch((e) => {
         alert(e.message);
       });
-    }
+    },
+    async addEmployees({dispatch},data){
+        const payload ={
+          email: data.email,
+          phone_number: data.phone_number,
+          bank_name:data.bank_name,
+          account_number:data.account_number,
+          accountName:data.account_name,
+          bank_branch:data.branch_name,       
+          full_name:data.first_name +data.last_name,
+          department:data.department,
+          designation:data.designation,
+          pay_rate:0,
+          hours_worked:0,
+          basic_pay:data.basic_pay,
+          deductions:data.deductions,
+          net_pay:0
+        }
+   
+      axios
+      .post(
+       'http://localhost:5001/scanpal-f74da/us-central1/barizi/people/create/zVD1Ov9ihcmrHZzELgWM',payload
+      )
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+    },
+    getEmployees({commit}){
+      axios
+      .get(
+        `http://localhost:5001/scanpal-f74da/us-central1/barizi/people/get/zVD1Ov9ihcmrHZzELgWM
+        `
+      )
+      .then((res) => {
+        const employees = res.data.people;
+        commit("setEmployees", employees);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
+
   },
   modules: {
   }

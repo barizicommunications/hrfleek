@@ -59,9 +59,9 @@
 			<a-col :span="24" :md="8" class="mb-24">
 			
 				<!-- Conversations Card -->
-				<CardConversations
+				<CardPlatformUpdates
 					:data="conversationsData"
-				></CardConversations>
+				></CardPlatformUpdates>
 				<!-- / Conversations Card -->
 
 			</a-col>
@@ -76,7 +76,7 @@
 
 	import CardPlatformSettings from "../components/Cards/CardPlatformSettings"
 	import CardProfileInformation from "../components/Cards/CardProfileInformation"
-	import CardConversations from "../components/Cards/CardConversations"
+	import CardPlatformUpdates from "../components/Cards/CardPlatformUpdates"
 	import CardProject from "../components/Cards/CardProject"
 
 	// Conversation's list data.
@@ -157,7 +157,7 @@
 		components: {
 			CardPlatformSettings,
 			CardProfileInformation,
-			CardConversations,
+			CardPlatformUpdates,
 			CardProject,
 		},
 		data() {

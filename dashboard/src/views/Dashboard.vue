@@ -20,10 +20,7 @@
 			<a-col :span="24" :lg="16" class="mb-24">
 				
 				<!-- Projects Table Card -->
-				<CardProjectTable
-					:data="tableData"
-					:columns="tableColumns"
-				></CardProjectTable>
+				<EmployeesTableVue/>
 				<!-- / Projects Table Card -->
 				
 			</a-col>
@@ -33,7 +30,7 @@
 			<a-col :span="24" :lg="8" class="mb-24">
 
 				<!-- Orders History Timeline Card -->
-				<CardOrderHistory></CardOrderHistory>
+				<CardAccountHistory></CardAccountHistory>
 				<!-- / Orders History Timeline Card -->
 
 			</a-col>
@@ -59,13 +56,14 @@
 	import CardProjectTable from '../components/Cards/CardProjectTable' ;
 
 	// Order History card component.
-	import CardOrderHistory from '../components/Cards/CardOrderHistory' ;
+	import CardAccountHistory from '../components/Cards/CardAccountHistory' ;
 
 	// Information card 1.
 	import CardInfo from '../components/Cards/CardInfo' ;
 
 	// Information card 2.
 	import CardInfo2 from '../components/Cards/CardInfo2' ;
+	import EmployeesTableVue from '../components/Tables/EmployeesTable.vue';
 
 	// Counter Widgets stats
 	const stats = [
@@ -223,9 +221,10 @@
 			CardLineChart,
 			WidgetCounter,
 			CardProjectTable,
-			CardOrderHistory,
+			CardAccountHistory,
 			CardInfo,
 			CardInfo2,
+			EmployeesTableVue
 		},
 		data() {
 			return {

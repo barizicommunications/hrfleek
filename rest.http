@@ -15,7 +15,6 @@ Content-Type: application/json
 {
         "company_name": "Asanti consulting",
         "company_email": "admin@belmacconsluting.com",
-        "number_of_employees": 23,
         "company_phone": "0705122230",
         "address": "2nd Avenue Ngong,I&M Towers"
 }

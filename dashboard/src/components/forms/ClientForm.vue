@@ -5,7 +5,7 @@
         :form="form"
         :label-col="{ span: 5 }"
         :wrapper-col="{ span: 12 }"
-        @submit="handleSubmit"
+        @submit.prevent="handleSubmit"
       >
         <a-form-item label="Company Name">
           <a-input
@@ -23,7 +23,7 @@
             ]"
           />
         </a-form-item>
-        <a-form-item  label="Phone Number">
+        <a-form-item label="Phone Number">
           <a-input
             v-decorator="[
               'company_phone',
@@ -56,9 +56,14 @@
         <a-form-item label="Company Logo">
           <a-upload
             name="file"
-            :multiple="true"
+            :multiple="false"
+            list-type="picture"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            @change="handleChange"
+            :transform-file="transformFile"
+              v-decorator="[
+              'logo',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
           >
             <a-button> <a-icon type="upload" /> Click to Upload logo</a-button>
           </a-upload>
@@ -72,21 +77,51 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   data() {
     return {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
+      image:null
     };
   },
   methods: {
-    handleChange() {
-      console.log("hello");
+    transformFile(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const canvas = document.createElement("canvas");
+          const img = document.createElement("img");
+          img.src = reader.result;
+          img.onload = () => {
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            ctx.fillStyle = "red";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Ant Design", 20, 20);
+            canvas.toBlob(resolve);
+          };
+        };
+      });
     },
     handleSubmit(e) {
       e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+          this.$store.dispatch("addClients",values)
+        }
+      });
     },
   },
+  computed:{
+    ...mapState['clients']
+  },
+  mounted(){
+    this.$store.dispatch("getClients")
+  }
 };
 </script>
 

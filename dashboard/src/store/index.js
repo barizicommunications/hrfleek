@@ -3,20 +3,22 @@ import Vuex from 'vuex'
 import * as fb from "../firebase";
 import router from "../router/index";
 import swal from "sweetalert";
+const axios = require("axios").default;
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userProfile: {}
-  },
-  getters: {
-
+    userProfile: {},
+    clients:[]
   },
   mutations: {
     setUserProfile(state, val) {
       state.userProfile = val;
     },
+    setClients(state,val){
+      state.clients =val
+    }
   },
   actions: {
      /**
@@ -79,7 +81,44 @@ export default new Vuex.Store({
         /**
      * clients Section Starts Here
      */
-    getClients(){}
+    getClients({commit}){
+      axios
+      .get(
+        `http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/get/all`
+      )
+      .then((res) => {
+        const clients = res.data.partner;
+        commit("setClients", clients);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
+   async addClients({dispatch},data){
+      const ref = fb.storage.ref();
+      const url = await ref
+        .child(data.logo.file.name)
+        .put(data.logo.file, data.logo.file.type)
+        .then((snapshot) => snapshot.ref.getDownloadURL());
+        const payload ={
+          company_name: data.company_name,
+          company_email: data.company_email,
+          company_phone: data.prefix+data.company_phone,
+          address: data.company_address,
+          logo:url
+        }
+   
+      axios
+      .post(
+       ' http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/create',payload
+      )
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+    }
   },
   modules: {
   }

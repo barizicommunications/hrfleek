@@ -78,6 +78,7 @@ export default {
     return {
       data,
       columns,
+      projectHeaderBtns: 'all',
     };
   },
 };

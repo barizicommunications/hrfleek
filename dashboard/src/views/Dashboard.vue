@@ -1,18 +1,7 @@
 <template>
 	<div>
 			<!-- Cards -->
-		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :lg="8" class="mb-24">
-				<CardInfo></CardInfo>
-			</a-col>
-				<a-col :span="24" :lg="8" class="mb-24">
-				<CardInfo></CardInfo>
-			</a-col>
-				<a-col :span="24" :lg="8" class="mb-24">
-				<CardInfo></CardInfo>
-			</a-col>
-		</a-row>
-		<!-- / Cards -->
+			<CardInfo></CardInfo>
 
 		<!-- Table & Timeline -->
 		<a-row :gutter="24" type="flex" align="stretch">

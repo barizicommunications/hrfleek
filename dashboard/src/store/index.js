@@ -87,7 +87,7 @@ export default new Vuex.Store({
         `http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/get/all`
       )
       .then((res) => {
-        const clients = res.data.partner;
+        const clients = res.data.partners;
         commit("setClients", clients);
       })
       .catch((error) => {
@@ -96,9 +96,10 @@ export default new Vuex.Store({
     },
    async addClients({dispatch},data){
       const ref = fb.storage.ref();
+      console.log(data.logo)
       const url = await ref
         .child(data.logo.file.name)
-        .put(data.logo.file, data.logo.file.type)
+        .put(data.logo.file.originFileObj, data.logo.file.type)
         .then((snapshot) => snapshot.ref.getDownloadURL());
         const payload ={
           company_name: data.company_name,

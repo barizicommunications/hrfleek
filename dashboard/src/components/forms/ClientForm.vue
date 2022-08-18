@@ -15,6 +15,15 @@
             ]"
           />
         </a-form-item>
+                <a-form-item label="KRA PIN">
+          <a-input
+            v-decorator="[
+              'kra_pin',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder="KRA PIN"
+          />
+        </a-form-item>
         <a-form-item label="Company Email">
           <a-input
             v-decorator="[
@@ -69,7 +78,7 @@
           </a-upload>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-          <a-button type="primary" html-type="submit"> Submit </a-button>
+          <a-button type="primary" html-type="submit" :loading="loading"> Submit </a-button>
         </a-form-item>
       </a-form>
     </a-card>
@@ -83,7 +92,7 @@ export default {
     return {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
-      image:null
+      image:null,
     };
   },
   methods: {
@@ -111,13 +120,23 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          this.$store.dispatch("addClients",values)
+          this.$store.dispatch("addClients",values).then(()=>{
+            if(!this.error){
+              this.form.resetFields()
+            }
+          })
         }
       });
     },
   },
   computed:{
-    ...mapState['clients']
+    ...mapState['clients'],
+    loading(){
+      return this.$store.state.loading
+    },
+    error(){
+      return this.$store.state.error
+    }
   },
   mounted(){
     this.$store.dispatch("getClients")

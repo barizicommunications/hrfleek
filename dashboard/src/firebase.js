@@ -4,15 +4,14 @@ import "firebase/firestore";
 import "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDMsPInM58uPksNu3E9iQ5EhnWBz67CPeQ",
-    authDomain: "scanpal-f74da.firebaseapp.com",
-    databaseURL: "https://scanpal-f74da.firebaseio.com",
-    projectId: "scanpal-f74da",
-    storageBucket: "scanpal-f74da.appspot.com",
-    messagingSenderId: "702443834173",
-    appId: "1:702443834173:web:a4148356cf434a6fda1354",
-    measurementId: "G-37KL0M4ESD"
-  };
+  apiKey: "AIzaSyDsAviWtrOkhrQQAPkZc6yY5z1bTS-u0Fk",
+  authDomain: "daviemail-b68ab.firebaseapp.com",
+  projectId: "daviemail-b68ab",
+  storageBucket: "daviemail-b68ab.appspot.com",
+  messagingSenderId: "1036524775188",
+  appId: "1:1036524775188:web:f95f0d3c503832ffb9c401",
+  measurementId: "G-SPZVWK424P"
+};
 firebase.initializeApp(firebaseConfig);
 
 // utils

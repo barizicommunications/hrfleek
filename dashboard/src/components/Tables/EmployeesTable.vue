@@ -5,13 +5,13 @@
     :bodyStyle="{ padding: 0 }"
   >
     <a-drawer
-      title="Create a new account"
+      title="Create a new employee account"
       :width="720"
       :visible="visible"
       :body-style="{ paddingBottom: '80px' }"
       @close="onClose"
     >
-      <a-form :form="form" layout="vertical" hide-required-mark @submit.prevent="handleSubmit">
+      <a-form :form="form" layout="vertical" :hide-required-mark="false" @submit.prevent="handleSubmit">
         <a-row :gutter="16">
           <a-col :span="12">
             <a-form-item label="First Name">
@@ -56,7 +56,7 @@
                   'email',
                   {
                     rules: [
-                      { required: true, message: 'please enter account' },
+                      { required: true, message: 'please enter email' },
                     ],
                   },
                 ]"
@@ -78,6 +78,40 @@
                 ]"
                 style="width: 100%"
                 placeholder="phone"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+          <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="National ID">
+              <a-input
+                v-decorator="[
+                  'national_id',
+                  {
+                    rules: [
+                      { required: true, message: 'Field is required' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="national_id"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="KRA PIN">
+              <a-input
+                v-decorator="[
+                  'kra_pin',
+                  {
+                    rules: [
+                      { required: true, message: 'Field is required' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="KRA PIN"
               />
             </a-form-item>
           </a-col>
@@ -139,7 +173,25 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+           <a-col :span="12">
+              <a-form-item label="Branch Name">
+              <a-input
+                v-decorator="[
+                  'branch_name',
+                  {
+                    rules: [
+                      { required: true, message: 'please enter branch' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="Branch Name"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+         <a-col :span="12">
             <a-form-item label="Account Name">
               <a-input
                 v-decorator="[
@@ -151,12 +203,10 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="account"
+                placeholder="account Name"
               />
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row :gutter="16">
           <a-col :span="12">
             <a-form-item label="Account Number">
                 <a-input
@@ -170,25 +220,11 @@
                 ]"
                 style="width: 100%"
                 placeholder="account number"
+                type="number"
               />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
-              <a-form-item label="Branch Name">
-              <a-input
-                v-decorator="[
-                  'branch_name',
-                  {
-                    rules: [
-                      { required: true, message: 'please enter account' },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="account"
-              />
-            </a-form-item>
-          </a-col>
+        
         </a-row>
         <a-row :gutter="16">
           <a-col :span="12">
@@ -225,6 +261,46 @@
                 style="width: 100%"
                 placeholder="Basic Pay"
               />
+            </a-form-item>
+          </a-col>
+        </a-row>
+         <a-row :gutter="16">
+          <a-col :span="12">
+          <a-form-item label="Allowances">
+              <a-select  mode="multiple"
+                v-decorator="[
+                  'allowances',
+                  {
+                    rules: [
+                      { required: false, message: 'Please choose the allowances' },
+                    ],
+                  },
+                ]"
+                placeholder="Please choose allowances"
+              >
+                <a-select-option value="equity"> Housing </a-select-option>
+                <a-select-option value="kcb"> Food</a-select-option>
+                <a-select-option value="sacco"> Transport</a-select-option>
+              </a-select>
+            </a-form-item>
+
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Status">
+              <a-select 
+                v-decorator="[
+                  'status',
+                  {
+                    rules: [
+                      { required: true, message: 'Please select employee status' },
+                    ],
+                  },
+                ]"
+                placeholder="Status"
+              >
+                <a-select-option value="active"> Active </a-select-option>
+                <a-select-option value="inactive">Inactive</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -354,8 +430,7 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
-          this.$store.dispatch("addEmployees",values)
+          this.$store.dispatch("addEmployee",values)
         }
       });
     },

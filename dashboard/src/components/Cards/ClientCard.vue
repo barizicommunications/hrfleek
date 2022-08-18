@@ -3,18 +3,58 @@
     <a-row type="flex">
       <a-col class="col-content" :span="24" :xl="12">
         <div class="card-content">
-          <h6>ID:{{currentClient.kra_pin}}</h6>
-          <h5>Company:{{currentClient.company_name}}</h5>
-          <p>
-            email:{{currentClient.company_email}}
-          </p>
-          <p>
-            Phone:{{currentClient.company_phone}}
-          </p>
+          <h6>ID:{{ currentClient.kra_pin }}</h6>
+          <h5>Company:{{ currentClient.company_name }}</h5>
+          <p>email:{{ currentClient.company_email }}</p>
+          <p>Phone:{{ currentClient.company_phone }}</p>
+          <a-form
+            id="components-form-demo-normal-login"
+            :form="form"
+            class="login-form"
+            @submit="handleChange"
+            :hideRequiredMark="true"
+            v-if="visible"
+          >
+            <a-form-item class="mb-10" label="Select Client" :colon="false">
+              <a-input-group compact>
+                <a-select
+                  v-decorator="[
+                    'client_name',
+                    {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'You have not selected any client',
+                        },
+                      ],
+                    },
+                  ]"
+                  placeholder="Please choose a client"
+                  style="width: calc(100% - 100px)"
+                >
+                  <a-select-option
+                    v-for="client of clients"
+                    :key="client.id"
+                    :value="client.id"
+                  >
+                    {{ client.company_name }}
+                  </a-select-option>
+                </a-select>
+                <a-button
+                  type="primary"
+                  html-type="submit"
+                  id="otp-verfiy-button"
+                  :loading="loading"
+                  >Confirm</a-button
+                >
+              </a-input-group>
+            </a-form-item>
+          </a-form>
         </div>
         <div class="card-footer">
-          <a href="#" size="small">
-            <span>Switch Client</span>
+          <a size="small" @click="visible = !visible">
+            <span v-if="visible">Cancel</span>
+            <span v-else>Switch Client</span>
             <svg
               width="16"
               height="16"
@@ -45,13 +85,38 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      visible: false,
+      loading:false
+    };
+  },
+  methods:{
+    	handleChange(e){
+		e.preventDefault();
+      this.form.validateFields(async (err, values) => {
+		this.loading =true
+        if (!err) {
+		let client = this.clients.filter((c)=>c.id===values.client_name)
+		localStorage.setItem("client",JSON.stringify(client[0]))
+		this.$store.dispatch("getCurrentClient");
+        this.loading=false
+        this.visible=false
+		
+		}else{
+		this.loading=false	
+		}})
+	},
+  },
+    beforeCreate() {
+    // Creates the form and adds to it component's "form" property.
+    this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   computed: {
-    ...mapState(["currentClient"]),
+    ...mapState(["currentClient", "clients"]),
   },
   mounted() {
     this.$store.dispatch("getCurrentClient");
+    this.$store.dispatch("getClients");
   },
 };
 </script>

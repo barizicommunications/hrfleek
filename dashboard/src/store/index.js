@@ -149,23 +149,58 @@ export default new Vuex.Store({
     },
     async getEmployees({ commit }) {
       const selectedClient=JSON.parse(localStorage.getItem("client"))
-      fb.businessCollection.onSnapshot((snapshot) => {
+      fb.businessCollection.doc(selectedClient.kra_pin).collection("team").onSnapshot((snapshot) => {
         const loadedEmployers = [];
         snapshot.forEach((doc) => {
+          
           const loadedEmployer = doc.data();
           (loadedEmployer.id = doc.id), loadedEmployers.push(loadedEmployer);
         });
-        commit("setClients", loadedEmployers);
+        commit("setEmployees", loadedEmployers);
       });
     },
-    async addEmployee({ dispatch }, employee) {
-      const userId = fb.auth.currentUser.uid;
-      console.log(userId, employee);
-      const result = await fb.businessCollection
-        .doc(userId)
-        .collection("team")
-        .add(employee);
-      return result;
+    async addEmployee({ state }, data) {
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      state.loading=true
+          const payload ={
+          email: data.email,
+          phone_number: data.phone_number,
+          kra_pin:data.kra_pin,
+          national_id:data.national_id,
+          satus:data.status,
+          allowances:data.allowances??[],
+          bank_name:data.bank_name,
+          account_number:data.account_number,
+          accountName:data.account_name,
+          bank_branch:data.branch_name,       
+          full_name:data.first_name +data.last_name,
+          department:data.department,
+          designation:data.designation,
+          pay_rate:0,
+          hours_worked:0,
+          basic_pay:data.basic_pay,
+          deductions:data.deductions,
+          net_pay:0
+        }
+     await fb.businessCollection
+        .doc(selectedClient.kra_pin)
+        .collection("team").doc(data.national_id)
+        .set(payload).then(()=>{
+          state.loading=false
+          swal({
+            title: "success!",
+            text: `employee ${data.first_name} added successfully`,
+            icon: "success",
+          });
+        }).catch((err)=>{
+          state.loading=false
+          swal({
+            title: "OOPS!",
+            text: `${err.message}`,
+            icon: "error",
+          });
+        })
+      
     },
     async deleteEmployee({ dispatch }, employee) {
       const userId = fb.auth.currentUser.uid;

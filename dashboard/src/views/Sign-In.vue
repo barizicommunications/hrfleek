@@ -28,7 +28,7 @@
           id="components-form-demo-normal-login"
           :form="form"
           class="login-form"
-          @submit="handleSubmit"
+          @submit="handleChange"
           :hideRequiredMark="true"
 		  v-if="authenticated"
         >
@@ -46,12 +46,13 @@
                 placeholder="Please choose a client"
 				style="width: calc(100% - 100px)"
               >
-                <a-select-option value="kcb"> KCB Bank </a-select-option>
+                <a-select-option  v-for="client of clients" :key="client.id" :value="client.id"> {{client.company_name}} </a-select-option>
               </a-select>
               <a-button
                 type="primary"
                 html-type="submit"
                 id="otp-verfiy-button"
+				:loading="loading"
                 >Confirm</a-button
               >
             </a-input-group>
@@ -99,6 +100,7 @@
               block
               html-type="submit"
               class="login-form-button"
+			  :loading="loading"
             >
               SIGN IN
             </a-button>
@@ -120,10 +122,12 @@
 <script>
 import * as fb from "../firebase";
 import { mapState } from "vuex";
+import router from "../router/index";
 export default {
   data() {
     return {
       // Binded model property for "Sign In Form" switch button for "Remember Me" .
+		loading:false,
       rememberMe: true,
 	  authenticated:false
     };
@@ -134,14 +138,26 @@ export default {
   },
   methods: {
     // Handles input validation after submission.
-	handleChange(){
-
+	handleChange(e){
+		e.preventDefault();
+      this.form.validateFields(async (err, values) => {
+		this.loading =true
+        if (!err) {
+		let client = this.clients.filter((c)=>c.id===values.client_name)
+		localStorage.setItem("client",JSON.stringify(client[0]))
+		router.push("/dashboard");
+		
+		}else{
+		this.loading=false	
+		}})
 	},
      handleSubmit(e) {
       e.preventDefault();
+	  this.loading =true
       this.form.validateFields(async (err, values) => {
         if (!err) {
 			await fb.auth.signInWithEmailAndPassword(values.email,values.password).then((user)=>{
+				this.loading=false
 				this.$store.dispatch("fetchUserProfile",user.user)
 				this.$message.success("login successful,please select client");
 				this.form.resetFields()
@@ -149,13 +165,16 @@ export default {
 
 
 			}).catch((err)=>{
+				this.loading =false
 				    swal({
             title: "OOPS!",
             text: `${err.message}`,
             icon: "error",
           });
 			})
-        }
+        }else{
+			this.loading=false
+		}
       });
     },
   },

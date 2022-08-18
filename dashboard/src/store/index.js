@@ -50,6 +50,7 @@ export default new Vuex.Store({
       await fb.auth.signOut().then(() => {
         router.replace({ path: "/sign-in" });
       });
+      localStorage.clear()
     },
     async updatePassword({ dispatch }, password) {
       const user = fb.auth.currentUser;
@@ -139,6 +140,8 @@ export default new Vuex.Store({
         });
     },
     async getEmployees({ commit }) {
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      console.log(selectedClient)
       fb.businessCollection.onSnapshot((snapshot) => {
         const loadedEmployers = [];
         snapshot.forEach((doc) => {

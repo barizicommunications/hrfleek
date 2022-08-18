@@ -4,7 +4,7 @@
       <a-col class="col-content" :span="24" :xl="12">
         <div class="card-content">
           <h6>ID:{{ currentClient.kra_pin }}</h6>
-          <h5>Company:{{ currentClient.company_name }}</h5>
+          <h5>{{ currentClient.company_name }}</h5>
           <p>email:{{ currentClient.company_email }}</p>
           <p>Phone:{{ currentClient.company_phone }}</p>
           <a-form
@@ -99,6 +99,7 @@ export default {
 		let client = this.clients.filter((c)=>c.id===values.client_name)
 		localStorage.setItem("client",JSON.stringify(client[0]))
 		this.$store.dispatch("getCurrentClient");
+        this.$store.dispatch("getEmployees");
         this.loading=false
         this.visible=false
 		

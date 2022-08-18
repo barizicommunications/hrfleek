@@ -1,7 +1,4 @@
-<!-- 
-	This is the sign in page, it uses the dashboard layout in: 
-	"./layouts/Default.vue" .
- -->
+
 
 <template>
   <div class="sign-in">

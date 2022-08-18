@@ -13,11 +13,15 @@ export default new Vuex.Store({
     clients: [],
     employees: [],
     loading: false,
+    currentClient :{},
     error: "",
   },
   mutations: {
     setUserProfile(state, val) {
       state.userProfile = val;
+    },
+    setCurrentClient(state,val){
+      state.currentClient=val
     },
     setClients(state, val) {
       state.clients = val;
@@ -91,6 +95,10 @@ export default new Vuex.Store({
     /**
      * clients Section Starts Here
      */
+    getCurrentClient({commit}){
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      commit("setCurrentClient",selectedClient)
+    },
     async getClients({ commit }) {
       fb.businessCollection.onSnapshot((snapshot) => {
         const loadedEmployers = [];
@@ -141,7 +149,6 @@ export default new Vuex.Store({
     },
     async getEmployees({ commit }) {
       const selectedClient=JSON.parse(localStorage.getItem("client"))
-      console.log(selectedClient)
       fb.businessCollection.onSnapshot((snapshot) => {
         const loadedEmployers = [];
         snapshot.forEach((doc) => {

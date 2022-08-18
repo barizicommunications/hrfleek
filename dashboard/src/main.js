@@ -32,6 +32,7 @@ auth.onAuthStateChanged((user) => {
   }
   if (user) {
     store.dispatch("getClients");
+    store.dispatch("getCurrentClient");
     store.dispatch("fetchUserProfile", user.user);
   }
 });

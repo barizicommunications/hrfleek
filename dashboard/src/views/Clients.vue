@@ -14,10 +14,10 @@
         <a-sub-menu key="calendar">
         <span slot="title" class="submenu-title-wrapper"
           ><a-icon type="calendar" />Calendar</span
-        >  <a-menu-item key="setting:1">
+        >  <a-menu-item key="createcalendar">
             Create Calendar
           </a-menu-item>
-          <a-menu-item key="setting:2">
+          <a-menu-item key="calendar">
             View Calendar
           </a-menu-item>
      
@@ -83,4 +83,5 @@ export default {
   margin: 16px 24px 16px 0;
   float: left;
 }
+
 </style>

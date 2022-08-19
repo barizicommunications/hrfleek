@@ -52,9 +52,10 @@ export default new Vuex.Store({
     },
     async logout() {
       await fb.auth.signOut().then(() => {
+        localStorage.clear()
         router.replace({ path: "/sign-in" });
       });
-      localStorage.clear()
+    
     },
     async updatePassword({ dispatch }, password) {
       const user = fb.auth.currentUser;

@@ -31,7 +31,7 @@
           <a-menu-item key="deductions">
            Add Deductions
           </a-menu-item>
-          <a-menu-item key="deductions">
+          <a-menu-item key="departments">
            Add Departments
           </a-menu-item>
            <a-menu-item key="designations">
@@ -51,8 +51,11 @@
     <CardCalendarVue v-if="current[0]=='calendar'"></CardCalendarVue>
     <ClientFormVue  v-if="current[0]=='clients'"></ClientFormVue>
     <CalendarForm v-if="current[0]=='createcalendar'"></CalendarForm>
+    <DeductionsForm v-if="current[0]=='deductions'"></DeductionsForm>
+    <AllowanceForm v-if="current[0]=='allowances'"></AllowanceForm>
+    <DepartmentForm v-if="current[0]=='departments'"></DepartmentForm>
     <!-- / Cards -->
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -61,7 +64,12 @@ import ClientForm from "../components/forms/ClientForm.vue";
 import EmployeesTableVue from "../components/Tables/EmployeesTable.vue";
 import CardCalendarVue from '../components/Cards/CardCalendar.vue';
 import ClientFormVue from "../components/forms/ClientForm.vue";
-import CalendarForm from "../components/forms/CalendarForm.vue"
+import CalendarForm from "../components/forms/CalendarForm.vue";
+import DeductionsForm from "../components/forms/DeductionsForm.vue";
+import AllowanceForm from "../components/forms/AllowanceForm.vue";
+import DepartmentForm from "../components/forms/DepartmentsForm.vue";
+
+
 
 export default {
   components: {
@@ -70,7 +78,10 @@ export default {
     EmployeesTableVue,
     CardCalendarVue,
     ClientFormVue,
-    CalendarForm
+    CalendarForm,
+    DeductionsForm,
+    AllowanceForm,
+    DepartmentForm
   },
   data() {
     return {

@@ -11,7 +11,12 @@
       :body-style="{ paddingBottom: '80px' }"
       @close="onClose"
     >
-      <a-form :form="form" layout="vertical" :hide-required-mark="false" @submit.prevent="handleSubmit">
+      <a-form
+        :form="form"
+        layout="vertical"
+        :hide-required-mark="false"
+        @submit.prevent="handleSubmit"
+      >
         <a-row :gutter="16">
           <a-col :span="12">
             <a-form-item label="First Name">
@@ -55,9 +60,7 @@
                 v-decorator="[
                   'email',
                   {
-                    rules: [
-                      { required: true, message: 'please enter email' },
-                    ],
+                    rules: [{ required: true, message: 'please enter email' }],
                   },
                 ]"
                 style="width: 100%"
@@ -71,9 +74,7 @@
                 v-decorator="[
                   'phone_number',
                   {
-                    rules: [
-                      { required: true, message: 'please enter phone' },
-                    ],
+                    rules: [{ required: true, message: 'please enter phone' }],
                   },
                 ]"
                 style="width: 100%"
@@ -82,16 +83,14 @@
             </a-form-item>
           </a-col>
         </a-row>
-          <a-row :gutter="16">
+        <a-row :gutter="16">
           <a-col :span="12">
             <a-form-item label="National ID">
               <a-input
                 v-decorator="[
                   'national_id',
                   {
-                    rules: [
-                      { required: true, message: 'Field is required' },
-                    ],
+                    rules: [{ required: true, message: 'Field is required' }],
                   },
                 ]"
                 style="width: 100%"
@@ -105,9 +104,7 @@
                 v-decorator="[
                   'kra_pin',
                   {
-                    rules: [
-                      { required: true, message: 'Field is required' },
-                    ],
+                    rules: [{ required: true, message: 'Field is required' }],
                   },
                 ]"
                 style="width: 100%"
@@ -173,15 +170,13 @@
               </a-select>
             </a-form-item>
           </a-col>
-           <a-col :span="12">
-              <a-form-item label="Branch Name">
+          <a-col :span="12">
+            <a-form-item label="Branch Name">
               <a-input
                 v-decorator="[
                   'branch_name',
                   {
-                    rules: [
-                      { required: true, message: 'please enter branch' },
-                    ],
+                    rules: [{ required: true, message: 'please enter branch' }],
                   },
                 ]"
                 style="width: 100%"
@@ -191,7 +186,7 @@
           </a-col>
         </a-row>
         <a-row :gutter="16">
-         <a-col :span="12">
+          <a-col :span="12">
             <a-form-item label="Account Name">
               <a-input
                 v-decorator="[
@@ -209,12 +204,15 @@
           </a-col>
           <a-col :span="12">
             <a-form-item label="Account Number">
-                <a-input
+              <a-input
                 v-decorator="[
                   'account_number',
                   {
                     rules: [
-                      { required: true, message: 'please enter account number' },
+                      {
+                        required: true,
+                        message: 'please enter account number',
+                      },
                     ],
                   },
                 ]"
@@ -224,12 +222,12 @@
               />
             </a-form-item>
           </a-col>
-        
         </a-row>
         <a-row :gutter="16">
           <a-col :span="12">
-          <a-form-item label="Deductions">
-              <a-select  mode="multiple"
+            <a-form-item label="Deductions">
+              <a-select
+                mode="multiple"
                 v-decorator="[
                   'deductions',
                   {
@@ -245,7 +243,6 @@
                 <a-select-option value="sacco"> Saccos</a-select-option>
               </a-select>
             </a-form-item>
-
           </a-col>
           <a-col :span="12">
             <a-form-item label="Basic Pay">
@@ -264,15 +261,19 @@
             </a-form-item>
           </a-col>
         </a-row>
-         <a-row :gutter="16">
+        <a-row :gutter="16">
           <a-col :span="12">
-          <a-form-item label="Allowances">
-              <a-select  mode="multiple"
+            <a-form-item label="Allowances">
+              <a-select
+                mode="multiple"
                 v-decorator="[
                   'allowances',
                   {
                     rules: [
-                      { required: false, message: 'Please choose the allowances' },
+                      {
+                        required: false,
+                        message: 'Please choose the allowances',
+                      },
                     ],
                   },
                 ]"
@@ -283,16 +284,18 @@
                 <a-select-option value="sacco"> Transport</a-select-option>
               </a-select>
             </a-form-item>
-
           </a-col>
           <a-col :span="12">
             <a-form-item label="Status">
-              <a-select 
+              <a-select
                 v-decorator="[
                   'status',
                   {
                     rules: [
-                      { required: true, message: 'Please select employee status' },
+                      {
+                        required: true,
+                        message: 'Please select employee status',
+                      },
                     ],
                   },
                 ]"
@@ -328,7 +331,9 @@
       <a-row type="flex" align="middle">
         <a-col :span="24" :md="12">
           <h6>Employees</h6>
-          <p>Total <span class="text-primary">{{employees.length}}</span></p>
+          <p>
+            Total <span class="text-primary">{{ employees.length }}</span>
+          </p>
         </a-col>
         <a-col
           :span="24"
@@ -343,13 +348,38 @@
         </a-col>
       </a-row>
     </template>
-    <a-table :row-selection="rowSelection" :columns="columns" :data-source="employees" bordered>
-      <template slot="name" slot-scope="text">
-        <a>{{ text }}</a>
-      </template>
-      <template slot="footer"> Footer </template>
-    </a-table>
-
+    <a-table :columns="columns" :data-source="data" bordered :row-selection="rowSelection"  rowKey="id">
+    <template
+      v-for="col in editables"
+      :slot="col"
+      slot-scope="text, record"
+    >
+      <div :key="col">
+        <a-input
+          v-if="record.editable"
+          style="margin: -5px 0"
+          :value="text"
+          @change="e => handleChange(e.target.value, record.key, col)"
+        />
+        <template v-else>
+          {{ text }}
+        </template>
+      </div>
+    </template>
+    <template slot="operation" slot-scope="text, record, index">
+      <div class="editable-row-operations">
+        <span v-if="record.editable">
+          <a @click="() => save(record.key)">Save</a>
+          <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
+            <a>Cancel</a>
+          </a-popconfirm>
+        </span>
+        <span v-else>
+          <a :disabled="editingKey !== ''" @click="() => edit(record.key)">Edit</a>
+        </span>
+      </div>
+    </template>
+  </a-table>
     <div class="table-upload-btn">
       <a-button type="dashed" block>
         <svg
@@ -374,49 +404,89 @@
 <script>
 const columns = [
   {
-    title: "Name",
-    dataIndex: "full_name",
-    scopedSlots: { customRender: "name" },
-  },
-   {
-    title: "Email",
-    dataIndex: "email",
-  },
-     {
-    title: "Department",
-    dataIndex: "department",
-     filters: [
-      { text: 'Sales', value: 'sales' },
-      { text: 'Engineering', value: 'engineering' },
-    ],
-    onFilter: (value, record) => record.department.indexOf(value) === 0,
-  },
-     {
-    title: "Designation",
-    dataIndex: "designation",
-  },
-     {
-    title: "Phone Number",
-    dataIndex: "phone_number",
+    title: 'name',
+    dataIndex: 'name',
+    width: '25%',
+    scopedSlots: { customRender: 'name' },
   },
   {
-    title: "Net Salary",
-    className: "column-money",
-    dataIndex: "basic_pay",
-    sorter: (a, b) => a.basic_pay - b.basic_pay,
+    title: 'age',
+    dataIndex: 'age',
+    width: '15%',
+    scopedSlots: { customRender: 'age' },
   },
- 
+  {
+    title: 'address',
+    dataIndex: 'address',
+    width: '40%',
+    scopedSlots: { customRender: 'address' },
+  },
+  {
+    title: 'operation',
+    dataIndex: 'operation',
+    scopedSlots: { customRender: 'operation' },
+  },
 ];
-
-
-import { mapState } from 'vuex';
+// const columns = [
+//   {
+//     title: "Name",
+//     dataIndex: "name",
+//     scopedSlots: { customRender: "name" },
+//   },
+//   {
+//     title: "Email",
+//     dataIndex: "age",
+//   },
+//   {
+//     title: "address",
+//     dataIndex: "address",
+//     filters: [
+//       { text: "Sales", value: "sales" },
+//       { text: "Engineering", value: "engineering" },
+//     ],
+//     onFilter: (value, record) => record.department.indexOf(value) === 0,
+//   },
+//   {
+//     title: "designation",
+//     dataIndex: "designation",
+//   },
+//   {
+//     title: "Phone Number",
+//     dataIndex: "phone_number",
+//   },
+//   {
+//     title: "Net Salary",
+//     className: "column-money",
+//     dataIndex: "basic_pay",
+//     sorter: (a, b) => a.basic_pay - b.basic_pay,
+//   },
+//   {
+//     title: 'operation',
+//     dataIndex: 'operation',
+//     scopedSlots: { customRender: 'operation' },
+//   },
+// ];
+const data = [];
+for (let i = 0; i < 100; i++) {
+  data.push({
+    key: i.toString(),
+    name: `Edrward ${i}`,
+    age: 32,
+    address: `London Park no. ${i}`,
+  });
+}
+import { mapState } from "vuex";
 export default {
   data() {
+     this.cacheData = data.map(item => ({ ...item }));
     return {
       columns,
+       data,
       projectHeaderBtns: "all",
       visible: false,
-       form: this.$form.createForm(this, { name: "coordinated" }),
+      form: this.$form.createForm(this, { name: "coordinated" }),
+      editables: ['name', 'age', 'address'],
+      editingKey: '',
     };
   },
   methods: {
@@ -426,40 +496,86 @@ export default {
     onClose() {
       this.visible = false;
     },
-      handleSubmit(e) {
+    handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.$store.dispatch("addEmployee",values)
+          this.$store.dispatch("addEmployee", values);
         }
       });
     },
-
+    handleChange(value, key, column) {
+      const newData = [...this.data];
+      const target = newData.find(item => key === item.key);
+      if (target) {
+        target[column] = value;
+        this.data = newData;
+      }
+    },
+    edit(key) {
+      const newData = [...this.data];
+      const target = newData.find(item => key === item.key);
+      this.editingKey = key;
+      if (target) {
+        target.editable = true;
+        this.data = newData;
+      }
+    },
+    save(key) {
+      const newData = [...this.data];
+      const newCacheData = [...this.cacheData];
+      const target = newData.find(item => key === item.key);
+      const targetCache = newCacheData.find(item => key === item.key);
+      if (target && targetCache) {
+        delete target.editable;
+        this.data = newData;
+        Object.assign(targetCache, target);
+        this.cacheData = newCacheData;
+      }
+      this.editingKey = '';
+    },
+    cancel(key) {
+      const newData = [...this.data];
+      const target = newData.find(item => key === item.key);
+      this.editingKey = '';
+      if (target) {
+        Object.assign(target, this.cacheData.find(item => key === item.key));
+        delete target.editable;
+        this.data = newData;
+      }
+    },
   },
-      		computed:{
-			...mapState(['employees']),
-          rowSelection() {
+  computed: {
+    ...mapState(["employees"]),
+    rowSelection() {
       return {
         onChange: (selectedRowKeys, selectedRows) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            "selectedRows: ",
+            selectedRows
+          );
         },
-        getCheckboxProps: record => ({
+        getCheckboxProps: (record) => ({
           props: {
-            disabled: record.name === 'Disabled User', // Column configuration not to be checked
+            disabled: record.name === "Disabled User", // Column configuration not to be checked
             name: record.name,
           },
         }),
       };
     },
-		},
-		mounted(){
-			this.$store.dispatch("getEmployees");
-		}
+  },
+  mounted() {
+    this.$store.dispatch("getEmployees");
+  },
 };
 </script>
-<style>
+<style scoped>
 th.column-money,
 td.column-money {
   text-align: right !important;
+}
+.editable-row-operations a {
+  margin-right: 8px;
 }
 </style>

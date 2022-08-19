@@ -42,10 +42,15 @@
         <a-menu-item key="reports">
           <span class="label">Reports</span>
         </a-menu-item>
+          <a-menu-item  key="clients">
+          <span class="label"><a-icon type="setting" />Add New Client</span>
+        </a-menu-item>
       </a-menu>
     </div>
     <EmployeesTableVue v-if="current[0]=='employees'" ></EmployeesTableVue>
     <CardCalendarVue v-if="current[0]=='calendar'"></CardCalendarVue>
+    <ClientFormVue  v-if="current[0]=='clients'"></ClientFormVue>
+    <CalendarForm v-if="current[0]=='createcalendar'"></CalendarForm>
     <!-- / Cards -->
   </div>
 </template>
@@ -55,13 +60,17 @@ import CardInfo from "../components/Cards/CardInfo";
 import ClientForm from "../components/forms/ClientForm.vue";
 import EmployeesTableVue from "../components/Tables/EmployeesTable.vue";
 import CardCalendarVue from '../components/Cards/CardCalendar.vue';
+import ClientFormVue from "../components/forms/ClientForm.vue";
+import CalendarForm from "../components/forms/CalendarForm.vue"
 
 export default {
   components: {
     CardInfo,
     ClientForm,
     EmployeesTableVue,
-    CardCalendarVue
+    CardCalendarVue,
+    ClientFormVue,
+    CalendarForm
   },
   data() {
     return {

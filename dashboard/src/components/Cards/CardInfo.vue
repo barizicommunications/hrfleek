@@ -15,6 +15,35 @@
         :lg="16"
         ref="clientcard"
         :class="currentClient.id==client.id?' selected-client':''"
+        v-if="currentClient"
+        @click="
+          () => {
+            switchClient(client);
+          }
+        "
+      >
+        <a slot="extra" href="#"><a-icon type="delete" class="ml-10" /> </a>
+        <a-row type="flex">
+          <a-col class="col-content">
+            <div class="card-content">
+              <p>{{ client.address }}</p>
+              <p>{{ client.company_phone }}</p>
+              <p>{{ client.company_email }}</p>
+            </div>
+          </a-col>
+          <a-col class="col-img" :span="24" :lg="8">
+            <a-avatar :src="client.logo" :size="104" />
+          </a-col>
+        </a-row>
+      </a-card>
+      <a-card
+        :bordered="false"
+        class="card-info"
+        :title="client.company_name"
+        :span="24"
+        :lg="16"
+        ref="clientcard"
+        v-else
         @click="
           () => {
             switchClient(client);
@@ -64,7 +93,6 @@ export default {
       return newName;
     },
     switchClient(index) {
-      console.log("this is the index",index)
       const selected = this.clients.indexOf(index);
 
       this.clients.forEach((client) => {

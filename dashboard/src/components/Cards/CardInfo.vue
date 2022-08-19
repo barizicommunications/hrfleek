@@ -72,6 +72,7 @@ export default {
           this.$refs.clientcard[selected].$el.classList.add("selected-client");
           localStorage.setItem("client", JSON.stringify(client));
           this.$store.dispatch("getCurrentClient");
+           this.$store.dispatch("getEmployees");
         } else {
           this.$refs.clientcard[
             this.clients.indexOf(client)

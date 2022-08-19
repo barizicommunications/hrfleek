@@ -14,6 +14,7 @@
         :span="24"
         :lg="16"
         ref="clientcard"
+        :class="currentClient.id==client.id?' selected-client':''"
         @click="
           () => {
             switchClient(client);
@@ -85,9 +86,6 @@ export default {
     
 
   },
-  updated(){
- this.switchClient(this.currentClient);
-  }
 };
 </script>
 <style scoped>

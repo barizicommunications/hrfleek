@@ -8,7 +8,7 @@
           @submit="handleChange"
           :hideRequiredMark="true"
         >
-          <a-form-item class="mb-10" label="Department Name" :colon="false">
+          <a-form-item class="mb-10" label="Designation" :colon="false">
                   <a-input-group compact>
       <a-input
             v-decorator="[

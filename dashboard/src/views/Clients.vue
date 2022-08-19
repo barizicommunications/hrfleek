@@ -54,6 +54,8 @@
     <DeductionsForm v-if="current[0]=='deductions'"></DeductionsForm>
     <AllowanceForm v-if="current[0]=='allowances'"></AllowanceForm>
     <DepartmentForm v-if="current[0]=='departments'"></DepartmentForm>
+    <DesignationForm v-if="current[0]=='designations'"></DesignationForm>
+
     <!-- / Cards -->
   </div> 
 </template>
@@ -68,6 +70,7 @@ import CalendarForm from "../components/forms/CalendarForm.vue";
 import DeductionsForm from "../components/forms/DeductionsForm.vue";
 import AllowanceForm from "../components/forms/AllowanceForm.vue";
 import DepartmentForm from "../components/forms/DepartmentsForm.vue";
+import DesignationForm from "../components/forms/DesignationForm.vue";
 
 
 
@@ -81,7 +84,8 @@ export default {
     CalendarForm,
     DeductionsForm,
     AllowanceForm,
-    DepartmentForm
+    DepartmentForm,
+    DesignationForm
   },
   data() {
     return {

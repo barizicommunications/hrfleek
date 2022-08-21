@@ -1,17 +1,7 @@
 <template>
-  <a-card
-    :bordered="false"
-    class="header-solid h-full"
-    :bodyStyle="{ padding: 0 }"
-  >
-    <a-drawer
-      title="Create a new employee account"
-      :width="720"
-      :visible="visible"
-      :body-style="{ paddingBottom: '80px' }"
-      @close="onClose"
-    >
-      <a-form
+  <div>
+    <a-card>
+       <a-form
         :form="form"
         layout="vertical"
         :hide-required-mark="false"
@@ -29,7 +19,7 @@
                     ],
                   },
                 ]"
-                placeholder="Please enter user name"
+                :placeholder="profile.first_name"
               />
             </a-form-item>
           </a-col>
@@ -48,7 +38,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="last name"
+               :placeholder="profile.last_name"
               />
             </a-form-item>
           </a-col>
@@ -64,7 +54,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="email"
+               :placeholder="profile.email"
               />
             </a-form-item>
           </a-col>
@@ -78,7 +68,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="phone"
+                :placeholder="profile.phone_number"
               />
             </a-form-item>
           </a-col>
@@ -94,7 +84,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="national_id"
+               :placeholder="profile.national_id"
               />
             </a-form-item>
           </a-col>
@@ -108,7 +98,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="KRA PIN"
+               :placeholder="profile.kra_pin"
               />
             </a-form-item>
           </a-col>
@@ -125,7 +115,7 @@
                     ],
                   },
                 ]"
-                placeholder="department"
+               :placeholder="profile.department"
               >
                 <a-select-option value="engineering">
                   engineering
@@ -146,7 +136,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="designation"
+             :placeholder="profile.designation"
               />
             </a-form-item>
           </a-col>
@@ -163,7 +153,8 @@
                     ],
                   },
                 ]"
-                placeholder="Please choose the bank"
+               :placeholder="profile.bank_name"
+               
               >
                 <a-select-option value="equity"> Equity Bank </a-select-option>
                 <a-select-option value="kcb"> KCB Bank </a-select-option>
@@ -180,7 +171,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="Branch Name"
+              :placeholder="profile.branch_name"
               />
             </a-form-item>
           </a-col>
@@ -198,7 +189,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="account Name"
+               :placeholder="profile.account_name"
               />
             </a-form-item>
           </a-col>
@@ -217,7 +208,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="account number"
+                :placeholder="profile.account_number"
                 type="number"
               />
             </a-form-item>
@@ -236,7 +227,7 @@
                     ],
                   },
                 ]"
-                placeholder="Please choose the bank"
+               :placeholder="profile.deductions"
               >
                 <a-select-option value="equity"> NHIF </a-select-option>
                 <a-select-option value="kcb"> NSSF</a-select-option>
@@ -256,7 +247,7 @@
                   },
                 ]"
                 style="width: 100%"
-                placeholder="Basic Pay"
+                :placeholder="profile.basic_pay"
               />
             </a-form-item>
           </a-col>
@@ -277,7 +268,7 @@
                     ],
                   },
                 ]"
-                placeholder="Please choose allowances"
+                :placeholder="profile.allowances"
               >
                 <a-select-option value="equity"> Housing </a-select-option>
                 <a-select-option value="kcb"> Food</a-select-option>
@@ -299,7 +290,7 @@
                     ],
                   },
                 ]"
-                placeholder="Status"
+               :placeholder="profile.status"
               >
                 <a-select-option value="active"> Active </a-select-option>
                 <a-select-option value="inactive">Inactive</a-select-option>
@@ -308,256 +299,51 @@
           </a-col>
         </a-row>
       </a-form>
-      <div
-        :style="{
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e9e9e9',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-          zIndex: 1,
-        }"
-      >
-        <a-button :style="{ marginRight: '8px' }" @click="onClose">
-          Cancel
-        </a-button>
-        <a-button type="primary" @click="handleSubmit"> Submit </a-button>
-      </div>
-    </a-drawer>
-    <template #title>
-      <a-row type="flex" align="middle">
-        <a-col :span="24" :md="12">
-          <h6>Employees</h6>
-          <p>
-            Total <span class="text-primary">{{ employees.length }}</span>
-          </p>
-        </a-col>
-        <a-col
-          :span="24"
-          :md="12"
-          style="display: flex; align-items: center; justify-content: flex-end"
-        >
-          <a-radio-group  size="small">
-            <a-radio-button value="all" @click="showModal"
-              >Add New</a-radio-button
-            >
-          </a-radio-group>
-        </a-col>
-      </a-row>
-    </template>
-    <a-table :columns="columns" :data-source="employees" bordered :row-selection="rowSelection"  rowKey="id">
-    <template slot="operation" slot-scope="text, record">
-      <div class="editable-row-operations"> 
-        <span>
-         <router-link  :to="{name:'Editemployee', params:{profile:record}}"> <a>Edit</a></router-link>
-        </span>
-      </div>
-    </template>
-  </a-table>
-    <div class="table-upload-btn">
-      <a-button type="dashed" block>
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M3 17C3 16.4477 3.44772 16 4 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H4C3.44772 18 3 17.5523 3 17ZM6.29289 6.70711C5.90237 6.31658 5.90237 5.68342 6.29289 5.29289L9.29289 2.29289C9.48043 2.10536 9.73478 2 10 2C10.2652 2 10.5196 2.10536 10.7071 2.29289L13.7071 5.29289C14.0976 5.68342 14.0976 6.31658 13.7071 6.70711C13.3166 7.09763 12.6834 7.09763 12.2929 6.70711L11 5.41421L11 13C11 13.5523 10.5523 14 10 14C9.44771 14 9 13.5523 9 13L9 5.41421L7.70711 6.70711C7.31658 7.09763 6.68342 7.09763 6.29289 6.70711Z"
-            fill="#111827"
-          />
-        </svg>
-        import CSV
-      </a-button>
-    </div>
-  </a-card>
+    </a-card>
+  </div>
 </template>
+
 <script>
-// const columns = [
-//   {
-//     title: 'Name',
-//     dataIndex: 'name',
-//     scopedSlots: { customRender: 'name' },
-//   },
-//   {
-//     title: 'Age',
-//     dataIndex: 'age',
-//     scopedSlots: { customRender: 'age' },
-//   },
-//   {
-//     title: 'Address',
-//     dataIndex: 'address',
-//     scopedSlots: { customRender: 'address' },
-//   },
-//     {
-//     title: "Email",
-//     dataIndex: "age",
-//     scopedSlots: { customRender: 'email' },
-//   },
-//   {
-//     title: 'operation',
-//     dataIndex: 'operation',
-//     scopedSlots: { customRender: 'operation' },
-//   },
-// ];
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "full_name",
-    scopedSlots: { customRender: "full_name" },
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    scopedSlots: { customRender: "email" },
-  },
-  {
-    title: "Department",
-    dataIndex: "department",
-    scopedSlots: { customRender: "department" },
-    filters: [
-      { text: "Sales", value: "sales" },
-      { text: "Engineering", value: "engineering" },
-    ],
-    onFilter: (value, record) => record.department.indexOf(value) === 0,
-  },
-  {
-    title: "designation",
-    dataIndex: "designation",
-    scopedSlots: { customRender: "designation" },
-  },
-  {
-    title: "Phone Number",
-    dataIndex: "phone_number",
-  },
-  {
-    title: "Net Salary",
-    className: "column-money",
-    dataIndex: "basic_pay",
-    sorter: (a, b) => a.basic_pay - b.basic_pay,
-  },
-  {
-    title: 'operation',
-    dataIndex: 'operation',
-    scopedSlots: { customRender: 'operation' },
-  },
-];
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i.toString(),
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
 import { mapState } from "vuex";
 export default {
+    props:["profile"],
   data() {
-     this.cacheData = data.map(item => ({ ...item }));
     return {
-      columns,
-       data,
-      projectHeaderBtns: "all",
-      visible: false,
+      formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
-      editables: ['full_name', 'email', 'department','designation'],
-      editingKey: '',
+      image: null,
     };
   },
   methods: {
-    showModal() {
-      this.visible = true;
-    },
-    onClose() {
-      this.visible = false;
-    },
+ onChange(){},
+ handleChange(){},
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.$store.dispatch("addEmployee", values);
+          console.log("Received values of form: ", values);
+          this.$store.dispatch("addClients", values).then(() => {
+            if (!this.error) {
+              this.form.resetFields();
+            }
+          });
         }
       });
     },
-    handleChange(value, key, column) {
-      const newData = [...this.employees];
-      const target = newData.find(item => key === item.id);
-      if (target) {
-        target[column] = value;
-        this.employees = newData;
-      }
-    },
-    edit(key) {
-      const newData = [...this.employees];
-      const target = newData.find(item => key === item.id);
-      this.editingKey = key;
-      if (target) {
-        target.editable = true;
-        this.employees = newData;
-      }
-    },
-    save(key) {
-      const newData = [...this.data];
-      const newCacheData = [...this.cacheData];
-      const target = newData.find(item => key === item.key);
-      const targetCache = newCacheData.find(item => key === item.key);
-      if (target && targetCache) {
-        delete target.editable;
-        this.data = newData;
-        Object.assign(targetCache, target);
-        this.cacheData = newCacheData;
-      }
-      this.editingKey = '';
-    },
-    cancel(key) {
-      const newData = [...this.data];
-      const target = newData.find(item => key === item.key);
-      this.editingKey = '';
-      if (target) {
-        Object.assign(target, this.cacheData.find(item => key === item.key));
-        delete target.editable;
-        this.data = newData;
-      }
-    },
   },
   computed: {
-    ...mapState(["employees"]),
-    rowSelection() {
-      return {
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
-            selectedRows
-          );
-        },
-        getCheckboxProps: (record) => ({
-          props: {
-            disabled: record.name === "Disabled User", // Column configuration not to be checked
-            name: record.name,
-          },
-        }),
-      };
+    ...mapState["clients"],
+    loading() {
+      return this.$store.state.loading;
+    },
+    error() {
+      return this.$store.state.error;
     },
   },
   mounted() {
-    this.$store.dispatch("getEmployees");
+    this.$store.dispatch("getClients");
   },
 };
 </script>
-<style scoped>
-th.column-money,
-td.column-money {
-  text-align: right !important;
-}
-.editable-row-operations a {
-  margin-right: 8px;
-}
-</style>
+
+<style></style>

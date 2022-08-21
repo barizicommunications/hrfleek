@@ -37,6 +37,15 @@ let routes = [
 		  },
 	},
 	{
+		path: '/editemployee',
+		name: 'Editemployee',
+		layout: "dashboard",
+		component: () => import('../views/EditEmployee.vue'),
+		meta: {
+			requiresAuth: true,
+		  },
+	},
+	{
 		path: '/employees',
 		name: 'employees',
 		layout: "dashboard",

@@ -8,6 +8,7 @@ import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import router from './router'
 import { auth } from "./firebase";
 
+
 import './scss/app.scss';
 
 import store from './store'

@@ -4,6 +4,34 @@
     class="header-solid h-full"
     :bodyStyle="{ padding: 0 }"
   >
+    <a-modal v-model="modal" title="Bulk Imports">
+      <template slot="footer">
+        <a-button key="back" @click="handleCancel"> Cancel </a-button>
+        <a-button
+          key="submit"
+          type="primary"
+          :loading="loading"
+          @click="handleOk"
+        >
+          Submit
+        </a-button>
+      </template>
+      <div class="table-upload-btn">
+        <a-upload
+          :file-list="fileList"
+          :remove="handleRemove"
+          :before-upload="beforeUpload"
+        >
+          <a-button block> <a-icon type="upload" /> Select CSV File </a-button>
+        </a-upload>
+      </div>
+      <div class="table-upload-btn">
+        <a-button type="dashed" block @click.prevent="downloadFile">
+          <a-icon type="download" />
+          Download Sample CSV
+        </a-button>
+      </div>
+    </a-modal>
     <a-drawer
       title="Create a new employee account"
       :width="720"
@@ -340,7 +368,7 @@
           :md="12"
           style="display: flex; align-items: center; justify-content: flex-end"
         >
-          <a-radio-group v-model="projectHeaderBtns" size="small">
+          <a-radio-group size="small">
             <a-radio-button value="all" @click="showModal"
               >Add New</a-radio-button
             >
@@ -348,40 +376,27 @@
         </a-col>
       </a-row>
     </template>
-    <a-table :columns="columns" :data-source="data" bordered :row-selection="rowSelection"  rowKey="id">
-    <template
-      v-for="col in editables"
-      :slot="col"
-      slot-scope="text, record"
+    <a-table
+      :columns="columns"
+      :data-source="employees"
+      bordered
+      :row-selection="rowSelection"
+      rowKey="id"
     >
-      <div :key="col">
-        <a-input
-          v-if="record.editable"
-          style="margin: -5px 0"
-          :value="text"
-          @change="e => handleChange(e.target.value, record.key, col)"
-        />
-        <template v-else>
-          {{ text }}
-        </template>
-      </div>
-    </template>
-    <template slot="operation" slot-scope="text, record, index">
-      <div class="editable-row-operations">
-        <span v-if="record.editable">
-          <a @click="() => save(record.key)">Save</a>
-          <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-            <a>Cancel</a>
-          </a-popconfirm>
-        </span>
-        <span v-else>
-          <a :disabled="editingKey !== ''" @click="() => edit(record.key)">Edit</a>
-        </span>
-      </div>
-    </template>
-  </a-table>
+      <template slot="operation" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span>
+            <router-link
+              :to="{ name: 'Editemployee', params: { profile: record } }"
+            >
+              <a>Edit</a></router-link
+            >
+          </span>
+        </div>
+      </template>
+    </a-table>
     <div class="table-upload-btn">
-      <a-button type="dashed" block>
+      <a-button type="dashed" block @click="showDrawer">
         <svg
           width="16"
           height="16"
@@ -404,94 +419,96 @@
 <script>
 const columns = [
   {
-    title: 'name',
-    dataIndex: 'name',
-    width: '25%',
-    scopedSlots: { customRender: 'name' },
+    title: "Name",
+    dataIndex: "full_name",
+    scopedSlots: { customRender: "full_name" },
   },
   {
-    title: 'age',
-    dataIndex: 'age',
-    width: '15%',
-    scopedSlots: { customRender: 'age' },
+    title: "Email",
+    dataIndex: "email",
+    scopedSlots: { customRender: "email" },
   },
   {
-    title: 'address',
-    dataIndex: 'address',
-    width: '40%',
-    scopedSlots: { customRender: 'address' },
+    title: "Department",
+    dataIndex: "department",
+    scopedSlots: { customRender: "department" },
+    filters: [
+      { text: "Sales", value: "sales" },
+      { text: "Engineering", value: "engineering" },
+    ],
+    onFilter: (value, record) => record.department.indexOf(value) === 0,
   },
   {
-    title: 'operation',
-    dataIndex: 'operation',
-    scopedSlots: { customRender: 'operation' },
+    title: "designation",
+    dataIndex: "designation",
+    scopedSlots: { customRender: "designation" },
+  },
+  {
+    title: "Phone Number",
+    dataIndex: "phone_number",
+  },
+  {
+    title: "Net Salary",
+    className: "column-money",
+    dataIndex: "basic_pay",
+    sorter: (a, b) => a.basic_pay - b.basic_pay,
+  },
+  {
+    title: "operation",
+    dataIndex: "operation",
+    scopedSlots: { customRender: "operation" },
   },
 ];
-// const columns = [
-//   {
-//     title: "Name",
-//     dataIndex: "name",
-//     scopedSlots: { customRender: "name" },
-//   },
-//   {
-//     title: "Email",
-//     dataIndex: "age",
-//   },
-//   {
-//     title: "address",
-//     dataIndex: "address",
-//     filters: [
-//       { text: "Sales", value: "sales" },
-//       { text: "Engineering", value: "engineering" },
-//     ],
-//     onFilter: (value, record) => record.department.indexOf(value) === 0,
-//   },
-//   {
-//     title: "designation",
-//     dataIndex: "designation",
-//   },
-//   {
-//     title: "Phone Number",
-//     dataIndex: "phone_number",
-//   },
-//   {
-//     title: "Net Salary",
-//     className: "column-money",
-//     dataIndex: "basic_pay",
-//     sorter: (a, b) => a.basic_pay - b.basic_pay,
-//   },
-//   {
-//     title: 'operation',
-//     dataIndex: 'operation',
-//     scopedSlots: { customRender: 'operation' },
-//   },
-// ];
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i.toString(),
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
 import { mapState } from "vuex";
+import exportFromJSON from "export-from-json";
 export default {
+  components: {},
   data() {
-     this.cacheData = data.map(item => ({ ...item }));
     return {
       columns,
-       data,
       projectHeaderBtns: "all",
       visible: false,
       form: this.$form.createForm(this, { name: "coordinated" }),
-      editables: ['name', 'age', 'address'],
-      editingKey: '',
+      editables: ["full_name", "email", "department", "designation"],
+      editingKey: "",
+      modal: false,
+      loading: false,
+      fileList: [],
+      uploading: false,
+      filesrc: {
+        label: "sample.csv",
+        url: "./sample.csv",
+      },
+      json_data: [
+        {
+          name: "Tony Peña",
+          city: "New York",
+          country: "United States",
+          birthdate: "1978-03-15",
+          phone: {
+            mobile: "1-541-754-3010",
+            landline: "(541) 754-3010",
+          },
+        },
+        {
+          name: "Thessaloniki",
+          city: "Athens",
+          country: "Greece",
+          birthdate: "1987-11-23",
+          phone: {
+            mobile: "+1 855 275 5071",
+            landline: "(2741) 2621-244",
+          },
+        },
+      ],
     };
   },
   methods: {
     showModal() {
       this.visible = true;
+    },
+    showDrawer() {
+      this.modal = true;
     },
     onClose() {
       this.visible = false;
@@ -505,44 +522,68 @@ export default {
       });
     },
     handleChange(value, key, column) {
-      const newData = [...this.data];
-      const target = newData.find(item => key === item.key);
+      const newData = [...this.employees];
+      const target = newData.find((item) => key === item.id);
       if (target) {
         target[column] = value;
-        this.data = newData;
+        this.employees = newData;
       }
     },
-    edit(key) {
-      const newData = [...this.data];
-      const target = newData.find(item => key === item.key);
-      this.editingKey = key;
-      if (target) {
-        target.editable = true;
-        this.data = newData;
-      }
+    handleOk() {},
+    handleCancel() {
+      this.modal = false;
     },
-    save(key) {
-      const newData = [...this.data];
-      const newCacheData = [...this.cacheData];
-      const target = newData.find(item => key === item.key);
-      const targetCache = newCacheData.find(item => key === item.key);
-      if (target && targetCache) {
-        delete target.editable;
-        this.data = newData;
-        Object.assign(targetCache, target);
-        this.cacheData = newCacheData;
-      }
-      this.editingKey = '';
+    beforeUpload(file) {
+      this.fileList = [...this.fileList, file];
+      return false;
     },
-    cancel(key) {
-      const newData = [...this.data];
-      const target = newData.find(item => key === item.key);
-      this.editingKey = '';
-      if (target) {
-        Object.assign(target, this.cacheData.find(item => key === item.key));
-        delete target.editable;
-        this.data = newData;
-      }
+    handleRemove(file) {
+      const index = this.fileList.indexOf(file);
+      const newFileList = this.fileList.slice();
+      newFileList.splice(index, 1);
+      this.fileList = newFileList;
+    },
+    handleUpload() {
+      const { fileList } = this;
+      const formData = new FormData();
+      fileList.forEach((file) => {
+        formData.append("files[]", file);
+      });
+      this.uploading = true;
+
+      // You can use any AJAX library you like
+      reqwest({
+        url: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+        method: "post",
+        processData: false,
+        data: formData,
+        success: () => {
+          this.fileList = [];
+          this.uploading = false;
+          this.$message.success("upload successfully.");
+        },
+        error: () => {
+          this.uploading = false;
+          this.$message.error("upload failed.");
+        },
+      });
+    },
+    forceFileDownload(response, title) {
+      console.log("this is the tilte", title);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", title);
+      document.body.appendChild(link);
+      link.click();
+    },
+
+    downloadFile() {
+      const data = this.employees;
+      const fileName = "sample_file";
+      const exportType = exportFromJSON.types.csv;
+
+      if (data) exportFromJSON({ data, fileName, exportType });
     },
   },
   computed: {

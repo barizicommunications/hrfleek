@@ -7,7 +7,7 @@
 		</template>
 		<ul class="list settings-list">
 			<li>
-				<h6 class="list-header text-sm text-muted">ACCOUNT</h6>
+				<h6 class="list-header text-sm text-muted">ALLOWANCES</h6>
 			</li>
 			<li>
 				<a-switch v-model="emailForFollows" />
@@ -22,7 +22,7 @@
 				<span>Email me when someone mentions me</span>
 			</li>
 			<li>
-				<h6 class="list-header text-sm text-muted m-0">APPLICATION</h6>
+				<h6 class="list-header text-sm text-muted m-0">DEDUCTIONS</h6>
 			</li>
 			<li>
 				<a-switch v-model="emailForNewProjects" />

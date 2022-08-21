@@ -1,0 +1,628 @@
+constituency,ward,station_id,polling_station,registered_voters,voter_turnout
+Emuhaya,North East Bunyore,38215107300101,Ebusiratsi Cog Primary School,617,1
+Emuhaya,North East Bunyore,38215107300102,Ebusiratsi Cog Primary School,617,1
+Emuhaya,North East Bunyore,38215107300103,Ebusiratsi Cog Primary School,616,1
+Emuhaya,North East Bunyore,38215107300201,Musiakhupa Nursery School,412,1
+Emuhaya,North East Bunyore,38215107300301,Ematsuli Primary School,379,1
+Emuhaya,North East Bunyore,38215107300302,Ematsuli Primary School,378,1
+Emuhaya,North East Bunyore,38215107300401,Eluhobe Primary School,366,1
+Emuhaya,North East Bunyore,38215107300402,Eluhobe Primary School,366,1
+Emuhaya,North East Bunyore,38215107300501,Esibuye Primary School,630,1
+Emuhaya,North East Bunyore,38215107300502,Esibuye Primary School,629,1
+Emuhaya,North East Bunyore,38215107300601,Ebukhooli Nursey School,503,1
+Emuhaya,North East Bunyore,38215107300701,Emuhondo Primary School,689,1
+Emuhaya,North East Bunyore,38215107300801,Mwituha Primary School,453,1
+Emuhaya,North East Bunyore,38215107300802,Mwituha Primary School,452,1
+Emuhaya,North East Bunyore,38215107300901,Ilungu Primary School,482,1
+Emuhaya,North East Bunyore,38215107300902,Ilungu Primary School,482,1
+Emuhaya,North East Bunyore,38215107300903,Ilungu Primary School,482,1
+Emuhaya,North East Bunyore,38215107301001,Emusutswi Primary School,485,1
+Emuhaya,North East Bunyore,38215107301002,Emusutswi Primary School,484,1
+Emuhaya,North East Bunyore,38215107301101,Kilingili Primary School,509,1
+Emuhaya,North East Bunyore,38215107301102,Kilingili Primary School,509,1
+Emuhaya,North East Bunyore,38215107301201,Emurembe Primary School,408,1
+Emuhaya,North East Bunyore,38215107301202,Emurembe Primary School,408,1
+Emuhaya,North East Bunyore,38215107301301,Ebulamba Primary School,539,1
+Emuhaya,North East Bunyore,38215107301401,Ikumu Primary School,384,1
+Emuhaya,North East Bunyore,38215107301402,Ikumu Primary School,383,1
+Emuhaya,North East Bunyore,38215107301501,Ebunangwe Primary School,563,1
+Emuhaya,North East Bunyore,38215107301502,Ebunangwe Primary School,563,1
+Emuhaya,North East Bunyore,38215107301601,Esiarambatsi Nursery School,379,1
+Emuhaya,North East Bunyore,38215107301602,Esiarambatsi Nursery School,378,1
+Emuhaya,North East Bunyore,38215107301701,Mukhombe Primary School,696,1
+Emuhaya,North East Bunyore,38215107301702,Mukhombe Primary School,696,1
+Emuhaya,North East Bunyore,38215107301801,Ebusiloli Primary School,356,1
+Emuhaya,North East Bunyore,38215107301802,Ebusiloli Primary School,355,1
+Emuhaya,Central Bunyore,38215107401901,Esirulo Primary School,592,1
+Emuhaya,Central Bunyore,38215107401902,Esirulo Primary School,592,1
+Emuhaya,Central Bunyore,38215107401903,Esirulo Primary School,592,1
+Emuhaya,Central Bunyore,38215107402001,Ikalikha Nursery School,359,1
+Emuhaya,Central Bunyore,38215107402002,Ikalikha Nursery School,358,1
+Emuhaya,Central Bunyore,38215107402101,Elununi Primary School,526,1
+Emuhaya,Central Bunyore,38215107402102,Elununi Primary School,526,1
+Emuhaya,Central Bunyore,38215107402201,Emukunzi Village Polytechnic,558,1
+Emuhaya,Central Bunyore,38215107402202,Emukunzi Village Polytechnic,558,1
+Emuhaya,Central Bunyore,38215107402301,Emanyinya Primary School,555,1
+Emuhaya,Central Bunyore,38215107402302,Emanyinya Primary School,554,1
+Emuhaya,Central Bunyore,38215107402303,Emanyinya Primary School,554,1
+Emuhaya,Central Bunyore,38215107402401,Ebucheli Nursery School,361,1
+Emuhaya,Central Bunyore,38215107402402,Ebucheli Nursery School,361,1
+Emuhaya,Central Bunyore,38215107402501,Mwibanda Nursery School,324,1
+Emuhaya,Central Bunyore,38215107402601,Emusire Primary School,564,1
+Emuhaya,Central Bunyore,38215107402602,Emusire Primary School,563,1
+Emuhaya,Central Bunyore,38215107402701,Essunza Primary School,649,1
+Emuhaya,Central Bunyore,38215107402702,Essunza Primary School,649,1
+Emuhaya,Central Bunyore,38215107402703,Essunza Primary School,648,1
+Emuhaya,Central Bunyore,38215107402801,Ebututi Nursery School,423,1
+Emuhaya,Central Bunyore,38215107402901,Mundichiri Primary School,408,1
+Emuhaya,Central Bunyore,38215107402902,Mundichiri Primary School,407,1
+Emuhaya,Central Bunyore,38215107403001,Ebukhaya Primary School,629,1
+Emuhaya,Central Bunyore,38215107403002,Ebukhaya Primary School,629,1
+Emuhaya,Central Bunyore,38215107403101,Mwitukhu Primary School,353,1
+Emuhaya,Central Bunyore,38215107403201,Muchula Primary School,414,1
+Emuhaya,Central Bunyore,38215107403202,Muchula Primary School,414,1
+Emuhaya,Central Bunyore,38215107403301,Ebulondi Primary School,511,1
+Emuhaya,Central Bunyore,38215107403302,Ebulondi Primary School,510,1
+Emuhaya,Central Bunyore,38215107403401,Essaba Primary School,670,1
+Emuhaya,Central Bunyore,38215107403402,Essaba Primary School,670,1
+Emuhaya,Central Bunyore,38215107403501,Esihola Nursery School,250,1
+Emuhaya,West Bunyore,38215107503601,Esikhuyu Primary School,364,1
+Emuhaya,West Bunyore,38215107503602,Esikhuyu Primary School,363,1
+Emuhaya,West Bunyore,38215107503701,Isanda Primary School,383,1
+Emuhaya,West Bunyore,38215107503801,Esiamatete Nursey School,340,1
+Emuhaya,West Bunyore,38215107503901,Ebukanga Primary School,572,1
+Emuhaya,West Bunyore,38215107503902,Ebukanga Primary School,572,1
+Emuhaya,West Bunyore,38215107504001,Emmabwi Primary School,477,1
+Emuhaya,West Bunyore,38215107504002,Emmabwi Primary School,476,1
+Emuhaya,West Bunyore,38215107504101,Ebukobelo Nursery School,389,1
+Emuhaya,West Bunyore,38215107504201,Essumba Primary School,663,1
+Emuhaya,West Bunyore,38215107504301,Mwiyala Nursery School,396,1
+Emuhaya,West Bunyore,38215107504401,Ekhakamba Nursery School,353,1
+Emuhaya,West Bunyore,38215107504402,Ekhakamba Nursery School,353,1
+Emuhaya,West Bunyore,38215107504501,Emmwatsi Primary School,598,1
+Emuhaya,West Bunyore,38215107504601,Ebuyalu Primary School,450,1
+Emuhaya,West Bunyore,38215107504602,Ebuyalu Primary School,450,1
+Emuhaya,West Bunyore,38215107504701,Ilonje Nursery School,488,1
+Emuhaya,West Bunyore,38215107504801,Enyahera Nursery School,434,1
+Emuhaya,West Bunyore,38215107504802,Enyahera Nursery School,434,1
+Emuhaya,West Bunyore,38215107504901,Esibila Primary School,402,1
+Emuhaya,West Bunyore,38215107504902,Esibila Primary School,401,1
+Emuhaya,West Bunyore,38215107505001,Esibakala Primary School,469,1
+Emuhaya,West Bunyore,38215107505101,Ipali Nursery School,615,1
+Emuhaya,West Bunyore,38215107505102,Ipali Nursery School,615,1
+Emuhaya,West Bunyore,38215107505201,Ebukoolo Primary School,474,1
+Emuhaya,West Bunyore,38215107505202,Ebukoolo Primary School,473,1
+Emuhaya,West Bunyore,38215107505301,Mungoye Primary School,468,1
+Emuhaya,West Bunyore,38215107505302,Mungoye Primary School,468,1
+Emuhaya,West Bunyore,38215107505401,Ebusioya Nursery School,244,1
+Emuhaya,West Bunyore,38215107505501,Ebutsalwa Pag Nursery School,294,1
+Emuhaya,West Bunyore,38215107505601,Essalwa Primary School,490,1
+Emuhaya,West Bunyore,38215107505602,Essalwa Primary School,490,1
+Emuhaya,West Bunyore,38215107505701,Musirili Nursery School,385,1
+Emuhaya,West Bunyore,38215107505702,Musirili Nursery School,385,1
+Emuhaya,West Bunyore,38215107505801,Itumbu Primary School,662,1
+Emuhaya,West Bunyore,38215107505802,Itumbu Primary School,661,1
+Emuhaya,West Bunyore,38215107505901,Mumboko Nursery School,255,1
+Luanda,Luanda Township,38214106800101,Mumboha Primary School,650,1
+Luanda,Luanda Township,38214106800102,Mumboha Primary School,649,1
+Luanda,Luanda Township,38214106800103,Mumboha Primary School,649,1
+Luanda,Luanda Township,38214106800104,Mumboha Primary School,649,1
+Luanda,Luanda Township,38214106800105,Mumboha Primary School,649,1
+Luanda,Luanda Township,38214106800201,Mwamba Nursery School,375,1
+Luanda,Luanda Township,38214106800301,Epang'a Primary School,700,1
+Luanda,Luanda Township,38214106800302,Epang'a Primary School,699,1
+Luanda,Luanda Township,38214106800401,Ebusiralo Primary School,517,1
+Luanda,Luanda Township,38214106800402,Ebusiralo Primary School,517,1
+Luanda,Luanda Township,38214106800403,Ebusiralo Primary School,517,1
+Luanda,Luanda Township,38214106800501,Ebusatsi Nursery School,451,1
+Luanda,Luanda Township,38214106800502,Ebusatsi Nursery School,451,1
+Luanda,Luanda Township,38214106800601,Luanda Town Nursery School,477,1
+Luanda,Luanda Township,38214106800602,Luanda Town Nursery School,477,1
+Luanda,Luanda Township,38214106800701,Mulwaki Primary School,498,1
+Luanda,Luanda Township,38214106800702,Mulwaki Primary School,497,1
+Luanda,Luanda Township,38214106800801,Ekamanji Primary School,685,1
+Luanda,Luanda Township,38214106806301,"Ack St. Stephen Hattiko, Mumboha",351,1
+Luanda,Luanda Township,38214106806401,Ack St. Polycarp Epanga,28,1
+Luanda,Wemilabi,38214106900901,Esiamarwi Nursery School,330,1
+Luanda,Wemilabi,38214106901001,Ebulonga Primary Sch.,624,1
+Luanda,Wemilabi,38214106901002,Ebulonga Primary Sch.,624,1
+Luanda,Wemilabi,38214106901101,Ebusiratsi A.C. Primary School,379,1
+Luanda,Wemilabi,38214106901201,Irumbi Primary School,380,1
+Luanda,Wemilabi,38214106901202,Irumbi Primary School,380,1
+Luanda,Wemilabi,38214106901301,Ebbiba Primary School,698,1
+Luanda,Wemilabi,38214106901401,Essongolo Primary School,575,1
+Luanda,Wemilabi,38214106901402,Essongolo Primary School,574,1
+Luanda,Wemilabi,38214106901501,Wemilabi Primary School,547,1
+Luanda,Wemilabi,38214106901502,Wemilabi Primary School,547,1
+Luanda,Wemilabi,38214106901601,Wandeche Primary School,625,1
+Luanda,Wemilabi,38214106901701,Emusenjeli Primary School,643,1
+Luanda,Wemilabi,38214106901801,Itabalia Primary School,353,1
+Luanda,Wemilabi,38214106901802,Itabalia Primary School,353,1
+Luanda,Wemilabi,38214106901901,Mulukhambi Primary School,375,1
+Luanda,Wemilabi,38214106902001,Esirabe Primary School,476,1
+Luanda,Wemilabi,38214106902002,Esirabe Primary School,475,1
+Luanda,Wemilabi,38214106902101,Musitinyi Primary School,536,1
+Luanda,Wemilabi,38214106902201,Esiembero Primary School,377,1
+Luanda,Wemilabi,38214106902202,Esiembero Primary School,377,1
+Luanda,Wemilabi,38214106902301,Musinaka Primary School,393,1
+Luanda,Wemilabi,38214106902401,Ebubayi Primary School,410,1
+Luanda,Wemilabi,38214106902402,Ebubayi Primary School,410,1
+Luanda,Wemilabi,38214106906501,Good Shefferd Church Wamasiolo,46,1
+Luanda,Wemilabi,38214106906601,Wachatili Church Of God,24,1
+Luanda,Wemilabi,38214106906701,Mwinaya Primary School,20,1
+Luanda,Wemilabi,38214106906801,Habwe Pag Church,67,1
+Luanda,Mwibona,38214107002501,Emutsuru Primary School,563,1
+Luanda,Mwibona,38214107002601,Mwitubwi Nursery School,682,1
+Luanda,Mwibona,38214107002701,Ebukuya Primary School,533,1
+Luanda,Mwibona,38214107002801,Ebwiranyi Primary School,498,1
+Luanda,Mwibona,38214107002802,Ebwiranyi Primary School,497,1
+Luanda,Mwibona,38214107002901,Esibeye Primary School,597,1
+Luanda,Mwibona,38214107002902,Esibeye Primary School,597,1
+Luanda,Mwibona,38214107003001,Emululu Primary School,397,1
+Luanda,Mwibona,38214107003002,Emululu Primary School,396,1
+Luanda,Mwibona,38214107003101,Ebusyubi Primary School,565,1
+Luanda,Mwibona,38214107003102,Ebusyubi Primary School,564,1
+Luanda,Mwibona,38214107003201,Munungo Primary School,618,1
+Luanda,Mwibona,38214107003301,Mulwanda Primary School,442,1
+Luanda,Mwibona,38214107003302,Mulwanda Primary School,442,1
+Luanda,Mwibona,38214107003401,Esiandumba Primary School,605,1
+Luanda,Mwibona,38214107003402,Esiandumba Primary School,605,1
+Luanda,Mwibona,38214107003403,Esiandumba Primary School,604,1
+Luanda,Mwibona,38214107003501,Mundabala Nursery School,584,1
+Luanda,Mwibona,38214107006901,Khusiututu Pentecostal Church,51,1
+Luanda,Mwibona,38214107007001,Emukusa Church Of God,280,1
+Luanda,Mwibona,38214107007101,Ack St. Patrick Samaria,12,1
+Luanda,Luanda South,38214107103601,Esinamutu Nursey School,578,1
+Luanda,Luanda South,38214107103701,Ebussamba Primary School,523,1
+Luanda,Luanda South,38214107103702,Ebussamba Primary School,522,1
+Luanda,Luanda South,38214107103801,Ekwanda Primary School,685,1
+Luanda,Luanda South,38214107103802,Ekwanda Primary School,685,1
+Luanda,Luanda South,38214107103803,Ekwanda Primary School,684,1
+Luanda,Luanda South,38214107103901,Esibembe Primary School,500,1
+Luanda,Luanda South,38214107103902,Esibembe Primary School,499,1
+Luanda,Luanda South,38214107103903,Esibembe Primary School,499,1
+Luanda,Luanda South,38214107104001,Esirome R.C. Nursery School,475,1
+Luanda,Luanda South,38214107104101,Kaila Primary School,630,1
+Luanda,Luanda South,38214107104201,Ebumbayi Primary School,393,1
+Luanda,Luanda South,38214107104202,Ebumbayi Primary School,392,1
+Luanda,Luanda South,38214107104301,Khwiliba Primary School,562,1
+Luanda,Luanda South,38214107104302,Khwiliba Primary School,561,1
+Luanda,Luanda South,38214107104401,Esitsimi Nursery School,679,1
+Luanda,Luanda South,38214107104501,Emmaloba Primary School,411,1
+Luanda,Luanda South,38214107104502,Emmaloba Primary School,410,1
+Luanda,Luanda South,38214107104601,Ochuore Nursery School,424,1
+Luanda,Luanda South,38214107104701,Emukhuyu Ack Nursery School,454,1
+Luanda,Luanda South,38214107104702,Emukhuyu Ack Nursery School,454,1
+Luanda,Luanda South,38214107107201,Esibembe Pag Church,114,1
+Luanda,Luanda South,38214107107301,Ack St. Simon Church,238,1
+Luanda,Luanda South,38214107107401,Ack St. Clement Church,60,1
+Luanda,Luanda South,38214107107501,Mwilala Pag Church,52,1
+Luanda,Emabungo,38214107204801,Ebusakami Primary School,539,1
+Luanda,Emabungo,38214107204802,Ebusakami Primary School,539,1
+Luanda,Emabungo,38214107204803,Ebusakami Primary School,539,1
+Luanda,Emabungo,38214107204804,Ebusakami Primary School,538,1
+Luanda,Emabungo,38214107204901,Emanuel Ack Nursery School,257,1
+Luanda,Emabungo,38214107205001,Asiongo Primary School,400,1
+Luanda,Emabungo,38214107205101,Emmutsa Primary School,699,1
+Luanda,Emabungo,38214107205201,Ebulako Primary School,616,1
+Luanda,Emabungo,38214107205202,Ebulako Primary School,616,1
+Luanda,Emabungo,38214107205301,Emmatsi Primary School,611,1
+Luanda,Emabungo,38214107205401,Ebuhando Primary School,565,1
+Luanda,Emabungo,38214107205501,Emunwa Primary School,451,1
+Luanda,Emabungo,38214107205502,Emunwa Primary School,451,1
+Luanda,Emabungo,38214107205601,Emukhuya Primary School,376,1
+Luanda,Emabungo,38214107205701,Hobunaka Primary School,382,1
+Luanda,Emabungo,38214107205702,Hobunaka Primary School,381,1
+Luanda,Emabungo,38214107205801,Waluka Primary School,443,1
+Luanda,Emabungo,38214107205802,Waluka Primary School,443,1
+Luanda,Emabungo,38214107205901,Emuhaya Primary School,604,1
+Luanda,Emabungo,38214107206001,Wanakhale Primary School,566,1
+Luanda,Emabungo,38214107206002,Wanakhale Primary School,566,1
+Luanda,Emabungo,38214107206101,Kima Primary School,440,1
+Luanda,Emabungo,38214107206102,Kima Primary School,440,1
+Luanda,Emabungo,38214107206201,Ebwali Primary School,424,1
+Luanda,Emabungo,38214107206202,Ebwali Primary School,424,1
+Luanda,Emabungo,38214107207601,Mwitololo Nusery School,168,1
+Luanda,Emabungo,38214107207701,Musikangu Church Of God,17,1
+Luanda,Emabungo,38214107207801,Musitinyi Church Of God,37,1
+Luanda,Emabungo,38214107207901,Ibubi Primary School,18,1
+Luanda,Emabungo,38214107208001,Eliang'oma Church Of God,40,1
+Hamisi,Shiru,38213106100101,Kaimosi Friends Primary School,564,1
+Hamisi,Shiru,38213106100201,Makuchi Primary School,667,1
+Hamisi,Shiru,38213106100202,Makuchi Primary School,667,1
+Hamisi,Shiru,38213106100301,Shaviringa Primary School,426,1
+Hamisi,Shiru,38213106100302,Shaviringa Primary School,425,1
+Hamisi,Shiru,38213106100401,Kaptis Primary School,567,1
+Hamisi,Shiru,38213106100402,Kaptis Primary School,566,1
+Hamisi,Shiru,38213106100501,Shiru Primary School,594,1
+Hamisi,Shiru,38213106100502,Shiru Primary School,594,1
+Hamisi,Shiru,38213106100503,Shiru Primary School,593,1
+Hamisi,Shiru,38213106100601,Musunji Primary School,558,1
+Hamisi,Shiru,38213106100602,Musunji Primary School,558,1
+Hamisi,Shiru,38213106100701,Kaptik Primary School,577,1
+Hamisi,Shiru,38213106100702,Kaptik Primary School,577,1
+Hamisi,Shiru,38213106100801,Cheptulu Primary School,643,1
+Hamisi,Shiru,38213106100802,Cheptulu Primary School,642,1
+Hamisi,Shiru,38213106100803,Cheptulu Primary School,642,1
+Hamisi,Shiru,38213106100804,Cheptulu Primary School,642,1
+Hamisi,Shiru,38213106100901,Mahanga Primary School,422,1
+Hamisi,Shiru,38213106100902,Mahanga Primary School,422,1
+Hamisi,Shiru,38213106101001,Shipala Primary School,540,1
+Hamisi,Shiru,38213106101101,Bulukhombe Primary School,341,1
+Hamisi,Shiru,38213106101201,Kakubudu Primary School,459,1
+Hamisi,Gisambai,38213106201301,Gidagadi Primari School,368,1
+Hamisi,Gisambai,38213106201302,Gidagadi Primari School,368,1
+Hamisi,Gisambai,38213106201401,Gisambai Primary School,606,1
+Hamisi,Gisambai,38213106201402,Gisambai Primary School,605,1
+Hamisi,Gisambai,38213106201501,Gimomoi Primary School,402,1
+Hamisi,Gisambai,38213106201601,Munzatsi Primary School,455,1
+Hamisi,Gisambai,38213106201602,Munzatsi Primary School,454,1
+Hamisi,Gisambai,38213106201701,Gimengwa Primary School,416,1
+Hamisi,Gisambai,38213106201702,Gimengwa Primary School,416,1
+Hamisi,Gisambai,38213106201801,Gamoi Primary School,352,1
+Hamisi,Gisambai,38213106201802,Gamoi Primary School,351,1
+Hamisi,Gisambai,38213106201901,Gavudunyi Primary School,479,1
+Hamisi,Gisambai,38213106201902,Gavudunyi Primary School,479,1
+Hamisi,Gisambai,38213106202001,Jebrongo Primary School,395,1
+Hamisi,Gisambai,38213106202002,Jebrongo Primary School,395,1
+Hamisi,Gisambai,38213106202101,Shikomoli Primary School,409,1
+Hamisi,Gisambai,38213106202102,Shikomoli Primary School,408,1
+Hamisi,Gisambai,38213106202201,Saride Primary School,522,1
+Hamisi,Gisambai,38213106202301,Lwombei Primary School,606,1
+Hamisi,Gisambai,38213106202401,Galona Primary School,404,1
+Hamisi,Gisambai,38213106202402,Galona Primary School,404,1
+Hamisi,Gisambai,38213106202501,Jeblabuk Primary School,568,1
+Hamisi,Gisambai,38213106202601,Gimomoi Youth Polytechnic,354,1
+Hamisi,Shamakhokho,38213106302701,Kisasi Primary School,508,1
+Hamisi,Shamakhokho,38213106302702,Kisasi Primary School,508,1
+Hamisi,Shamakhokho,38213106302703,Kisasi Primary School,507,1
+Hamisi,Shamakhokho,38213106302801,Saosi Primary School,648,1
+Hamisi,Shamakhokho,38213106302901,Musutsu Primary School,606,1
+Hamisi,Shamakhokho,38213106303001,Shivembe Primary School,500,1
+Hamisi,Shamakhokho,38213106303101,Bumira Primary School,416,1
+Hamisi,Shamakhokho,38213106303102,Bumira Primary School,415,1
+Hamisi,Shamakhokho,38213106303201,Chebunaywa Primary School,491,1
+Hamisi,Shamakhokho,38213106303202,Chebunaywa Primary School,490,1
+Hamisi,Shamakhokho,38213106303301,Senende Primary School,432,1
+Hamisi,Shamakhokho,38213106303302,Senende Primary School,432,1
+Hamisi,Shamakhokho,38213106303401,Shamalago Primary School,417,1
+Hamisi,Shamakhokho,38213106303402,Shamalago Primary School,417,1
+Hamisi,Shamakhokho,38213106303501,Bumuyange Primary School,408,1
+Hamisi,Shamakhokho,38213106303502,Bumuyange Primary School,407,1
+Hamisi,Shamakhokho,38213106303601,Shamakhokho Primary School,625,1
+Hamisi,Shamakhokho,38213106303602,Shamakhokho Primary School,624,1
+Hamisi,Shamakhokho,38213106303603,Shamakhokho Primary School,624,1
+Hamisi,Shamakhokho,38213106303701,Butiti Primary School,491,1
+Hamisi,Shamakhokho,38213106303801,Erusui Primary Schhool,389,1
+Hamisi,Shamakhokho,38213106303802,Erusui Primary Schhool,389,1
+Hamisi,Shamakhokho,38213106303901,Mungavo Primary School,530,1
+Hamisi,Shamakhokho,38213106303902,Mungavo Primary School,530,1
+Hamisi,Shamakhokho,38213106303903,Mungavo Primary School,529,1
+Hamisi,Shamakhokho,38213106303904,Mungavo Primary School,529,1
+Hamisi,Shamakhokho,38213106304001,Kamluguywa Primary School,373,1
+Hamisi,Shamakhokho,38213106304002,Kamluguywa Primary School,373,1
+Hamisi,Shamakhokho,38213106304101,Kaptieni Primary School,301,1
+Hamisi,Shamakhokho,38213106304201,Virembe Primary School,594,1
+Hamisi,Banja,38213106404301,Kapsogoro Primary School,468,1
+Hamisi,Banja,38213106404302,Kapsogoro Primary School,467,1
+Hamisi,Banja,38213106404401,Musasa Primary School,391,1
+Hamisi,Banja,38213106404501,Kabinjari Primari School,564,1
+Hamisi,Banja,38213106404502,Kabinjari Primari School,564,1
+Hamisi,Banja,38213106404601,Kapsotik Primary School,605,1
+Hamisi,Banja,38213106404602,Kapsotik Primary School,605,1
+Hamisi,Banja,38213106404603,Kapsotik Primary School,604,1
+Hamisi,Banja,38213106404701,Kapsoi Primary School,593,1
+Hamisi,Banja,38213106404801,Goibei Primary School,696,1
+Hamisi,Banja,38213106404901,Banja Muslim Primary,504,1
+Hamisi,Banja,38213106404902,Banja Muslim Primary School,504,1
+Hamisi,Banja,38213106405001,Givogi Primary School,465,1
+Hamisi,Banja,38213106405002,Givogi Primary School,464,1
+Hamisi,Banja,38213106405101,Hamisi Primary School,479,1
+Hamisi,Banja,38213106405102,Hamisi Primary School,479,1
+Hamisi,Banja,38213106405103,Hamisi Primary School,478,1
+Hamisi,Banja,38213106405201,Kipsigori Primary School,485,1
+Hamisi,Banja,38213106405301,Mutiva Primary School,686,1
+Hamisi,Banja,38213106405401,Madeya Primary School,507,1
+Hamisi,Banja,38213106405501,Jeviriri Primary School,422,1
+Hamisi,Banja,38213106405601,Kapkoi Primary School,326,1
+Hamisi,Banja,38213106405701,Kimarani Primary School,594,1
+Hamisi,Muhudu,38213106505801,Bumbo Primary School,636,1
+Hamisi,Muhudu,38213106505802,Bumbo Primary School,636,1
+Hamisi,Muhudu,38213106505901,Jamulongoji Primary School,515,1
+Hamisi,Muhudu,38213106506001,Ivumbu Primary School,314,1
+Hamisi,Muhudu,38213106506101,Muhudu Primary School,586,1
+Hamisi,Muhudu,38213106506102,Muhudu Primary School,585,1
+Hamisi,Muhudu,38213106506201,Kaptech Primary School,671,1
+Hamisi,Muhudu,38213106506202,Kaptech Primary School,671,1
+Hamisi,Muhudu,38213106506301,Isikhi Primary School,556,1
+Hamisi,Muhudu,38213106506401,Muyere Primary School,419,1
+Hamisi,Muhudu,38213106506402,Muyere Primary School,418,1
+Hamisi,Muhudu,38213106506501,Siekuti Primary School,474,1
+Hamisi,Muhudu,38213106506502,Siekuti Primary School,473,1
+Hamisi,Muhudu,38213106506503,Siekuti Primary School,473,1
+Hamisi,Muhudu,38213106506601,Kaimosi Special School,558,1
+Hamisi,Muhudu,38213106506602,Kaimosi Special School,557,1
+Hamisi,Muhudu,38213106506701,Jivuye Primary School,641,1
+Hamisi,Tambua,38213106606801,Kinu Primary School,368,1
+Hamisi,Tambua,38213106606802,Kinu Primary School,367,1
+Hamisi,Tambua,38213106606901,Gimarakwa Primary School,423,1
+Hamisi,Tambua,38213106606902,Gimarakwa Primary School,422,1
+Hamisi,Tambua,38213106607001,Kitambanzi Primary School,469,1
+Hamisi,Tambua,38213106607101,Muhaya Primary School,462,1
+Hamisi,Tambua,38213106607102,Muhaya Primary School,461,1
+Hamisi,Tambua,38213106607201,Gimariani Primary School,368,1
+Hamisi,Tambua,38213106607202,Gimariani Primary School,367,1
+Hamisi,Tambua,38213106607301,Mwembe Primary School,672,1
+Hamisi,Tambua,38213106607401,Malinda Primary School,522,1
+Hamisi,Tambua,38213106607501,Ivola Primary School,468,1
+Hamisi,Tambua,38213106607502,Ivola Primary School,467,1
+Hamisi,Tambua,38213106607601,Givudemesi Primary School,589,1
+Hamisi,Tambua,38213106607701,Simbi Primary School,488,1
+Hamisi,Tambua,38213106607702,Simbi Primary School,488,1
+Hamisi,Tambua,38213106607703,Simbi Primary School,488,1
+Hamisi,Tambua,38213106607801,Gamalenga Primary School,511,1
+Hamisi,Tambua,38213106607802,Gamalenga Primary School,510,1
+Hamisi,Tambua,38213106607901,Boyani Youth Polytechnic,354,1
+Hamisi,Tambua,38213106608001,Nyang'ori Primary School,447,1
+Hamisi,Tambua,38213106608002,Nyang'ori Primary School,446,1
+Hamisi,Tambua,38213106608101,Mutave Primary School,378,1
+Hamisi,Tambua,38213106608102,Mutave Primary School,378,1
+Hamisi,Jepkoyai,38213106708201,Itieng'ere Primary School,366,1
+Hamisi,Jepkoyai,38213106708202,Itieng'ere Primary School,366,1
+Hamisi,Jepkoyai,38213106708301,Kitagwa Primary School,447,1
+Hamisi,Jepkoyai,38213106708302,Kitagwa Primary School,447,1
+Hamisi,Jepkoyai,38213106708401,Musiri Primary School,458,1
+Hamisi,Jepkoyai,38213106708402,Musiri Primary School,457,1
+Hamisi,Jepkoyai,38213106708501,Buyangu Prmary School,494,1
+Hamisi,Jepkoyai,38213106708502,Buyangu Prmary School,493,1
+Hamisi,Jepkoyai,38213106708601,Givole Primary School,528,1
+Hamisi,Jepkoyai,38213106708602,Givole Primary School,528,1
+Hamisi,Jepkoyai,38213106708603,Givole Primary School,528,1
+Hamisi,Jepkoyai,38213106708701,Boyani Primary School,450,1
+Hamisi,Jepkoyai,38213106708702,Boyani Primary School,450,1
+Hamisi,Jepkoyai,38213106708801,Tigoi Primary School,566,1
+Hamisi,Jepkoyai,38213106708802,Tigoi Primary School,566,1
+Hamisi,Jepkoyai,38213106708803,Tigoi Primary School,565,1
+Hamisi,Jepkoyai,38213106708901,Jepkoyai Primary School,487,1
+Hamisi,Jepkoyai,38213106708902,Jepkoyai Primary School,487,1
+Hamisi,Jepkoyai,38213106708903,Jepkoyai Primary School,486,1
+Hamisi,Jepkoyai,38213106709001,Kapchemugung' Primary School,689,1
+Hamisi,Jepkoyai,38213106709101,Zululu Primary School,365,1
+Hamisi,Jepkoyai,38213106709102,Zululu Primary School,365,1
+Hamisi,Jepkoyai,38213106709201,Mudindi Primary School,345,1
+Sabatia,Lyaduywa/Izava,38212105500101,Elwunza Primary School,461,1
+Sabatia,Lyaduywa/Izava,38212105500102,Elwunza Primary School,461,1
+Sabatia,Lyaduywa/Izava,38212105500201,Mukingi Primary School,523,1
+Sabatia,Lyaduywa/Izava,38212105500202,Mukingi Primary School,522,1
+Sabatia,Lyaduywa/Izava,38212105500301,Lyaduywa Primary School,602,1
+Sabatia,Lyaduywa/Izava,38212105500302,Lyaduywa Primary School,601,1
+Sabatia,Lyaduywa/Izava,38212105500303,Lyaduywa Primary School,601,1
+Sabatia,Lyaduywa/Izava,38212105500401,Munugi Primary School,436,1
+Sabatia,Lyaduywa/Izava,38212105500402,Munugi Primary School,435,1
+Sabatia,Lyaduywa/Izava,38212105500501,Hamadira Primary School,545,1
+Sabatia,Lyaduywa/Izava,38212105500601,Demesi Primary School,483,1
+Sabatia,Lyaduywa/Izava,38212105500602,Demesi Primary School,482,1
+Sabatia,Lyaduywa/Izava,38212105500603,Demesi Primary School,482,1
+Sabatia,Lyaduywa/Izava,38212105500701,Mbale Primary School,492,1
+Sabatia,Lyaduywa/Izava,38212105500702,Mbale Primary School,492,1
+Sabatia,Lyaduywa/Izava,38212105500703,Mbale Primary School,492,1
+Sabatia,Lyaduywa/Izava,38212105500801,Mbale High School,667,1
+Sabatia,Lyaduywa/Izava,38212105500802,Mbale High School,666,1
+Sabatia,Lyaduywa/Izava,38212105500803,Mbale High School,666,1
+Sabatia,Lyaduywa/Izava,38212105500901,Boyusuf Primary School,416,1
+Sabatia,Lyaduywa/Izava,38212105501001,Itando Rehabilitation Center,473,1
+Sabatia,Lyaduywa/Izava,38212105501002,Itando Rehabilitation Center,472,1
+Sabatia,Lyaduywa/Izava,38212105501101,Kibaala Primary School,573,1
+Sabatia,Lyaduywa/Izava,38212105501201,Munoywa Primary School,435,1
+Sabatia,Lyaduywa/Izava,38212105501202,Munoywa Primary School,435,1
+Sabatia,Lyaduywa/Izava,38212105501301,Bukulunya Primary School,459,1
+Sabatia,Lyaduywa/Izava,38212105501302,Bukulunya Primary School,459,1
+Sabatia,Lyaduywa/Izava,38212105501401,Endeli Primary School,534,1
+Sabatia,Lyaduywa/Izava,38212105501402,Endeli Primary School,534,1
+Sabatia,West Sabatia,38212105601501,Wangulu Primary School,588,1
+Sabatia,West Sabatia,38212105601601,Madegwa Primary School,367,1
+Sabatia,West Sabatia,38212105601602,Madegwa Primary School,367,1
+Sabatia,West Sabatia,38212105601701,Ivona Primary School,554,1
+Sabatia,West Sabatia,38212105601702,Ivona Primary School,554,1
+Sabatia,West Sabatia,38212105601703,Ivona Primary School,553,1
+Sabatia,West Sabatia,38212105601801,Kisatiru Primary School,594,1
+Sabatia,West Sabatia,38212105601802,Kisatiru Primary School,593,1
+Sabatia,West Sabatia,38212105601901,Mulele Primary School,360,1
+Sabatia,West Sabatia,38212105601902,Mulele Primary School,359,1
+Sabatia,West Sabatia,38212105602001,Keveye Primary School,471,1
+Sabatia,West Sabatia,38212105602002,Keveye Primary School,471,1
+Sabatia,West Sabatia,38212105602003,Keveye Primary School,471,1
+Sabatia,West Sabatia,38212105602101,Vihindi Primary School,530,1
+Sabatia,West Sabatia,38212105602201,Chandumba School,678,1
+Sabatia,West Sabatia,38212105602202,Chandumba School,677,1
+Sabatia,West Sabatia,38212105602301,Kegondi Primary School,524,1
+Sabatia,West Sabatia,38212105602302,Kegondi Primary School,524,1
+Sabatia,West Sabatia,38212105602303,Kegondi Primary School,523,1
+Sabatia,West Sabatia,38212105602401,Galoni Primary School,537,1
+Sabatia,West Sabatia,38212105602501,Hamuyundi Primary School,513,1
+Sabatia,West Sabatia,38212105602502,Hamuyundi Primary School,512,1
+Sabatia,West Sabatia,38212105602601,Hombala Primary School,610,1
+Sabatia,Chavakali,38212105702701,Halombove Primary School,696,1
+Sabatia,Chavakali,38212105702801,Viyalo Primary School,672,1
+Sabatia,Chavakali,38212105702802,Viyalo Primary School,671,1
+Sabatia,Chavakali,38212105702901,Wamage Primary School,569,1
+Sabatia,Chavakali,38212105702902,Wamage Primary School,569,1
+Sabatia,Chavakali,38212105703001,Havuyiya Primary School,452,1
+Sabatia,Chavakali,38212105703002,Havuyiya Primary School,452,1
+Sabatia,Chavakali,38212105703101,Igunga Primary School,555,1
+Sabatia,Chavakali,38212105703102,Igunga Primary School,555,1
+Sabatia,Chavakali,38212105703103,Igunga Primary School,554,1
+Sabatia,Chavakali,38212105703201,Mudete Primary School,478,1
+Sabatia,Chavakali,38212105703301,Evojo Primary School,444,1
+Sabatia,Chavakali,38212105703302,Evojo Primary School,444,1
+Sabatia,Chavakali,38212105703401,Chavakali Primary School,580,1
+Sabatia,Chavakali,38212105703402,Chavakali Primary School,580,1
+Sabatia,Chavakali,38212105703501,Walodeya Primary School,574,1
+Sabatia,Chavakali,38212105703502,Walodeya Primary School,573,1
+Sabatia,Chavakali,38212105703503,Walodeya Primary School,573,1
+Sabatia,Chavakali,38212105703504,Walodeya Primary School,573,1
+Sabatia,North Maragoli,38212105803601,Mutambi Primary School,587,1
+Sabatia,North Maragoli,38212105803701,Mulundu Primary School,416,1
+Sabatia,North Maragoli,38212105803702,Mulundu Primary School,415,1
+Sabatia,North Maragoli,38212105803801,Chugi Primary School,327,1
+Sabatia,North Maragoli,38212105803901,Inyali Primary School,694,1
+Sabatia,North Maragoli,38212105804001,Kigama Primary School,610,1
+Sabatia,North Maragoli,38212105804002,Kigama Primary School,610,1
+Sabatia,North Maragoli,38212105804003,Kigama Primary School,609,1
+Sabatia,North Maragoli,38212105804101,Digula Primary School,670,1
+Sabatia,North Maragoli,38212105804102,Digula Primary School,669,1
+Sabatia,North Maragoli,38212105804201,Vohovole Primary School,650,1
+Sabatia,North Maragoli,38212105804202,Vohovole Primary School,650,1
+Sabatia,North Maragoli,38212105804301,Ikuvu Primary School,576,1
+Sabatia,North Maragoli,38212105804302,Ikuvu Primary School,575,1
+Sabatia,North Maragoli,38212105804401,Kisangula Primary School,410,1
+Sabatia,North Maragoli,38212105804402,Kisangula Primary School,409,1
+Sabatia,North Maragoli,38212105804501,Kivagala Primary School,479,1
+Sabatia,North Maragoli,38212105804502,Kivagala Primary School,479,1
+Sabatia,North Maragoli,38212105804503,Kivagala Primary School,479,1
+Sabatia,Wodanga,38212105904601,Gavudia Primary School,526,1
+Sabatia,Wodanga,38212105904701,Mudungu Primary School,429,1
+Sabatia,Wodanga,38212105904702,Mudungu Primary School,428,1
+Sabatia,Wodanga,38212105904801,Gahumbwa Primary School,402,1
+Sabatia,Wodanga,38212105904802,Gahumbwa Primary School,401,1
+Sabatia,Wodanga,38212105904901,Givudianyi Primary School,517,1
+Sabatia,Wodanga,38212105905001,Lusengeli Primary School,562,1
+Sabatia,Wodanga,38212105905002,Lusengeli Primary School,561,1
+Sabatia,Wodanga,38212105905101,Mago Primary School,384,1
+Sabatia,Wodanga,38212105905102,Mago Primary School,384,1
+Sabatia,Wodanga,38212105905201,Gaigedi Primary School,434,1
+Sabatia,Wodanga,38212105905202,Gaigedi Primary School,433,1
+Sabatia,Wodanga,38212105905301,Nabwani Primary School,536,1
+Sabatia,Wodanga,38212105905302,Nabwani Primary School,535,1
+Sabatia,Wodanga,38212105905401,Wagevi Primary School,509,1
+Sabatia,Wodanga,38212105905501,Jemovo Primary School,467,1
+Sabatia,Wodanga,38212105905601,Mambai Primary School,466,1
+Sabatia,Wodanga,38212105905602,Mambai Primary School,466,1
+Sabatia,Wodanga,38212105905701,Mukunya Primary School,603,1
+Sabatia,Wodanga,38212105905801,Sabatia Pri School,682,1
+Sabatia,Wodanga,38212105905802,Sabatia Pri School,681,1
+Sabatia,Wodanga,38212105905901,Moi Vokoli Secondary School,473,1
+Sabatia,Wodanga,38212105905902,Moi Vokoli Secondary School,472,1
+Sabatia,Busali,38212106006001,Itegero Primary School,578,1
+Sabatia,Busali,38212106006002,Itegero Primary School,577,1
+Sabatia,Busali,38212106006101,Lotego Primary School,356,1
+Sabatia,Busali,38212106006201,Busweta Primary School,568,1
+Sabatia,Busali,38212106006202,Busweta Primary School,568,1
+Sabatia,Busali,38212106006301,Elunyu Primary School,463,1
+Sabatia,Busali,38212106006401,Ikobero Primary School,548,1
+Sabatia,Busali,38212106006501,Chavogere Primary School,470,1
+Sabatia,Busali,38212106006502,Chavogere Primary School,470,1
+Sabatia,Busali,38212106006503,Chavogere Primary School,469,1
+Sabatia,Busali,38212106006601,Maganyi Primary School,482,1
+Sabatia,Busali,38212106006701,Hakerongo Primary School,401,1
+Sabatia,Busali,38212106006801,Chekombero Primary School,421,1
+Sabatia,Busali,38212106006802,Chekombero Primary School,421,1
+Sabatia,Busali,38212106006901,Logemo Primary School,349,1
+Sabatia,Busali,38212106007001,Chamakanga Primary School,463,1
+Sabatia,Busali,38212106007002,Chamakanga Primary School,463,1
+Sabatia,Busali,38212106007101,Mululu Primary School,560,1
+Sabatia,Busali,38212106007201,Budaywa Primary School,562,1
+Sabatia,Busali,38212106007202,Budaywa Primary School,562,1
+Sabatia,Busali,38212106007301,Kilagilu Primary School,324,1
+Sabatia,Busali,38212106007401,Bugina Primary School,459,1
+Sabatia,Busali,38212106007402,Bugina Primary School,458,1
+Sabatia,Busali,38212106007501,Chatamilu Primary School,413,1
+Sabatia,Busali,38212106007502,Chatamilu Primary School,412,1
+Vihiga,Lugaga-Wamuluma,038211105100101,Visiru Primary School,574,1
+Vihiga,Lugaga-Wamuluma,038211105100201,Matagalu Primary School,643,1
+Vihiga,Lugaga-Wamuluma,038211105100301,Magui Primary School,507,1
+Vihiga,Lugaga-Wamuluma,038211105100302,Magui Primary School,507,1
+Vihiga,Lugaga-Wamuluma,038211105100401,Igakala Primary School,525,1
+Vihiga,Lugaga-Wamuluma,038211105100501,Iduku Primary School,478,1
+Vihiga,Lugaga-Wamuluma,038211105100502,Iduku Primary School,477,1
+Vihiga,Lugaga-Wamuluma,038211105100601,Madira Primary School,566,1
+Vihiga,Lugaga-Wamuluma,038211105100602,Madira Primary School,565,1
+Vihiga,Lugaga-Wamuluma,038211105100701,Kedohi Primary School,384,1
+Vihiga,Lugaga-Wamuluma,038211105100702,Kedohi Primary School,384,1
+Vihiga,Lugaga-Wamuluma,038211105100801,Muhanda Primary School,518,1
+Vihiga,Lugaga-Wamuluma,038211105100802,Muhanda Primary School,518,1
+Vihiga,Lugaga-Wamuluma,038211105100901,Vunandi Primary School,635,1
+Vihiga,Lugaga-Wamuluma,038211105101001,Ingidi Primary School,371,1
+Vihiga,Lugaga-Wamuluma,038211105101002,Ingidi Primary School,370,1
+Vihiga,Lugaga-Wamuluma,038211105101101,Idavaga Primary School,539,1
+Vihiga,Lugaga-Wamuluma,038211105101102,Idavaga Primary School,539,1
+Vihiga,Lugaga-Wamuluma,038211105101103,Idavaga Primary School,538,1
+Vihiga,Lugaga-Wamuluma,038211105101201,Mbihi Primary School,598,1
+Vihiga,Lugaga-Wamuluma,038211105101202,Mbihi Primary School,597,1
+Vihiga,Lugaga-Wamuluma,038211105101301,Chanzuvu Primary School,449,1
+Vihiga,Lugaga-Wamuluma,038211105101401,Mukuli Primary School,533,1
+Vihiga,Lugaga-Wamuluma,038211105101402,Mukuli Primary School,532,1
+Vihiga,Lugaga-Wamuluma,038211105101501,Hambale Primary School,368,1
+Vihiga,Lugaga-Wamuluma,038211105101502,Hambale Primary School,367,1
+Vihiga,Lugaga-Wamuluma,038211105101601,Vumale Primary School,582,1
+Vihiga,Lugaga-Wamuluma,038211105101602,Vumale Primary School,582,1
+Vihiga,Lugaga-Wamuluma,038211105101701,Kegoye Primary School,472,1
+Vihiga,Lugaga-Wamuluma,038211105101702,Kegoye Primary School,472,1
+Vihiga,Lugaga-Wamuluma,038211105101703,Kegoye Primary School,471,1
+Vihiga,Lugaga-Wamuluma,038211105101801,Chambiti Primary School,609,1
+Vihiga,Lugaga-Wamuluma,038211105101802,Chambiti Primary School,608,1
+Vihiga,Lugaga-Wamuluma,038211105101901,Chanda Primary School,503,1
+Vihiga,South Maragoli,038211105202001,Ideleri Primary School,688,1
+Vihiga,South Maragoli,038211105202002,Ideleri Primary School,688,1
+Vihiga,South Maragoli,038211105202101,Gavalagi Primary School,472,1
+Vihiga,South Maragoli,038211105202102,Gavalagi Primary School,471,1
+Vihiga,South Maragoli,038211105202201,Lyamidi Primary School,312,1
+Vihiga,South Maragoli,038211105202301,Chandolo Primary School,660,1
+Vihiga,South Maragoli,038211105202401,Madzugi Primary School,656,1
+Vihiga,South Maragoli,038211105202501,Vigetse Primary School,442,1
+Vihiga,South Maragoli,038211105202502,Vigetse Primary School,441,1
+Vihiga,South Maragoli,038211105202601,Hamasana Primary School,671,1
+Vihiga,South Maragoli,038211105202602,Hamasana Primary School,670,1
+Vihiga,South Maragoli,038211105202603,Hamasana Primary School,670,1
+Vihiga,South Maragoli,038211105202701,Mwoki Primary School,376,1
+Vihiga,South Maragoli,038211105202702,Mwoki Primary School,375,1
+Vihiga,South Maragoli,038211105202801,Inyanza Primary School,428,1
+Vihiga,South Maragoli,038211105202802,Inyanza Primary School,427,1
+Vihiga,South Maragoli,038211105202901,Gilwatsi Primary School,488,1
+Vihiga,South Maragoli,038211105202902,Gilwatsi Primary School,487,1
+Vihiga,South Maragoli,038211105203001,Lusavasavi Primary,440,1
+Vihiga,South Maragoli,038211105203002,Lusavasavi Primary,439,1
+Vihiga,South Maragoli,038211105203101,Chandugunyi Primary,446,1
+Vihiga,South Maragoli,038211105203102,Chandugunyi Primary,445,1
+Vihiga,Central Maragoli,038211105303201,Kidundu Primary School,690,1
+Vihiga,Central Maragoli,038211105303202,Kidundu Primary School,690,1
+Vihiga,Central Maragoli,038211105303301,Womulalu Primary School,628,1
+Vihiga,Central Maragoli,038211105303302,Womulalu Primary School,627,1
+Vihiga,Central Maragoli,038211105303401,Keveye Youth Polytecnic,677,1
+Vihiga,Central Maragoli,038211105303402,Keveye Youth Polytecnic,676,1
+Vihiga,Central Maragoli,038211105303501,Navuhi Primary School,515,1
+Vihiga,Central Maragoli,038211105303601,Kidinye Primary School,388,1
+Vihiga,Central Maragoli,038211105303602,Kidinye Primary School,387,1
+Vihiga,Central Maragoli,038211105303701,Emanda Primary School,553,1
+Vihiga,Central Maragoli,038211105303702,Emanda Primary School,553,1
+Vihiga,Central Maragoli,038211105303801,Ikumba Primary School,573,1
+Vihiga,Central Maragoli,038211105303802,Ikumba Primary School,572,1
+Vihiga,Central Maragoli,038211105303803,Ikumba Primary School,572,1
+Vihiga,Central Maragoli,038211105303901,Vihiga Primary School,571,1
+Vihiga,Central Maragoli,038211105303902,Vihiga Primary School,570,1
+Vihiga,Central Maragoli,038211105304001,Kegendirova Primary,545,1
+Vihiga,Central Maragoli,038211105304101,Chango Primary School,480,1
+Vihiga,Central Maragoli,038211105304102,Chango Primary School,479,1
+Vihiga,Central Maragoli,038211105304103,Chango Primary School,479,1
+Vihiga,Central Maragoli,038211105304201,Chavugami Primary,660,1
+Vihiga,Central Maragoli,038211105304301,Matsigulu Primary School,615,1
+Vihiga,Central Maragoli,038211105304302,Matsigulu Primary School,614,1
+Vihiga,Mungoma,038211105404401,Kerongo Primary School,570,1
+Vihiga,Mungoma,038211105404501,Lyamagale Primary School,684,1
+Vihiga,Mungoma,038211105404601,Kitumba Primary School,565,1
+Vihiga,Mungoma,038211105404602,Kitumba Primary School,565,1
+Vihiga,Mungoma,038211105404701,Chavavo Primary School,588,1
+Vihiga,Mungoma,038211105404702,Chavavo Primary School,587,1
+Vihiga,Mungoma,038211105404801,Chanzeywe Primary School,579,1
+Vihiga,Mungoma,038211105404901,Mahanga Primary School,655,1
+Vihiga,Mungoma,038211105404902,Mahanga Primary School,655,1
+Vihiga,Mungoma,038211105405001,Kisienya Primary School,369,1
+Vihiga,Mungoma,038211105405002,Kisienya Primary School,369,1
+Vihiga,Mungoma,038211105405101,Ihyagalo Primary School,431,1
+Vihiga,Mungoma,038211105405201,Chambale Primary School,584,1
+Vihiga,Mungoma,038211105405301,Vigina Primary School,652,1
+Vihiga,Mungoma,038211105405302,Vigina Primary School,651,1
+Vihiga,Mungoma,038211105405303,Vigina Primary School,651,1
+Vihiga,Mungoma,038211105405401,Kitulu Primary School,504,1
+Vihiga,Mungoma,038211105405402,Kitulu Primary School,503,1
+Vihiga,Mungoma,038211105405501,Musunguti Primary School,440,1

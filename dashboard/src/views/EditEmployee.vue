@@ -17,13 +17,6 @@
 							<p>{{profile.designation}}</p>
 						</div>
 					</a-col>
-					<a-col :span="24" :md="12" style="display: flex; align-items: center; justify-content: flex-end">
-						<a-radio-group v-model="profileHeaderBtns" size="small">
-							<a-radio-button value="overview">OVERVIEW</a-radio-button>
-							<a-radio-button value="teams">TEAMS</a-radio-button>
-							<a-radio-button value="projects">PROJECTS</a-radio-button>
-						</a-radio-group>
-					</a-col>
 				</a-row>
 			</template>
 		</a-card>

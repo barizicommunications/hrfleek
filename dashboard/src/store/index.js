@@ -12,6 +12,7 @@ export default new Vuex.Store({
     userProfile: {},
     clients: [],
     employees: [],
+    calendars:[],
     loading: false,
     currentClient :{},
     error: "",
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     setEmployees(state, val) {
       state.employees = val;
     },
+    setCalendars(state,val){
+      state.calendars=val
+    }
   },
   actions: {
     /**
@@ -215,6 +219,47 @@ export default new Vuex.Store({
         .doc(employee.id)
         .delete();
       return result;
+    },
+    async createCalender({ state }, data){
+
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      const payload ={
+        calendar_name:data.calendar_name,
+        department:data.department,
+        date:data.date.toDate(),
+        payment_cycle:data.payment_cycle
+
+      }
+      await fb.businessCollection
+      .doc(selectedClient.kra_pin)
+      .collection("calendars")
+      .add(payload).then(()=>{
+        state.loading=false
+        swal({
+          title: "success!",
+          text: `calendar added successfully`,
+          icon: "success",
+        });
+      }).catch((err)=>{
+        state.loading=false
+        swal({
+          title: "OOPS!",
+          text: `${err.message}`,
+          icon: "error",
+        });
+      })
+    },
+    async getCalendars({ commit }) {
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      fb.businessCollection.doc(selectedClient.kra_pin).collection("calendars").onSnapshot((snapshot) => {
+        const loadedCalendars = [];
+        snapshot.forEach((doc) => {
+          
+          const loadedCalendar = doc.data();
+          (loadedCalendar.id = doc.id), loadedCalendars.push(loadedCalendar);
+        });
+        commit("setCalendars", loadedCalendars);
+      });
     },
   },
   modules: {},

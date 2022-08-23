@@ -95,6 +95,11 @@ let routes = [
 		name: 'Sign-In',
 		component: () => import('../views/Sign-In.vue'),
 	},
+	{
+		path: '/otp-screen',
+		name: 'Otp-Screen',
+		component: () => import('../views/Otp-screen.vue'),
+	},
 
 ]
 

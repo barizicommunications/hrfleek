@@ -1,0 +1,207 @@
+<template>
+  <div class="sign-in">
+    <a-row type="flex" :gutter="[24, 24]" justify="space-around" align="middle">
+      <!-- Sign In Form Column -->
+      <a-col
+        :span="24"
+        :md="12"
+        :lg="{ span: 12, offset: 0 }"
+        :xl="{ span: 6, offset: 2 }"
+        class="col-form"
+      >
+        <h1 class="mb-15">Phone Verification</h1>
+        <h5 class="font-regular text-muted" v-if="authenticated">
+          Enter sms code to proceed
+        </h5>
+        <h5 class="font-regular text-muted" v-else>
+          Enter your a valid phone number to verify
+        </h5>
+
+        <!-- Sign In Form -->
+        <a-form
+          id="components-form-demo-normal-login"
+          :form="form"
+          class="login-form"
+          @submit.prevent="confirmOtp"
+          :hideRequiredMark="true"
+          v-if="authenticated"
+        >
+          <a-form-item class="mb-10" label="Confirmation Code" :colon="false">
+            <a-input-group compact>
+              <a-input
+                v-decorator="[
+                  'otp_code',
+                  {
+                    rules: [
+                      { required: true, message: 'Please input sms code!' },
+                    ],
+                  },
+                ]"
+                placeholder=""
+                style="width: calc(100% - 100px)"
+              />
+              <a-button
+                type="primary"
+                html-type="submit"
+                :loading="loading"
+                >Confirm</a-button
+              >
+            </a-input-group>
+          </a-form-item>
+        </a-form>
+        <a-form
+          id="components-form-demo-normal-login"
+          :form="form"
+          class="login-form"
+          @submit.prevent="handleSubmit"
+          :hideRequiredMark="true"
+          v-else
+        >
+          <a-form-item class="mb-10" label="Phone Number" :colon="false">
+            <a-input-group compact>
+              <a-input
+                v-decorator="[
+                  'phone_number',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input your phone number!',
+                      },
+                    ],
+                  },
+                ]"
+                placeholder="705******"
+                addon-before="+254"
+                style="width: calc(100% - 100px)"
+              />
+              <a-button
+                type="primary"
+                html-type="submit"
+                id="otp-verfiy-button"
+                :loading="loading"
+                >Confirm</a-button
+              >
+            </a-input-group>
+          </a-form-item>
+        </a-form>
+
+        <!-- / Sign In Form -->
+      </a-col>
+      <!-- / Sign In Form Column -->
+
+      <!-- Sign In Image Column -->
+      <a-col :span="24" :md="12" :lg="12" :xl="12" class="col-img">
+        <img src="images/signup-img.jpg" alt="" />
+      </a-col>
+      <!-- Sign In Image Column -->
+    </a-row>
+  </div>
+</template>
+
+<script>
+import * as fb from "../firebase";
+import router from "../router/index";
+export default {
+  data() {
+    return {
+      // Binded model property for "Sign In Form" switch button for "Remember Me" .
+      loading: false,
+      rememberMe: true,
+      authenticated: true,
+    };
+  },
+  beforeCreate() {
+    // Creates the form and adds to it component's "form" property.
+    this.form = this.$form.createForm(this, { name: "normal_login" });
+  },
+  methods: {
+    // configure recaptcha
+    configureRecaptcha() {
+      window.recaptchaVerifier = new fb.capture.RecaptchaVerifier(
+        "otp-verfiy-button",
+        {
+          size: "invisible",
+        }
+      );
+    },
+    // handle otpsend
+    sendOtpForVerification(phoneNumber) {
+      this.configureRecaptcha();
+      const appVerifier = window.recaptchaVerifier;
+      fb.auth.languageCode = "en";
+      fb.auth
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          this.$message.success("Otp sent successfully");
+          this.authenticated = true;
+          this.loading = false;
+        })
+        .catch((err) => {
+          // Error; SMS not sent
+          swal({
+            title: "OOPS!",
+            text: `${err.message}`,
+            icon: "error",
+          });
+          window.recaptchaVerifier.render().then(function (widgetId) {
+            grecaptcha.reset(widgetId);
+          });
+          this.loading = false;
+        });
+    },
+    async confirmOtp() {
+      await this.form.validateFields((err, values) => {
+        if (!err) {
+          this.loading = true;
+          window.confirmationResult
+            .confirm(values.otp_code)
+            .then(async (result) => {
+                 router.push("/dashboard");
+                 this.loading=false
+              // ...
+            })
+            .catch((error) => {
+              this.loading = false;
+              // User couldn't sign in (bad verification code?)
+              // ...
+              swal({
+                title: "OOPS!",
+                text: `${error.message}`,
+                icon: "error",
+              });
+              window.recaptchaVerifier.render().then(function (widgetId) {
+                grecaptcha.reset(widgetId);
+              });
+            });
+        }
+      });
+    },
+    resendOtp() {
+      this.sendOtpForVerification();
+    },
+    // Handles input validation after submission.
+    async handleSubmit(e) {
+      e.preventDefault();
+      await this.form.validateFields(async (err, values) => {
+        if (!err) {
+          this.loading = true;
+          this.sendOtpForVerification(values.phone_number);
+          this.form.resetFields();
+        }
+      });
+    },
+  },
+  computed: {},
+  mounted() {},
+};
+</script>
+
+<style lang="scss">
+body {
+  background-color: #ffffff;
+}
+</style>

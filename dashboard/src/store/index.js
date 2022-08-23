@@ -165,23 +165,27 @@ export default new Vuex.Store({
       state.loading=true
           const payload ={
           email: data.email,
+          address:data.address??"",
           phone_number: data.phone_number,
           kra_pin:data.kra_pin,
           national_id:data.national_id,
-          satus:data.status,
+          status:data.status,
           allowances:data.allowances??[],
           bank_name:data.bank_name,
           account_number:data.account_number,
-          accountName:data.account_name,
+          account_name:data.account_name,
           bank_branch:data.branch_name,       
-          full_name:data.first_name +data.last_name,
+          first_name:data.first_name ,
+          last_name:data.last_name,
+          full_name:data.first_name+data.last_name,
           department:data.department,
           designation:data.designation,
           pay_rate:0,
           hours_worked:0,
           basic_pay:data.basic_pay,
-          deductions:data.deductions,
-          net_pay:0
+          deductions:data.deductions??[],
+          net_pay:0,
+          employment_type:""
         }
      await fb.businessCollection
         .doc(selectedClient.kra_pin)

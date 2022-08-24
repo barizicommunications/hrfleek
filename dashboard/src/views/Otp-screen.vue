@@ -18,7 +18,7 @@
         </h5>
 
         <!-- Sign In Form -->
-          <a-form
+        <a-form
           id="components-form-demo-normal-login"
           :form="form"
           class="login-form"
@@ -72,7 +72,7 @@
               <a-button
                 type="primary"
                 html-type="submit"
-                 id="otp-verfiy-button"
+                id="otp-verfiy-button"
                 :loading="loading"
                 >VERIFY</a-button
               >
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { runInThisContext } from "vm";
 import * as fb from "../firebase";
 import router from "../router/index";
 export default {
@@ -148,20 +149,20 @@ export default {
           this.loading = false;
         });
     },
-      confirmOtp() {
-      this.loading=true
+    confirmOtp() {
+      this.loading = true;
       window.confirmationResult
         .confirm(this.code)
         .then(async (result) => {
           console.log(result);
-            router.push("dashboard");
+          router.push("dashboard");
           // ...
         })
         .catch((error) => {
-          this.loading =false
+          this.loading = false;
           // User couldn't sign in (bad verification code?)
           // ...
-             swal({
+          swal({
             title: "OOPS!",
             text: `${error.message}`,
             icon: "error",
@@ -176,13 +177,31 @@ export default {
       this.sendOtpForVerification();
     },
     // Handles input validation after submission.
-    async handleSubmit(e) {
+    handleSubmit(e) {
       e.preventDefault();
-      await this.form.validateFields(async (err, values) => {
+      this.form.validateFields((err, values) => {
         if (!err) {
           this.loading = true;
-          this.sendOtpForVerification(values.phone_number);
-          this.form.resetFields();
+          const format1 = "7";
+          const format2 = "07";
+          const format3 = "+254";
+          if (values.phone_number.startsWith(format1)) {
+            let formatted_number = "+254" + values.phone_number;
+            this.sendOtpForVerification(formatted_number);
+            this.form.resetFields();
+          } else if (values.phone_number.startsWith(format2)) {
+            let formatted_number = "+254" + values.phone_number.substring(1);
+            this.sendOtpForVerification(formatted_number);
+            this.form.resetFields();
+          } else if (values.phone_number.startsWith(format3)) {
+            let formatted_number = "+254" + values.phone_number.substring(4);
+            this.sendOtpForVerification(formatted_number);
+            //this.visible=true
+            this.form.resetFields();
+          } else {
+            this.$message.error("please enter a valid phone number format");
+            this.form.resetFields();
+          }
         }
       });
     },

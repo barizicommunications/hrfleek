@@ -1,52 +1,63 @@
 <template>
-  <a-calendar  @select="onSelect">
+  <a-calendar @select="onSelect">
     <ul slot="dateCellRender" slot-scope="value" class="events">
       <li v-for="item in getListData(value)" :key="item.id">
         <a-badge status="success" :text="item.calendar_name" />
       </li>
     </ul>
     <template slot="monthCellRender" slot-scope="value">
-      <div v-if="getMonthData(value)" class="notes-month">
-        
-      </div>
+      <div v-if="getMonthData(value)" class="notes-month"></div>
     </template>
   </a-calendar>
 </template>
 <script>
-import moment from 'moment';
-import { mapState } from 'vuex';
+import moment from "moment";
+import { mapState } from "vuex";
 export default {
-  data(){
+  data() {
     return {
-      setevents:[
-            { date: moment('2012-08-15'),type: 'warning', content: 'meeting with ron.' },
-            {date: moment('2012-08-05'), type: 'success', content: 'Wedding at crystal.' },
-             {date: moment('2017-08-20'), type: 'success', content: 'moment with java.' },
-          ]
-    }
+      setevents: [
+        {
+          date: moment("2012-08-15"),
+          type: "warning",
+          content: "meeting with ron.",
+        },
+        {
+          date: moment("2012-08-05"),
+          type: "success",
+          content: "Wedding at crystal.",
+        },
+        {
+          date: moment("2017-08-20"),
+          type: "success",
+          content: "moment with java.",
+        },
+      ],
+    };
   },
 
   methods: {
-        onPanelChange(value, mode) {
-         
+    onPanelChange(value, mode) {
       console.log(value, mode);
     },
     onSelect(value) {
-       let date =value.toDate();
-     
-       let listData = this.calendars.filter((e)=>e.date.toDate().getUTCDate()==date.getUTCDate()) ;
-        console.log(date.getUTCDate(),listData,this.calendars[0].date.toDate().getUTCDate())
-       
+      let date = value.toDate();
+
+      let listData = this.calendars.filter(
+        (e) => e.date.toDate().getUTCDate() == date.getUTCDate()
+      );
+      console.log(
+        date.toLocaleDateString("en-US"),
+        listData,
+        this.calendars[0].date.toDate().toLocaleDateString("en-US")
+      );
     },
     getListData(value) {
-      let listData = [] ;
-      this.calendars.forEach(element => {
-              switch (value.date()) {
-        case element.date.toDate().getUTCDate():
-          listData.push(element)
-          break;
-        default:
-      }
+      let listData = [];
+      this.calendars.forEach((element) => {
+        if (value.toDate().toLocaleDateString("en-US")== element.date.toDate().toLocaleDateString("en-US")) {
+          listData.push(element);
+        }
       });
 
       return listData || [];
@@ -58,9 +69,8 @@ export default {
       }
     },
   },
-    computed: {
+  computed: {
     ...mapState(["calendars"]),
-   
   },
   mounted() {
     this.$store.dispatch("getCalendars");

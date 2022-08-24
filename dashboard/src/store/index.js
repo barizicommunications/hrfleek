@@ -32,7 +32,14 @@ export default new Vuex.Store({
     },
     setCalendars(state,val){
       state.calendars=val
+    },
+    setLoading(state,val){
+      state.loading =val
+    },
+    setError(state,val){
+      state.error=val
     }
+
   },
   actions: {
     /**
@@ -114,8 +121,8 @@ export default new Vuex.Store({
         commit("setClients", loadedEmployers);
       });
     },
-    async addClients({ state }, data) {
-      state.loading=true
+    async addClients({ commit }, data) {
+      commit("setLoading", true)
 
       const ref = fb.storage.ref();
     const url =await ref
@@ -135,16 +142,16 @@ export default new Vuex.Store({
         .doc(data.kra_pin)
         .set(payload)
         .then(() => {
-          state.error = "";
-          state.loading = false;
+          commit("setError", "")
+          commit("setLoading", false)
           swal({
             title: "SUCCESS!",
             text: `Client added successfully`,
             icon: "success",
           });
         }).catch((err) => {
-          state.loading = false;
-          state.error = err.message;
+          commit("setLoading", false)
+          commit("setError", err.message)
           swal({
             title: "OOPS!",
             text: `${err.message}`,
@@ -164,9 +171,9 @@ export default new Vuex.Store({
         commit("setEmployees", loadedEmployers);
       });
     },
-    async addEmployee({ state }, data) {
+    async addEmployee({ commit }, data) {
       const selectedClient=JSON.parse(localStorage.getItem("client"))
-      state.loading=true
+      commit("setLoading", true)
           const payload ={
           email: data.email,
           address:data.address??"",
@@ -195,14 +202,14 @@ export default new Vuex.Store({
         .doc(selectedClient.kra_pin)
         .collection("team").doc(data.national_id)
         .set(payload).then(()=>{
-          state.loading=false
+          commit("setLoading", false)
           swal({
             title: "success!",
             text: `employee ${data.first_name} added successfully`,
             icon: "success",
           });
         }).catch((err)=>{
-          state.loading=false
+          commit("setLoading", false)
           swal({
             title: "OOPS!",
             text: `${err.message}`,
@@ -220,7 +227,7 @@ export default new Vuex.Store({
         .delete();
       return result;
     },
-    async createCalender({ state }, data){
+    async createCalender({ commit }, data){
 
       const selectedClient=JSON.parse(localStorage.getItem("client"))
       const payload ={
@@ -234,14 +241,14 @@ export default new Vuex.Store({
       .doc(selectedClient.kra_pin)
       .collection("calendars")
       .add(payload).then(()=>{
-        state.loading=false
+        commit("setLoading", false)
         swal({
           title: "success!",
           text: `calendar added successfully`,
           icon: "success",
         });
       }).catch((err)=>{
-        state.loading=false
+        commit("setLoading", false)
         swal({
           title: "OOPS!",
           text: `${err.message}`,
@@ -261,6 +268,54 @@ export default new Vuex.Store({
         commit("setCalendars", loadedCalendars);
       });
     },
+    async createDepartment({commit},data){
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      commit("setLoading", true)
+      fb.businessCollection.doc(selectedClient.kra_pin).update({
+        departments:fb.types.FieldValue.arrayUnion(data)
+      }).then(()=>{
+        commit("setLoading", false)
+        swal({
+          title: "success!",
+          text: `department added successfully`,
+          icon: "success",
+        });
+      }).catch((err)=>{
+       commit("setLoading", false)
+        swal({
+          title: "OOps!",
+          text: `something went wrong`,
+          icon: "error",
+        });
+      })
+    },
+    async createDesignation({commit},data){
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      commit("setLoading", true)
+      fb.businessCollection.doc(selectedClient.kra_pin).update({
+        designations:fb.types.FieldValue.arrayUnion(data)
+      }).then(()=>{
+        commit("setLoading", false)
+        swal({
+          title: "success!",
+          text: `record updated successfully`,
+          icon: "success",
+        });
+      }).catch((err)=>{
+       commit("setLoading", false)
+        swal({
+          title: "OOps!",
+          text: `something went wrong`,
+          icon: "error",
+        });
+      })
+    },
+  
   },
   modules: {},
+  getters:{
+    loading: (state) => {
+      return state.loading;
+  }
+  }
 });

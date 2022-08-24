@@ -155,10 +155,9 @@
                 ]"
                 placeholder="department"
               >
-                <a-select-option value="engineering">
-                  engineering
+                <a-select-option  v-for="department in currentClient.departments" :key="department.department_name" :value="department.department_name">
+                  {{department.department_name}}
                 </a-select-option>
-                <a-select-option value="sales"> sales </a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -307,9 +306,9 @@
                 ]"
                 placeholder="Please choose allowances"
               >
-                <a-select-option value="equity"> Housing </a-select-option>
-                <a-select-option value="kcb"> Food</a-select-option>
-                <a-select-option value="sacco"> Transport</a-select-option>
+                <a-select-option value="housing"> Housing </a-select-option>
+                <a-select-option value="food"> Food</a-select-option>
+                <a-select-option value="tranport"> Transport</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -674,7 +673,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["employees"]),
+    ...mapState(["employees","currentClient"]),
     rowSelection() {
       return {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -695,6 +694,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getEmployees");
+    this.$store.dispatch("getCurrentClient");
+
+
   },
 };
 </script>

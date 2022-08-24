@@ -12,6 +12,7 @@ export default new Vuex.Store({
     userProfile: {},
     clients: [],
     employees: [],
+    calendars:[],
     loading: false,
     currentClient :{},
     error: "",
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     setEmployees(state, val) {
       state.employees = val;
     },
+    setCalendars(state,val){
+      state.calendars=val
+    }
   },
   actions: {
     /**
@@ -165,23 +169,27 @@ export default new Vuex.Store({
       state.loading=true
           const payload ={
           email: data.email,
+          address:data.address??"",
           phone_number: data.phone_number,
           kra_pin:data.kra_pin,
           national_id:data.national_id,
-          satus:data.status,
+          status:data.status,
           allowances:data.allowances??[],
           bank_name:data.bank_name,
           account_number:data.account_number,
-          accountName:data.account_name,
+          account_name:data.account_name,
           bank_branch:data.branch_name,       
-          full_name:data.first_name +data.last_name,
+          first_name:data.first_name ,
+          last_name:data.last_name,
+          full_name:data.first_name+data.last_name,
           department:data.department,
           designation:data.designation,
           pay_rate:0,
           hours_worked:0,
           basic_pay:data.basic_pay,
-          deductions:data.deductions,
-          net_pay:0
+          deductions:data.deductions??[],
+          net_pay:0,
+          employment_type:""
         }
      await fb.businessCollection
         .doc(selectedClient.kra_pin)
@@ -211,6 +219,47 @@ export default new Vuex.Store({
         .doc(employee.id)
         .delete();
       return result;
+    },
+    async createCalender({ state }, data){
+
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      const payload ={
+        calendar_name:data.calendar_name,
+        department:data.department,
+        date:data.date.toDate(),
+        payment_cycle:data.payment_cycle
+
+      }
+      await fb.businessCollection
+      .doc(selectedClient.kra_pin)
+      .collection("calendars")
+      .add(payload).then(()=>{
+        state.loading=false
+        swal({
+          title: "success!",
+          text: `calendar added successfully`,
+          icon: "success",
+        });
+      }).catch((err)=>{
+        state.loading=false
+        swal({
+          title: "OOPS!",
+          text: `${err.message}`,
+          icon: "error",
+        });
+      })
+    },
+    async getCalendars({ commit }) {
+      const selectedClient=JSON.parse(localStorage.getItem("client"))
+      fb.businessCollection.doc(selectedClient.kra_pin).collection("calendars").onSnapshot((snapshot) => {
+        const loadedCalendars = [];
+        snapshot.forEach((doc) => {
+          
+          const loadedCalendar = doc.data();
+          (loadedCalendar.id = doc.id), loadedCalendars.push(loadedCalendar);
+        });
+        commit("setCalendars", loadedCalendars);
+      });
     },
   },
   modules: {},

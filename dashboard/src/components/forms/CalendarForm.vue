@@ -16,22 +16,39 @@
           />
         </a-form-item>
 
-        <a-form-item label="Company Type">
-          <a-select default-value="monthly" @change="handleChange">
+        <a-form-item label="Payment Cycle">
+          <a-select
+            default-value="monthly"
+            v-decorator="[
+              'payment_cycle',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+          >
             <a-select-option value="monthly"> Monthly </a-select-option>
             <a-select-option value="weekly"> Weekly </a-select-option>
             <a-select-option value="hourly"> Hourly </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="Department">
-          <a-select default-value="monthly" @change="handleChange">
-            <a-select-option value="monthly"> Sales </a-select-option>
-            <a-select-option value="weekly"> Engineering </a-select-option>
-            <a-select-option value="hourly"> legal </a-select-option>
+          <a-select
+            default-value="sales"
+            v-decorator="[
+              'department',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+          >
+            <a-select-option value="sales"> Sales </a-select-option>
+            <a-select-option value="engineering"> Engineering </a-select-option>
+            <a-select-option value="legal"> legal </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="Normal Payday">
-          <a-date-picker @change="onChange" />
+          <a-date-picker
+            v-decorator="[
+              'date',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+          />
         </a-form-item>
 
         <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
@@ -55,14 +72,14 @@ export default {
     };
   },
   methods: {
- onChange(){},
- handleChange(){},
+    onChange() {},
+    handleChange() {},
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          this.$store.dispatch("addClients", values).then(() => {
+          this.$store.dispatch("createCalender", values).then(() => {
             if (!this.error) {
               this.form.resetFields();
             }

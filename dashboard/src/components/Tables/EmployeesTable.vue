@@ -11,9 +11,9 @@
           key="submit"
           type="primary"
           :loading="loading"
-          @click="handleOk"
+          @click="handleUpload"
         >
-          Submit
+          Upload
         </a-button>
       </template>
       <div class="table-upload-btn">
@@ -448,7 +448,7 @@ const columns = [
     dataIndex: "phone_number",
   },
   {
-    title: "Net Salary",
+    title: "Basic Salary",
     className: "column-money",
     dataIndex: "basic_pay",
     sorter: (a, b) => a.basic_pay - b.basic_pay,
@@ -461,6 +461,8 @@ const columns = [
 ];
 import { mapState } from "vuex";
 import exportFromJSON from "export-from-json";
+import * as fb from "../../firebase";
+import swal from "sweetalert";
 export default {
   components: {},
   data() {
@@ -479,26 +481,65 @@ export default {
         label: "sample.csv",
         url: "./sample.csv",
       },
-      json_data: [
+      sampleData: [
         {
-          name: "Tony Peña",
-          city: "New York",
-          country: "United States",
-          birthdate: "1978-03-15",
-          phone: {
-            mobile: "1-541-754-3010",
-            landline: "(541) 754-3010",
-          },
+          national_id: "35275995",
+          full_name: "Liliane Lorrainbe",
+          kra_pin: "Volkman",
+          bank_name: "Equity Bank",
+          email: "citlalli.wolf@hotmail.com",
+          account_name: "Warren Ochieng",
+          account_number: "49999030009",
+          bank_branch: "Kenyatta Avenue",
+          department: "sales",
+          designation: "sales manager",
+          address: "2448 Willms Freeway",
+          Country: "kenya",
+          basic_pay: "1000000",
+          designation: "10",
+          phone_number: "0705122230",
+          Status: "active",
+          employment_type: "contract",
+          employee_id: "",
         },
         {
-          name: "Thessaloniki",
-          city: "Athens",
-          country: "Greece",
-          birthdate: "1987-11-23",
-          phone: {
-            mobile: "+1 855 275 5071",
-            landline: "(2741) 2621-244",
-          },
+          national_id: "35275995",
+          full_name: "Warren ochieng",
+          kra_pin: "Volkman",
+          bank_name: "Equity Bank",
+          email: "citlalli.wolf@hotmail.com",
+          account_name: "Warren Ochieng",
+          account_number: "49999030009",
+          bank_branch: "Kenyatta Avenue",
+          department: "sales",
+          designation: "sales manager",
+          address: "2448 Willms Freeway",
+          Country: "kenya",
+          basic_pay: "1000000",
+          designation: "10",
+          phone_number: "0705122230",
+          Status: "active",
+          employment_type: "contract",
+          employee_id: "",
+        },
+        {
+          national_id: "35275995",
+          full_name: "King Kali",
+          kra_pin: "Volkman",
+          bank_name: "Equity Bank",
+          email: "citlalli.wolf@hotmail.com",
+          account_name: "Warren Ochieng",
+          account_number: "49999030009",
+          bank_branch: "Kenyatta Avenue",
+          department: "sales",
+          designation: "sales manager",
+          address: "2448 Willms Freeway",
+          basic_pay: "1000000",
+          designation: "10",
+          phone_number: "0705122230",
+          Status: "active",
+          employment_type: "contract",
+          employee_id: "",
         },
       ],
     };
@@ -543,30 +584,76 @@ export default {
       newFileList.splice(index, 1);
       this.fileList = newFileList;
     },
-    handleUpload() {
-      const { fileList } = this;
-      const formData = new FormData();
-      fileList.forEach((file) => {
-        formData.append("files[]", file);
-      });
-      this.uploading = true;
-
-      // You can use any AJAX library you like
-      reqwest({
-        url: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-        method: "post",
-        processData: false,
-        data: formData,
-        success: () => {
-          this.fileList = [];
-          this.uploading = false;
-          this.$message.success("upload successfully.");
-        },
-        error: () => {
-          this.uploading = false;
-          this.$message.error("upload failed.");
-        },
-      });
+    handleUpload(e) {
+      e.preventDefault();
+      if (this.fileList.length) {
+        this.loading = true;
+        let promise = new Promise((resolve, reject) => {
+          var reader = new FileReader();
+          var vm = this;
+          reader.onload = (e) => {
+            resolve((vm.fileinput = reader.result));
+          };
+          reader.readAsText(this.fileList[0]);
+        });
+        promise.then(
+          (result) => {
+            /* handle a successful result */
+            var lines = result.split("\n");
+            var newresult = [];
+            var headers = lines[0].split(",");
+            for (var i = 1; i < lines.length; i++) {
+              var obj = {};
+              var currentline = lines[i].split(",");
+              for (var j = 0; j < headers.length; j++) {
+                obj[headers[j]] = currentline[j];
+              }
+              newresult.push(obj);
+            }
+            //return result; //JavaScript object
+            //JSON
+            if (newresult && typeof newresult === "object") {
+              Object.keys(newresult).forEach(async (data) => {
+                const selectedClient = JSON.parse(
+                  localStorage.getItem("client")
+                );
+                await fb.businessCollection
+                  .doc(selectedClient.kra_pin)
+                  .collection("team")
+                  .doc(data.national_id)
+                  .set(newresult[data])
+                  .then(() => {
+                    this.loading = false;
+                    swal({
+                      title: "Sucess!",
+                      text: `record added successfully`,
+                      icon: "success",
+                    });
+                  })
+                  .catch((err) => {
+                    swal({
+                      title: "OOPS!",
+                      text: `${err.message}`,
+                      icon: "error",
+                    });
+                    this.loading = false;
+                  });
+              });
+            }
+          },
+          (error) => {
+            /* handle an error */
+            console.log(error);
+            this.loading = false;
+          }
+        );
+      } else {
+        swal({
+          title: "OOPS!",
+          text: `please select a valid CSV file`,
+          icon: "error",
+        });
+      }
     },
     forceFileDownload(response, title) {
       console.log("this is the tilte", title);
@@ -579,8 +666,8 @@ export default {
     },
 
     downloadFile() {
-      const data = this.employees;
-      const fileName = "sample_file";
+      const data = this.sampleData;
+      const fileName = "sample emplyee data";
       const exportType = exportFromJSON.types.csv;
 
       if (data) exportFromJSON({ data, fileName, exportType });

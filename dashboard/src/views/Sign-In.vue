@@ -158,7 +158,7 @@ export default {
 				this.$store.dispatch("fetchUserProfile",user.user)
 				this.$message.success("login successful,please select client");
 				this.form.resetFields()
-				router.push("/dashboard");
+				router.push("/otp-screen");
 
 
 			}).catch((err)=>{

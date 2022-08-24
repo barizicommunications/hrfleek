@@ -70,8 +70,20 @@ export default new Vuex.Store({
     },
     async updatePassword({ dispatch }, password) {
       const user = fb.auth.currentUser;
-      let result = user.updatePassword(password);
-      return result;
+      await user.updatePassword(password).then(()=>{
+        swal({
+          title: "SUCCESS!",
+          text: `Password updated successfully`,
+          icon: "success",
+        });
+      }).catch((err)=>{
+        swal({
+          title: "OOPs!",
+          text: `${err.message}`,
+          icon: "error",
+        });
+      })
+      
     },
     async resetPassword({ dispatch }, email) {
       const reset = await fb.auth

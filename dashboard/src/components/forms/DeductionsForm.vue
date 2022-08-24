@@ -23,8 +23,14 @@
             <a-select-option value="hourly"> Engineering </a-select-option>
           </a-select>
         </a-form-item>
+        <a-form-item label="Allowance Type">
+          <a-radio-group name="radioGroup" :default-value="1">
+            <a-radio :value="1"> Constant </a-radio>
+            <a-radio :value="2"> Segmented </a-radio>
+          </a-radio-group>
+        </a-form-item>
         <a-form-item label="Amount">
-        <a-input
+          <a-input
             v-decorator="[
               'amount',
               { rules: [{ required: true, message: 'Field is required!' }] },
@@ -52,8 +58,8 @@ export default {
     };
   },
   methods: {
- onChange(){},
- handleChange(){},
+    onChange() {},
+    handleChange() {},
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {

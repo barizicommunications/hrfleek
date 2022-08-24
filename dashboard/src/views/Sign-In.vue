@@ -156,7 +156,7 @@ export default {
 			await fb.auth.signInWithEmailAndPassword(values.email,values.password).then((user)=>{
 				this.loading=false
 				this.$store.dispatch("fetchUserProfile",user.user)
-				this.$message.success("login successful,please select client");
+				this.$message.success("login successful,please verify phone number to proceed");
 				this.form.resetFields()
 				router.push("/otp-screen");
 

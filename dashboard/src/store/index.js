@@ -109,7 +109,6 @@ export default new Vuex.Store({
      */
     getCurrentClient({commit}){
       const selectedClient=JSON.parse(localStorage.getItem("client"))
-      console.log(selectedClient)
       commit("setCurrentClient",selectedClient)
     },
     async getClients({ commit }) {

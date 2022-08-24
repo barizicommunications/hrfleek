@@ -21,13 +21,6 @@
 							<p>CEO / Co-Founder</p>
 						</div>
 					</a-col>
-					<a-col :span="24" :md="12" style="display: flex; align-items: center; justify-content: flex-end">
-						<a-radio-group v-model="profileHeaderBtns" size="small">
-							<a-radio-button value="overview">OVERVIEW</a-radio-button>
-							<a-radio-button value="teams">TEAMS</a-radio-button>
-							<a-radio-button value="projects">PROJECTS</a-radio-button>
-						</a-radio-group>
-					</a-col>
 				</a-row>
 			</template>
 		</a-card>
@@ -44,19 +37,10 @@
 
 			</a-col>
 			<!-- / Platform Settings Column -->
-
-			<!-- Profile Information Column -->
-			<a-col :span="24" :md="8" class="mb-24">
-
-				<!-- Profile Information Card -->
-				<CardProfileInformation></CardProfileInformation>
-				<!-- / Profile Information Card -->
-
-			</a-col>
 			<!-- / Profile Information Column -->
 			
 			<!-- Conversations Column -->
-			<a-col :span="24" :md="8" class="mb-24">
+			<a-col :span="24" :md="16" class="mb-24">
 			
 				<!-- Conversations Card -->
 				<CardPlatformUpdates
@@ -74,10 +58,11 @@
 
 <script>
 
-	import CardPlatformSettings from "../components/Cards/CardPlatformSettings"
+	import CardPlatformSettings from "../components/Cards/CardProfileSetting.vue"
 	import CardProfileInformation from "../components/Cards/CardProfileInformation"
 	import CardPlatformUpdates from "../components/Cards/CardPlatformUpdates"
 	import CardProject from "../components/Cards/CardProject"
+	import { mapState } from "vuex"
 
 	// Conversation's list data.
 	const conversationsData = [
@@ -112,47 +97,6 @@
 			avatar: "images/face-2.jpg",
 		},
 	] ;
-
-	// Project cards data
-	const projects = [
-		{
-			id: 1,
-			title: "Modern",
-			content: "As Uber works through a huge amount of internal management turmoil.",
-			cover: "images/home-decor-3.jpeg",
-			team: [
-				"images/face-1.jpg",
-				"images/face-4.jpg",
-				"images/face-2.jpg",
-				"images/face-3.jpg",
-			],
-		},
-		{
-			id: 2,
-			title: "Scandinavian",
-			content: "Music is something that every person has his or her own specific opinion about.",
-			cover: "images/home-decor-2.jpeg",
-			team: [
-				"images/face-1.jpg",
-				"images/face-4.jpg",
-				"images/face-2.jpg",
-				"images/face-3.jpg",
-			],
-		},
-		{
-			id: 3,
-			title: "Minimalist",
-			content: "Different people have different taste, and various types of music, Zimbali Resort.",
-			cover: "images/home-decor-1.jpeg",
-			team: [
-				"images/face-1.jpg",
-				"images/face-4.jpg",
-				"images/face-2.jpg",
-				"images/face-3.jpg",
-			],
-		},
-	] ;
-
 	export default ({
 		components: {
 			CardPlatformSettings,
@@ -167,11 +111,12 @@
 
 				// Associating Conversation's list data with its corresponding property.
 				conversationsData,
-
-				// Project cards data
-				projects,
 			}
 		},
+		computed:{
+
+			 ...mapState(["userProfile","currentClient"]),
+		}
 	})
 
 </script>

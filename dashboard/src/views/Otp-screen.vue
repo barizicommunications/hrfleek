@@ -18,32 +18,26 @@
         </h5>
 
         <!-- Sign In Form -->
-        <a-form
+          <a-form
           id="components-form-demo-normal-login"
           :form="form"
           class="login-form"
-          @submit.prevent="confirmOtp"
+          @submit="confirmOtp"
           :hideRequiredMark="true"
           v-if="authenticated"
         >
-          <a-form-item class="mb-10" label="Confirmation Code" :colon="false">
+          <a-form-item class="mb-10" label="Confirmation CODE" :colon="false">
             <a-input-group compact>
               <a-input
-                v-decorator="[
-                  'otp_code',
-                  {
-                    rules: [
-                      { required: true, message: 'Please input sms code!' },
-                    ],
-                  },
-                ]"
-                placeholder=""
+                v-model="code"
                 style="width: calc(100% - 100px)"
+                label="Confirm Code"
+                placeholder="Code"
               />
               <a-button
                 type="primary"
-                html-type="submit"
-                :loading="loading"
+                @click="confirmOtp"
+                id="otp-verfiy-button"
                 >Confirm</a-button
               >
             </a-input-group>
@@ -78,9 +72,9 @@
               <a-button
                 type="primary"
                 html-type="submit"
-                id="otp-verfiy-button"
+                 id="otp-verfiy-button"
                 :loading="loading"
-                >Confirm</a-button
+                >VERIFY</a-button
               >
             </a-input-group>
           </a-form-item>
@@ -108,7 +102,8 @@ export default {
       // Binded model property for "Sign In Form" switch button for "Remember Me" .
       loading: false,
       rememberMe: true,
-      authenticated: true,
+      authenticated: false,
+      code: "",
     };
   },
   beforeCreate() {
@@ -153,32 +148,29 @@ export default {
           this.loading = false;
         });
     },
-    async confirmOtp() {
-      await this.form.validateFields((err, values) => {
-        if (!err) {
-          this.loading = true;
-          window.confirmationResult
-            .confirm(values.otp_code)
-            .then(async (result) => {
-                 router.push("/dashboard");
-                 this.loading=false
-              // ...
-            })
-            .catch((error) => {
-              this.loading = false;
-              // User couldn't sign in (bad verification code?)
-              // ...
-              swal({
-                title: "OOPS!",
-                text: `${error.message}`,
-                icon: "error",
-              });
-              window.recaptchaVerifier.render().then(function (widgetId) {
-                grecaptcha.reset(widgetId);
-              });
-            });
-        }
-      });
+      confirmOtp() {
+      this.loading=true
+      window.confirmationResult
+        .confirm(this.code)
+        .then(async (result) => {
+          console.log(result);
+            router.push("dashboard");
+          // ...
+        })
+        .catch((error) => {
+          this.loading =false
+          // User couldn't sign in (bad verification code?)
+          // ...
+             swal({
+            title: "OOPS!",
+            text: `${error.message}`,
+            icon: "error",
+          });
+          this.otpSent = true;
+          window.recaptchaVerifier.render().then(function (widgetId) {
+            grecaptcha.reset(widgetId);
+          });
+        });
     },
     resendOtp() {
       this.sendOtpForVerification();

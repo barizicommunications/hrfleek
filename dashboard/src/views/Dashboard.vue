@@ -1,10 +1,5 @@
 <template>
   <div>
-    <a-row :gutter="24" type="flex" align="stretch">
-      <!-- Table -->
-      <a-col :span="24" :lg="16" class="mb-24">
-        <ClientCardVue></ClientCardVue></a-col
-    ></a-row>
     <!-- Cards -->
   		<a-row :gutter="24">
 			<a-col :span="24" :lg="12" :xl="6" class="mb-24" v-for="(stat, index) in stats" :key="index">
@@ -20,17 +15,22 @@
 			</a-col>
 		</a-row>
 
-    <!-- Table & Timeline -->
-    <a-row :gutter="24" type="flex" align="stretch">
-      <!-- Table -->
-      <a-col :span="24" :lg="24" class="mb-24">
-        <!-- Projects Table Card -->
-        <EmployeesTableVue />
-        <!-- / Projects Table Card -->
-      </a-col>
-      <!-- / Table -->
-    </a-row>
-    <!-- / Table & Timeline -->
+		<a-row :gutter="24" type="flex" align="stretch">
+			<a-col :span="24" :lg="10" class="mb-24">
+
+				<!-- Active Users Card -->
+				<CardBarChart></CardBarChart>
+				<!-- Active Users Card -->
+
+			</a-col>
+			<a-col :span="24" :lg="14" class="mb-24">
+				
+				<!-- Sales Overview Card -->
+				<CardLineChart></CardLineChart>
+				<!-- / Sales Overview Card -->
+
+			</a-col>
+		</a-row>
   </div>
 </template>
 

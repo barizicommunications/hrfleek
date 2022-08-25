@@ -2,7 +2,7 @@
 
 	<a-card :bordered="false" class="dashboard-bar-line header-solid">
 		<template #title>
-			<h6>Sales Overview</h6>			
+			<h6>Client Activity</h6>			
 			<p>than last year <span class="text-success">+20%</span></p>	
 		</template>
 		<template #extra>

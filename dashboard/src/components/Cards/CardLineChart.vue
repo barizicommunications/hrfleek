@@ -6,8 +6,8 @@
 			<p>than last year <span class="text-success">+20%</span></p>	
 		</template>
 		<template #extra>
-			<a-badge color="primary" class="badge-dot-primary" text="Traffic" />
-			<a-badge color="primary" class="badge-dot-secondary" text="Sales" />
+			<a-badge color="primary" class="badge-dot-primary" text="Barizi" />
+			<a-badge color="primary" class="badge-dot-secondary" text="CM Advocates" />
 		</template>
 		<chart-line :height="310" :data="lineChartData"></chart-line>
 	</a-card>

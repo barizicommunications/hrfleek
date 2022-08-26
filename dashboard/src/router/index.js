@@ -82,6 +82,12 @@ let routes = [
 		component: () => import('../views/Reports.vue'),
 	},
 	{
+		path: '/client-details',
+		name: 'Client-Details',
+		layout: "dashboard",
+		component: () => import('../views/SingleClient.vue'),
+	},
+	{
 		path: '/Profile',
 		name: 'Profile',
 		layout: "dashboard",

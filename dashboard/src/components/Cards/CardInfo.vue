@@ -70,6 +70,7 @@
 
 <script>
 import { mapState } from "vuex";
+import router from "../../router";
 
 export default {
   data() {
@@ -101,6 +102,7 @@ export default {
           localStorage.setItem("client", JSON.stringify(client));
           this.$store.dispatch("getCurrentClient");
            this.$store.dispatch("getEmployees");
+           router.push("client-details")
         } else {
           this.$refs.clientcard[
             this.clients.indexOf(client)

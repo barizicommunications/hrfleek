@@ -45,6 +45,13 @@ export default new Vuex.Store({
     /**
      * Profile Section Starts Here
      */
+    async signup(){
+      try {
+        
+      } catch (error) {
+        
+      }
+    },
     async login({ dispatch }, newUser) {
       try {
         const { user } = await fb.auth.signInWithEmailAndPassword(
@@ -84,6 +91,10 @@ export default new Vuex.Store({
         });
       })
       
+    },
+    updateUser(){
+     const user = fb.auth.currentUser
+     
     },
     async resetPassword({ dispatch }, email) {
       const reset = await fb.auth

@@ -25,6 +25,7 @@ const arrayUnion = firebase.firestore.FieldValue.arrayUnion();
 // collection references
 const usersCollection = db.collection("users");
 const businessCollection = db.collection("clients");
+const adminCollections =db.collection("admins");
 const capture = firebase.auth
 
 // export utils/refs
@@ -37,5 +38,6 @@ export {
   arrayUnion,
   usersCollection,
   businessCollection,
-  capture
+  capture,
+  adminCollections
 };

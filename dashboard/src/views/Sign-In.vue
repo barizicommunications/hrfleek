@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="sign-in">
     <a-row type="flex" :gutter="[24, 24]" justify="space-around" align="middle">
@@ -13,58 +11,47 @@
       >
         <h1 class="mb-15">Sign In</h1>
         <h5 class="font-regular text-muted" v-if="authenticated">
+          Enter sms code to proceed
+        </h5>
+        <h5 class="font-regular text-muted" v-else>
           Enter your email and password to sign in
         </h5>
-		   <h5 class="font-regular text-muted" v-else>
-          Select client to proceed to dashboard
-        </h5>
-		
 
         <!-- Sign In Form -->
         <a-form
           id="components-form-demo-normal-login"
           :form="form"
           class="login-form"
-          @submit="handleChange"
+          @submit="confirmOtp"
           :hideRequiredMark="true"
-		  v-if="authenticated"
+          v-if="authenticated"
         >
-          <a-form-item class="mb-10" label="Select Client" :colon="false">
-                  <a-input-group compact>
-                          <a-select
-                v-decorator="[
-                  'client_name',
-                  {
-                    rules: [
-                      { required: true, message: 'You have not selected any client' },
-                    ],
-                  },
-                ]"
-                placeholder="Please choose a client"
-				style="width: calc(100% - 100px)"
-              >
-                <a-select-option  v-for="client of clients" :key="client.id" :value="client.id"> {{client.company_name}} </a-select-option>
-              </a-select>
+          <a-form-item class="mb-10" label="Confirmation CODE" :colon="false">
+            <a-input-group compact>
+              <a-input
+                v-model="code"
+                style="width: calc(100% - 100px)"
+                label="Confirm Code"
+                placeholder="Code"
+              />
               <a-button
                 type="primary"
-                html-type="submit"
+                @click="confirmOtp"
                 id="otp-verfiy-button"
-				:loading="loading"
                 >Confirm</a-button
               >
             </a-input-group>
           </a-form-item>
         </a-form>
-		 <a-form
+        <a-form
           id="components-form-demo-normal-login"
           :form="form"
           class="login-form"
           @submit="handleSubmit"
           :hideRequiredMark="true"
-		  v-else
+          v-else
         >
           <a-form-item class="mb-10" label="Email" :colon="false">
-
             <a-input
               v-decorator="[
                 'email',
@@ -77,7 +64,7 @@
               placeholder="Email"
             />
           </a-form-item>
-		           <a-form-item class="mb-5" label="Password" :colon="false">
+          <a-form-item class="mb-5" label="Password" :colon="false">
             <a-input-password
               v-decorator="[
                 'password',
@@ -97,7 +84,8 @@
               block
               html-type="submit"
               class="login-form-button"
-			  :loading="loading"
+              id="otp-verfiy-button"
+              :loading="loading"
             >
               SIGN IN
             </a-button>
@@ -124,9 +112,10 @@ export default {
   data() {
     return {
       // Binded model property for "Sign In Form" switch button for "Remember Me" .
-		loading:false,
+      loading: false,
       rememberMe: true,
-	  authenticated:false
+      authenticated: false,
+      code: "",
     };
   },
   beforeCreate() {
@@ -135,52 +124,133 @@ export default {
   },
   methods: {
     // Handles input validation after submission.
-	handleChange(e){
-		e.preventDefault();
-      this.form.validateFields(async (err, values) => {
-		this.loading =true
-        if (!err) {
-		let client = this.clients.filter((c)=>c.id===values.client_name)
-		localStorage.setItem("client",JSON.stringify(client[0]))
-		router.push("/dashboard");
-		
-		}else{
-		this.loading=false	
-		}})
-	},
-     handleSubmit(e) {
+    handleChange(e) {
       e.preventDefault();
-	  this.loading =true
+      this.form.validateFields(async (err, values) => {
+        this.loading = true;
+        if (!err) {
+          let client = this.clients.filter((c) => c.id === values.client_name);
+          localStorage.setItem("client", JSON.stringify(client[0]));
+          router.push("/dashboard");
+        } else {
+          this.loading = false;
+        }
+      });
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.loading = true;
       this.form.validateFields(async (err, values) => {
         if (!err) {
-			await fb.auth.signInWithEmailAndPassword(values.email,values.password).then((user)=>{
-				this.loading=false
-				this.$store.dispatch("fetchUserProfile",user.user)
-				this.$message.success("login successful,please verify phone number to proceed");
-				this.form.resetFields()
-				router.push("/otp-screen");
-
-
-			}).catch((err)=>{
-				this.loading =false
-				    swal({
+          await fb.adminCollections
+            .get()
+            .then((docs) => {
+              let admins = [];
+              docs.docs.forEach((doc) => {
+                admins.push(doc.data());
+              });
+              let user = admins.find(
+                (admin) =>
+                  admin.email === values.email &&
+                  admin.password === values.password
+              );
+              if (user) {
+                console.log(user);
+                 this.sendOtpForVerification(user.phone);
+                this.loading = false;
+              } else {
+                swal({
+                  title: "OOps!",
+                  text: `Please check the credentials and try again`,
+                  icon: "error",
+                });
+                this.loading = false;
+              }
+            })
+            .catch((err) => {
+              this.loading = false;
+              console.log(err);
+              swal({
+                title: "OOps!",
+                text: `something went wrong`,
+                icon: "error",
+              });
+            });
+        } else {
+          this.loading = false;
+        }
+      });
+    }, // configure recaptcha
+    configureRecaptcha() {
+      window.recaptchaVerifier = new fb.capture.RecaptchaVerifier(
+        "otp-verfiy-button",
+        {
+          size: "invisible",
+        }
+      );
+    },
+    // handle otpsend
+    sendOtpForVerification(phoneNumber) {
+      this.configureRecaptcha();
+      const appVerifier = window.recaptchaVerifier;
+      fb.auth.languageCode = "en";
+      fb.auth
+        .signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          this.$message.success("Otp sent successfully");
+          this.authenticated = true;
+          this.loading = false;
+        })
+        .catch((err) => {
+          // Error; SMS not sent
+          swal({
             title: "OOPS!",
             text: `${err.message}`,
             icon: "error",
           });
-			})
-        }else{
-			this.loading=false
-		}
-      });
+          window.recaptchaVerifier.render().then(function (widgetId) {
+            grecaptcha.reset(widgetId);
+          });
+          this.loading = false;
+        });
+    },
+    confirmOtp() {
+      this.loading = true;
+      window.confirmationResult
+        .confirm(this.code)
+        .then(async (result) => {
+          console.log(result);
+          router.push("dashboard");
+          // ...
+        })
+        .catch((error) => {
+          this.loading = false;
+          // User couldn't sign in (bad verification code?)
+          // ...
+          swal({
+            title: "OOPS!",
+            text: `${error.message}`,
+            icon: "error",
+          });
+          this.otpSent = true;
+          window.recaptchaVerifier.render().then(function (widgetId) {
+            grecaptcha.reset(widgetId);
+          });
+        });
+    },
+    resendOtp() {
+      this.sendOtpForVerification();
     },
   },
-        		computed:{
-			...mapState(['clients']),
-		},
-		mounted(){
-			this.$store.dispatch("getClients");
-		}
+  computed: {
+    ...mapState(["clients"]),
+  },
+  mounted() {
+    this.$store.dispatch("getClients");
+  },
 };
 </script>
 

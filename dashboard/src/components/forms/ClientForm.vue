@@ -1,10 +1,8 @@
 <template>
   <div>
-    <a-card>
       <a-form
         :form="form"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 12 }"
+       
         @submit.prevent="handleSubmit"
       >
         <a-form-item label="Company Name">
@@ -67,7 +65,6 @@
             name="file"
             :multiple="false"
             list-type="picture"
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             :transform-file="transformFile"
               v-decorator="[
               'logo',
@@ -77,11 +74,8 @@
             <a-button> <a-icon type="upload" /> Click to Upload logo</a-button>
           </a-upload>
         </a-form-item>
-        <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-          <a-button type="primary" html-type="submit" :loading="loading"> Submit </a-button>
-        </a-form-item>
       </a-form>
-    </a-card>
+ 
   </div>
 </template>
 

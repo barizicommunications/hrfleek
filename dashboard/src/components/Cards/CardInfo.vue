@@ -22,7 +22,6 @@
           }
         "
       >
-        <a slot="extra" href="#"><a-icon type="delete" class="ml-10" /> </a>
         <a-row type="flex">
           <a-col class="col-content">
             <div class="card-content">

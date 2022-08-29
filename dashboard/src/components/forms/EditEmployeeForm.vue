@@ -19,7 +19,7 @@
                     ],
                   },
                 ]"
-                :placeholder="profile.first_name"
+                :initial-value="profile.first_name"
               />
             </a-form-item>
           </a-col>
@@ -38,7 +38,7 @@
                   },
                 ]"
                 style="width: 100%"
-               :placeholder="profile.last_name"
+               :initial-value="profile.last_name"
               />
             </a-form-item>
           </a-col>
@@ -54,7 +54,7 @@
                   },
                 ]"
                 style="width: 100%"
-               :placeholder="profile.email"
+               :initial-value="profile.email"
               />
             </a-form-item>
           </a-col>
@@ -68,7 +68,7 @@
                   },
                 ]"
                 style="width: 100%"
-                :placeholder="profile.phone_number"
+                :initial-value="profile.phone_number"
               />
             </a-form-item>
           </a-col>
@@ -84,7 +84,7 @@
                   },
                 ]"
                 style="width: 100%"
-               :placeholder="profile.national_id"
+               :initial-value="profile.national_id"
               />
             </a-form-item>
           </a-col>
@@ -98,7 +98,7 @@
                   },
                 ]"
                 style="width: 100%"
-               :placeholder="profile.kra_pin"
+               :initial-value="profile.kra_pin"
               />
             </a-form-item>
           </a-col>
@@ -115,7 +115,7 @@
                     ],
                   },
                 ]"
-               :placeholder="profile.department"
+               :initial-value="profile.department"
               >
                 <a-select-option value="engineering">
                   engineering
@@ -136,7 +136,7 @@
                   },
                 ]"
                 style="width: 100%"
-             :placeholder="profile.designation"
+             :initial-value="profile.designation"
               />
             </a-form-item>
           </a-col>
@@ -153,7 +153,8 @@
                     ],
                   },
                 ]"
-               :placeholder="profile.bank_name"
+               :initial-value="profile.bank_name"
+
                
               >
                 <a-select-option value="equity"> Equity Bank </a-select-option>
@@ -171,7 +172,7 @@
                   },
                 ]"
                 style="width: 100%"
-              :placeholder="profile.branch_name"
+              :initial-value="profile.branch_name"
               />
             </a-form-item>
           </a-col>
@@ -189,7 +190,8 @@
                   },
                 ]"
                 style="width: 100%"
-               :placeholder="profile.account_name"
+
+               :initial-value="profile.account_name"
               />
             </a-form-item>
           </a-col>
@@ -208,7 +210,8 @@
                   },
                 ]"
                 style="width: 100%"
-                :placeholder="profile.account_number"
+                :initial-value="profile.account_number"
+
                 type="number"
               />
             </a-form-item>
@@ -227,7 +230,7 @@
                     ],
                   },
                 ]"
-               :placeholder="profile.deductions"
+               :initial-value="profile.deductions"
               >
                 <a-select-option value="equity"> NHIF </a-select-option>
                 <a-select-option value="kcb"> NSSF</a-select-option>
@@ -247,7 +250,7 @@
                   },
                 ]"
                 style="width: 100%"
-                :placeholder="profile.basic_pay"
+                :initial-value="profile.basic_pay"
               />
             </a-form-item>
           </a-col>
@@ -268,7 +271,7 @@
                     ],
                   },
                 ]"
-                :placeholder="profile.allowances"
+              :initial-value="profile.allowances"
               >
                 <a-select-option value="equity"> Housing </a-select-option>
                 <a-select-option value="kcb"> Food</a-select-option>
@@ -290,7 +293,8 @@
                     ],
                   },
                 ]"
-               :placeholder="profile.status"
+               
+               :initial-value="profile.status"
               >
                 <a-select-option value="active"> Active </a-select-option>
                 <a-select-option value="inactive">Inactive</a-select-option>

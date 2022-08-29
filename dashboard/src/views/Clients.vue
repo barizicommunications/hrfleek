@@ -11,29 +11,44 @@
         />
       </a-col>
       <a-col :span="24" :md="12" class="col-info">
-        <a-button type="primary">Add New</a-button>
+        <a-button type="primary" @click="visible=true">Add New</a-button>
       </a-col>
     </a-row>
     <!-- Cards -->
     <CardInfo :clients="resultQuery"></CardInfo>
     <!-- / Cards -->
+         <a-modal v-model="visible" title="Title" on-ok="handleOk">
+      <template slot="footer">
+        <a-button key="back" @click="handleCancel">
+          Cancel
+        </a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleCancel">
+          Submit
+        </a-button>
+      </template>
+     <ClientForm></ClientForm>
+    </a-modal>
+
   </div>
 </template>
 
 <script>
 import CardInfo from "../components/Cards/CardInfo";
+import ClientForm from "../components/forms/ClientForm.vue";
 import { mapState } from "vuex";
 
 export default {
   components: {
     CardInfo,
+    ClientForm
   },
   data() {
     return {
-      current: ["employees"],
       searchQuery: null,
       searchLoading: false,
       allowed: false,
+      loading:false,
+      visible:false
     };
   },
   methods: {
@@ -56,6 +71,10 @@ export default {
         return this.assets;
       }
     },
+    handleCancel(){
+      this.visible=false
+    }
+
   },
 
    computed: {

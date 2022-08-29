@@ -73,6 +73,12 @@ import { mapState } from "vuex";
 import router from "../../router";
 
 export default {
+  props:{
+  clients: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       image:
@@ -80,7 +86,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["clients","currentClient"]),
+    ...mapState(["currentClient"]),
     formattedName() {
       return function formatName(name) {
         const newName = name.slice(40);

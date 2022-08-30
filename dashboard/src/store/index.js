@@ -45,6 +45,13 @@ export default new Vuex.Store({
     /**
      * Profile Section Starts Here
      */
+    async signup(){
+      try {
+        
+      } catch (error) {
+        
+      }
+    },
     async login({ dispatch }, newUser) {
       try {
         const { user } = await fb.auth.signInWithEmailAndPassword(
@@ -84,6 +91,10 @@ export default new Vuex.Store({
         });
       })
       
+    },
+    updateUser(){
+     const user = fb.auth.currentUser
+     
     },
     async resetPassword({ dispatch }, email) {
       const reset = await fb.auth
@@ -244,7 +255,6 @@ export default new Vuex.Store({
       const selectedClient=JSON.parse(localStorage.getItem("client"))
       const payload ={
         calendar_name:data.calendar_name,
-        department:data.department,
         date:data.date.toDate(),
         payment_cycle:data.payment_cycle
 

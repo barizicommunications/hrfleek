@@ -1,102 +1,103 @@
 <template>
   <div>
+    <a-row type="flex" align="stretch" class="mb-10">
+      <a-col :span="24" :md="12" class="col-info">
+        <a-input-search
+          placeholder="search client"
+          style="width: 200px"
+          @search="onSearch"
+          :loading="searchLoading"
+          v-model="searchQuery"
+        />
+      </a-col>
+      <a-col :span="24" :md="12" class="col-info">
+        <a-button type="primary" @click="visible=true">Add New</a-button>
+      </a-col>
+    </a-row>
     <!-- Cards -->
-    <CardInfo></CardInfo>
-    <div
-      :class="['ant-layout-sider-' + 'primary', 'ant-layout-sider-' + 'light']"
-      theme="light"
-      :style="{ backgroundColor: 'transparent' }"
-    >
-      <a-menu theme="light" mode="horizontal" v-model="current">
-        <a-menu-item  key="employees">
-          <span class="label"><a-icon type="usergroup-add" />Employees</span>
-        </a-menu-item>
-        <a-sub-menu key="calendar">
-        <span slot="title" class="submenu-title-wrapper"
-          ><a-icon type="calendar" />Calendar</span
-        >  <a-menu-item key="createcalendar">
-            Create Calendar
-          </a-menu-item>
-          <a-menu-item key="calendar">
-            View Calendar
-          </a-menu-item>
-     
-      </a-sub-menu>
-           <a-sub-menu >
-        <span slot="title" class="submenu-title-wrapper"
-          ><a-icon type="setting" />Bulk Edits</span
-        >  <a-menu-item key="allowances">
-            Add Allowances
-          </a-menu-item>
-          <a-menu-item key="deductions">
-           Add Deductions
-          </a-menu-item>
-          <a-menu-item key="departments">
-           Add Departments
-          </a-menu-item>
-           <a-menu-item key="designations">
-           Add Designations
-          </a-menu-item>
-     
-      </a-sub-menu>
-        <a-menu-item key="reports">
-          <span class="label">Reports</span>
-        </a-menu-item>
-          <a-menu-item  key="clients">
-          <span class="label"><a-icon type="setting" />Add New Client</span>
-        </a-menu-item>
-      </a-menu>
-    </div>
-    <EmployeesTableVue v-if="current[0]=='employees'" ></EmployeesTableVue>
-    <CardCalendarVue v-if="current[0]=='calendar'"></CardCalendarVue>
-    <ClientFormVue  v-if="current[0]=='clients'"></ClientFormVue>
-    <CalendarForm v-if="current[0]=='createcalendar'"></CalendarForm>
-    <DeductionsForm v-if="current[0]=='deductions'"></DeductionsForm>
-    <AllowanceForm v-if="current[0]=='allowances'"></AllowanceForm>
-    <DepartmentForm v-if="current[0]=='departments'"></DepartmentForm>
-    <DesignationForm v-if="current[0]=='designations'"></DesignationForm>
-
+    <CardInfo :clients="resultQuery"></CardInfo>
     <!-- / Cards -->
-  </div> 
+         <a-modal v-model="visible" title="Title" on-ok="handleOk">
+      <template slot="footer">
+        <a-button key="back" @click="handleCancel">
+          Cancel
+        </a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleCancel">
+          Submit
+        </a-button>
+      </template>
+     <ClientForm></ClientForm>
+    </a-modal>
+
+  </div>
 </template>
 
 <script>
 import CardInfo from "../components/Cards/CardInfo";
 import ClientForm from "../components/forms/ClientForm.vue";
-import EmployeesTableVue from "../components/Tables/EmployeesTable.vue";
-import CardCalendarVue from '../components/Cards/CardCalendar.vue';
-import ClientFormVue from "../components/forms/ClientForm.vue";
-import CalendarForm from "../components/forms/CalendarForm.vue";
-import DeductionsForm from "../components/forms/DeductionsForm.vue";
-import AllowanceForm from "../components/forms/AllowanceForm.vue";
-import DepartmentForm from "../components/forms/DepartmentsForm.vue";
-import DesignationForm from "../components/forms/DesignationForm.vue";
-
-
+import { mapState } from "vuex";
 
 export default {
   components: {
     CardInfo,
-    ClientForm,
-    EmployeesTableVue,
-    CardCalendarVue,
-    ClientFormVue,
-    CalendarForm,
-    DeductionsForm,
-    AllowanceForm,
-    DepartmentForm,
-    DesignationForm
+    ClientForm
   },
   data() {
     return {
-      current: ["employees"],
+      searchQuery: null,
+      searchLoading: false,
+      allowed: false,
+      loading:false,
+      visible:false
     };
   },
-  methods:{
-    logKeys(){
-      console.log(this.current[0])
+  methods: {
+    logKeys() {
+      console.log(this.current[0]);
+    },
+      onSearch(value) {
+      console.log(value, this.searchQuery);
+      if (this.searchQuery) {
+        this.visible = true;
+        return this.assets.filter((item) => {
+          return this.searchQuery
+            .toLowerCase()
+            .split(" ")
+            .every((v) => {
+              item.asset_name.toLowerCase().includes(v)||item.category.toLowerCase().includes(v)
+            });
+        });
+      } else {
+        return this.assets;
+      }
+    },
+    handleCancel(){
+      this.visible=false
     }
-  }
+
+  },
+
+   computed: {
+    ...mapState(["clients","currentClient"]),
+    resultQuery() {
+      if (this.searchQuery) {
+        return this.clients.filter((item) => {
+          return this.searchQuery.toString()
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.company_name.toLowerCase().includes(v));
+        });
+      } else {
+        return this.clients;
+      }
+    },
+  },
+    mounted() {
+    this.$store.dispatch("getClients");
+     this.$store.dispatch("getCurrentClient");
+    
+
+  },
 };
 </script>
 <style>
@@ -107,5 +108,4 @@ export default {
   margin: 16px 24px 16px 0;
   float: left;
 }
-
 </style>

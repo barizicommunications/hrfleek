@@ -29,19 +29,6 @@
             <a-select-option value="hourly"> Hourly </a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="Department">
-          <a-select
-            default-value="sales"
-            v-decorator="[
-              'department',
-              { rules: [{ required: true, message: 'Field is required!' }] },
-            ]"
-          >
-            <a-select-option value="sales"> Sales </a-select-option>
-            <a-select-option value="engineering"> Engineering </a-select-option>
-            <a-select-option value="legal"> legal </a-select-option>
-          </a-select>
-        </a-form-item>
         <a-form-item label="Normal Payday">
           <a-date-picker
             v-decorator="[
@@ -78,7 +65,6 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
           this.$store.dispatch("createCalender", values).then(() => {
             if (!this.error) {
               this.form.resetFields();

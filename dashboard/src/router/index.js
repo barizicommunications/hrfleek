@@ -76,10 +76,22 @@ let routes = [
 		component: () => import('../views/BulkEdits.vue'),
 	},
 	{
+		path: '/payrun/:id',
+		name: 'Payrun',
+		layout: "dashboard",
+		component: () => import('../views/Payrun.vue'),
+	},
+	{
 		path: '/reports',
 		name: 'Reports',
 		layout: "dashboard",
 		component: () => import('../views/Reports.vue'),
+	},
+	{
+		path: '/client-details',
+		name: 'Client-Details',
+		layout: "dashboard",
+		component: () => import('../views/SingleClient.vue'),
 	},
 	{
 		path: '/Profile',

@@ -22,7 +22,6 @@
           }
         "
       >
-        <a slot="extra" href="#"><a-icon type="delete" class="ml-10" /> </a>
         <a-row type="flex">
           <a-col class="col-content">
             <div class="card-content">
@@ -70,8 +69,15 @@
 
 <script>
 import { mapState } from "vuex";
+import router from "../../router";
 
 export default {
+  props:{
+  clients: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       image:
@@ -79,7 +85,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["clients","currentClient"]),
+    ...mapState(["currentClient"]),
     formattedName() {
       return function formatName(name) {
         const newName = name.slice(40);
@@ -101,6 +107,7 @@ export default {
           localStorage.setItem("client", JSON.stringify(client));
           this.$store.dispatch("getCurrentClient");
            this.$store.dispatch("getEmployees");
+           router.push("client-details")
         } else {
           this.$refs.clientcard[
             this.clients.indexOf(client)

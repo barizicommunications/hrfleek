@@ -255,7 +255,6 @@ export default new Vuex.Store({
       const selectedClient=JSON.parse(localStorage.getItem("client"))
       const payload ={
         calendar_name:data.calendar_name,
-        department:data.department,
         date:data.date.toDate(),
         payment_cycle:data.payment_cycle
 

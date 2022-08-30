@@ -76,6 +76,12 @@ let routes = [
 		component: () => import('../views/BulkEdits.vue'),
 	},
 	{
+		path: '/payrun/:id',
+		name: 'Payrun',
+		layout: "dashboard",
+		component: () => import('../views/Payrun.vue'),
+	},
+	{
 		path: '/reports',
 		name: 'Reports',
 		layout: "dashboard",

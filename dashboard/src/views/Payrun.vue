@@ -144,7 +144,7 @@ export default {
           else {
               swal({
                 title: "OOPS!",
-                text: `${employee.full_name} Already exists`,
+                text: `employee Already exists`,
                 icon: "error",
               });
             }

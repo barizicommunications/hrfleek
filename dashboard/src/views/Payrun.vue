@@ -9,13 +9,17 @@
         <a-col :span="24" :md="8">
           <h6>Employees</h6>
           <p>
-            Total <span class="text-primary">{{ employees.length }}</span>
+            Total <span class="text-primary">{{ payrunEmployees.length }}</span>
           </p>
         </a-col>
         <a-col
           :span="24"
           :md="12"
-          style="display: flex; align-items: center; justify-content:space-between"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
         >
           <a-select
             mode="multiple"
@@ -39,12 +43,19 @@
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-            <a-radio-button value="all">Add To List</a-radio-button>
+            <a-radio-button value="all" @click="addToList"
+              >Add To List</a-radio-button
+            >
           </a-radio-group>
         </a-col>
       </a-row>
     </template>
-    <a-table :columns="columns" :data-source="employees" bordered rowKey="id">
+    <a-table
+      :columns="columns"
+      :data-source="payrunEmployees"
+      bordered
+      rowKey="id"
+    >
       <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span>
@@ -62,6 +73,7 @@
 
 <script>
 import { mapState } from "vuex";
+import swal from "sweetalert";
 const columns = [
   {
     title: "Name",
@@ -111,18 +123,56 @@ export default {
       calendar: {},
       columns,
       selectedEmployees: [],
+      payrunEmployees: [],
     };
   },
-  methods:{
+  methods: {
     handleChange(selectedItems) {
       this.selectedEmployees = selectedItems;
+    },
+    addToList() {
+      if (this.selectedEmployees.length) {
+        let setemployee = [];
+        for (let i = 0; i < this.selectedEmployees.length; i++) {
+          let employee = this.employees.find(
+            (e) => e.full_name === this.selectedEmployees[i]
+          );
+          if (this.payrunEmployees.indexOf(employee) === -1) {
+            this.payrunEmployees.push(employee);
+            
+          }
+          else {
+              swal({
+                title: "OOPS!",
+                text: `${employee.full_name} Already exists`,
+                icon: "error",
+              });
+            }
+          //   if (this.payrunEmployees.indexOf(employee)) {
+          //     this.payrunEmployees.push(employee);
+          //   } else {
+          //     swal({
+          //       title: "OOPS!",
+          //       text: `${employee.full_name} Already exists`,
+          //       icon: "error",
+          //     });
+          //   }
+        }
+        console.log(setemployee);
+      } else {
+        swal({
+          title: "OOPS!",
+          text: `No employees to add`,
+          icon: "error",
+        });
+      }
     },
   },
   computed: {
     ...mapState(["calendars", "employees", "currentClient"]),
     filteredOptions() {
-      return this.employees.filter(o => !this.selectedEmployees.includes(o));
-    }
+      return this.employees.filter((o) => !this.selectedEmployees.includes(o));
+    },
   },
   mounted() {
     this.$store.dispatch("getCalendars");

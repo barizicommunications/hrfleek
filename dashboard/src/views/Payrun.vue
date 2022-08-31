@@ -144,7 +144,6 @@ export default {
       calendar: {},
       columns,
       selectedEmployees: [],
-      payrunEmployees: [],
       selectedDepartments: [],
     };
   },
@@ -164,7 +163,9 @@ export default {
           if (this.payrunEmployees.indexOf(employee) === -1) {
             this.payrunEmployees.push(employee);
           }
+          
         }
+        this.$store.dispatch("updatePayrunEmployees",this.payrunEmployees)
       } else {
         swal({
           title: "OOPS!",
@@ -175,7 +176,6 @@ export default {
     },
     addDepartment() {
       if (this.selectedDepartments.length) {
-        let setemployee = [];
         for (let i = 0; i < this.selectedDepartments.length; i++) {
           let filteredOptions = this.employees.filter(
             (e) => e.department === this.selectedDepartments[i]
@@ -187,6 +187,7 @@ export default {
             }
           });
         }
+        this.$store.dispatch("updatePayrunEmployees",this.payrunEmployees)
       } else {
         swal({
           title: "OOPS!",
@@ -197,11 +198,12 @@ export default {
     },
     removeEmployee(element){
       console.log(element)
-     this.payrunEmployees= this.payrunEmployees.filter((e)=>e!==element);
+     let data= this.payrunEmployees.filter((e)=>e!==element);
+     this.$store.dispatch("updatePayrunEmployees",data)
     }
   },
   computed: {
-    ...mapState(["calendars", "employees", "currentClient"]),
+    ...mapState(["calendars", "employees", "currentClient","payrunEmployees"]),
     filteredOptions() {
       return this.employees.filter((o) => !this.selectedEmployees.includes(o));
     },

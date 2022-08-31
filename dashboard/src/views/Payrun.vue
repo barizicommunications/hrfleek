@@ -83,11 +83,8 @@
       <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span>
-            <router-link
-              :to="{ name: 'Editemployee', params: { profile: record } }"
-            >
-              <a>Remove</a></router-link
-            >
+          
+              <a @click="()=>{removeEmployee(record)}">Remove</a>
           </span>
         </div>
       </template>
@@ -198,6 +195,10 @@ export default {
         });
       }
     },
+    removeEmployee(element){
+      console.log(element)
+     this.payrunEmployees= this.payrunEmployees.filter((e)=>e!==element);
+    }
   },
   computed: {
     ...mapState(["calendars", "employees", "currentClient"]),

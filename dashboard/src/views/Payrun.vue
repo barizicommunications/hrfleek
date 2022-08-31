@@ -6,7 +6,7 @@
   >
     <template #title>
       <a-row type="flex" align="middle">
-        <a-col :span="24" :md="8">
+        <a-col :span="24" :md="3">
           <h6>Employees</h6>
           <p>
             Total <span class="text-primary">{{ payrunEmployees.length }}</span>
@@ -21,32 +21,56 @@
             justify-content: space-between;
           "
         >
-          <a-select
-            mode="multiple"
-            placeholder="Search Employees"
-            :value="selectedEmployees"
-            style="width: 80%"
-            @change="handleChange"
-          >
-            <a-select-option
-              v-for="item in employees"
-              :key="item.full_name"
-              :value="item.full_name"
+          <a-input-group compact>
+            <a-select
+              mode="multiple"
+              placeholder="Search Employees by name"
+              :value="selectedEmployees"
+              style="width: 80%"
+              @change="handleChange"
             >
-              {{ item.full_name }}
-            </a-select-option>
-          </a-select>
+              <a-select-option
+                v-for="item in employees"
+                :key="item.full_name"
+                :value="item.full_name"
+              >
+                {{ item.full_name }}
+              </a-select-option>
+            </a-select>
+            <a-button type="primary" @click="addToList" id="otp-verfiy-button"
+              >Add to List</a-button
+            >
+          </a-input-group>
         </a-col>
+
         <a-col
           :span="24"
-          :md="4"
+          :md="9"
           style="display: flex; align-items: center; justify-content: flex-end"
         >
-          <a-radio-group size="small">
-            <a-radio-button value="all" @click="addToList"
-              >Add To List</a-radio-button
+          <a-input-group compact>
+            <a-select
+              mode="multiple"
+              placeholder="Search Departments"
+              :value="selectedDepartments"
+              style="width: 80%"
+              @change="handleDepartmentChange"
             >
-          </a-radio-group>
+              <a-select-option
+                v-for="item in currentClient.departments"
+                :key="item.department_name"
+                :value="item.department_name"
+              >
+                {{ item.department_name }}
+              </a-select-option>
+            </a-select>
+            <a-button
+              type="primary"
+              @click="addDepartment"
+              id="otp-verfiy-button"
+              >Confirm</a-button
+            >
+          </a-input-group>
         </a-col>
       </a-row>
     </template>
@@ -124,45 +148,52 @@ export default {
       columns,
       selectedEmployees: [],
       payrunEmployees: [],
+      selectedDepartments: [],
     };
   },
   methods: {
     handleChange(selectedItems) {
       this.selectedEmployees = selectedItems;
     },
+    handleDepartmentChange(selectedItems) {
+      this.selectedDepartments = selectedItems;
+    },
     addToList() {
       if (this.selectedEmployees.length) {
-        let setemployee = [];
         for (let i = 0; i < this.selectedEmployees.length; i++) {
           let employee = this.employees.find(
             (e) => e.full_name === this.selectedEmployees[i]
           );
           if (this.payrunEmployees.indexOf(employee) === -1) {
             this.payrunEmployees.push(employee);
-            
           }
-          else {
-              swal({
-                title: "OOPS!",
-                text: `employee Already exists`,
-                icon: "error",
-              });
-            }
-          //   if (this.payrunEmployees.indexOf(employee)) {
-          //     this.payrunEmployees.push(employee);
-          //   } else {
-          //     swal({
-          //       title: "OOPS!",
-          //       text: `${employee.full_name} Already exists`,
-          //       icon: "error",
-          //     });
-          //   }
         }
-        console.log(setemployee);
       } else {
         swal({
           title: "OOPS!",
           text: `No employees to add`,
+          icon: "error",
+        });
+      }
+    },
+    addDepartment() {
+      if (this.selectedDepartments.length) {
+        let setemployee = [];
+        for (let i = 0; i < this.selectedDepartments.length; i++) {
+          let filteredOptions = this.employees.filter(
+            (e) => e.department === this.selectedDepartments[i]
+          );
+          console.log(filteredOptions);
+          filteredOptions.forEach((element) => {
+            if (this.payrunEmployees.indexOf(element) === -1) {
+              this.payrunEmployees.push(element);
+            }
+          });
+        }
+      } else {
+        swal({
+          title: "OOPS!",
+          text: `please select a department`,
           icon: "error",
         });
       }

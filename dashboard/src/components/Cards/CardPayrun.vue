@@ -1,14 +1,8 @@
 <template>
-  <div>
-    <a-steps :current="current">
-      <a-step v-for="item in steps" :key="item.title" :title="item.title" class="mb-5" />
-    </a-steps>
-    <div class="steps-content mb-5">
-      <a-card
+       <a-card
         :bordered="false"
         class="header-solid h-full"
         :bodyStyle="{ padding: 0 }"
-        v-if="current == 0"
        
       >
         <template #title>
@@ -111,38 +105,11 @@
           </template>
         </a-table>
       </a-card>
-      <a-card
-        :bordered="false"
-        class="header-solid h-full"
-        :bodyStyle="{ padding: 0 }"
-        v-if="current == 1"
-      >
-      <card-payslips></card-payslips>
-      </a-card>
-    </div>
-    <div class="steps-action">
-      <a-button v-if="current < steps.length - 1" type="primary" @click="next">
-        Next
-      </a-button>
-      <a-button
-        v-if="current == steps.length - 1"
-        type="primary"
-        @click="$message.success('Processing complete!')"
-      >
-        Done
-      </a-button>
-      <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-        Previous
-      </a-button>
-    </div>
-  </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+    import { mapState } from "vuex";
 import swal from "sweetalert";
-import CardPayslips from '../components/Cards/CardPayslips.vue';
-import CardPayrun from '../components/Cards/CardPayrun.vue';
 const columns = [
   {
     title: "Name",
@@ -185,10 +152,8 @@ const columns = [
     scopedSlots: { customRender: "operation" },
   },
 ];
-
 export default {
-  components: { CardPayslips, CardPayrun },
-  data() {
+    data() {
     return {
       calendar: {},
       columns,
@@ -283,21 +248,19 @@ export default {
     this.calendar = this.calendars.find((e) => e.id === this.$route.params.id);
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
+    console.log("mounted")
   },
   beforeDestroy() {
-    this.$confirm({
-        title: 'Confirm',
-        content: 'Bla bla ...',
-        okText: 'Confirm',
-        cancelText: 'Cancel',
-      });
+    console.log("before destroyed")
     },
     // clean all events, watchers, and child components
     destroyed() {
       console.log("destroyed")
       // component unmounted, time for clean ups
     }
-};
+}
 </script>
 
-<style></style>
+<style>
+
+</style>

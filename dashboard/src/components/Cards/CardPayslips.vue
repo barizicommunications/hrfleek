@@ -28,7 +28,7 @@
             </tr>
             <tr>
               <th>Name</th>
-              <td>Example</td>
+              <td>{{employee.full_name}}</td>
               <td></td>
               <th>Bank Code</th>
               <td>ABC123</td>
@@ -37,38 +37,38 @@
               <td>ABC123</td>
             </tr>
             <tr>
-              <th>Employee Code</th>
-              <td>XXXXXXXXXXX</td>
+              <th>National ID</th>
+              <td>{{employee.national_id}}</td>
               <td></td>
               <th>Bank Name</th>
-              <td>XXXXXXXXXXX</td>
+              <td>{{employee.bank_name}}</td>
               <td></td>
               <th>Payslip no.</th>
               <td>XXXXXXXXXX</td>
             </tr>
             <tr>
-              <th>Cost Centre</th>
-              <td>XXXXXXXXXXX</td>
+              <th>KRA PIN</th>
+              <td>{{employee.kra_pin}}</td>
               <td></td>
               <th>Bank Branch</th>
-              <td>XXXXXXXXXX</td>
+              <td>{{employee.bank_branch}}</td>
               <td></td>
               <th>Pay Period</th>
               <td>XXXXXXXXXXX</td>
             </tr>
             <tr>
-              <th>CC Description:</th>
-              <td>XXXXXXXXXXX</td>
+              <th>Phone Number:</th>
+              <td>{{employee.phone_number}}</td>
               <td></td>
               <th>Bank A/C no.</th>
-              <td>XXXXXXXXXX</td>
+              <td>{{employee.account_number}}</td>
               <td></td>
               <th>Personel Area</th>
               <td>XXXXXXXXXX</td>
             </tr>
             <tr>
-              <th>Grade:</th>
-              <td>18</td>
+              <th>Email:</th>
+              <td>{{employee.email}}</td>
               <td></td>
               <th>Employee Group</th>
               <td>Sales Manager</td>
@@ -291,6 +291,7 @@
 
 <script>
 import { mapState } from "vuex";
+
 export default {
   computed: {
     ...mapState(["calendars", "employees", "currentClient", "payrunEmployees"]),
@@ -308,6 +309,15 @@ export default {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
   },
+  beforeDestroy() {
+      console.log("beforeDestroy")
+      // component before unmounted, time for update the things that happens on this component 
+    },
+    // clean all events, watchers, and child components
+    destroyed() {
+      console.log("destroyed")
+      // component unmounted, time for clean ups
+    }
 };
 </script>
 

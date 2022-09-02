@@ -5,7 +5,7 @@
         <CardPayrun :calendar="calendar"></CardPayrun>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Payslips Preview" force-render>
-      <card-payslips></card-payslips>
+      <card-payslips :calendar="calendar"></card-payslips>
       </a-tab-pane>
       <a-tab-pane key="3" tab="Bank Overview">
         Content of Tab Pane 3

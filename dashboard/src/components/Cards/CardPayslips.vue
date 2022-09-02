@@ -1,5 +1,51 @@
 <template>
   <a-card>
+     <template #title>
+      <a-row type="flex" align="middle">
+        <a-col
+          :span="24"
+          :md="12"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <a-input-group compact>
+            <a-select
+              mode="multiple"
+              placeholder="Search  by name"
+              :value="selectedEmployees"
+              style="width: 70%"
+              @change="handleChange"
+            >
+            <a-select-option
+             
+                value="all"
+                disabled
+              >
+               All
+              </a-select-option>
+              <a-select-option
+                v-for="item in employees"
+                :key="item.full_name"
+                :value="item.full_name"
+              >
+                {{ item.full_name }}
+              </a-select-option>
+            </a-select>
+            <a-button
+              type="primary"
+              @click="addToList"
+              id="otp-verfiy-button"
+              icon="download"
+              >Download
+            </a-button>
+          </a-input-group>
+        </a-col>
+
+      </a-row>
+    </template>
     <a-carousel arrows>
       <div
         slot="prevArrow"
@@ -293,6 +339,12 @@
 import { mapState } from "vuex";
 
 export default {
+    data() {
+    return {
+      selectedEmployees: [],
+      loading: false,
+    };
+  },
   computed: {
     ...mapState(["calendars", "employees", "currentClient", "payrunEmployees"]),
     employees() {
@@ -300,24 +352,37 @@ export default {
     },
   },
   methods:{
-    prev(){
-
-    }
+    handleChange(selectedItems) {
+      this.selectedEmployees = selectedItems;
+    },
+    handleDepartmentChange(selectedItems) {
+      this.selectedDepartments = selectedItems;
+    },
+    addToList() {
+      if (this.selectedEmployees.length) {
+        for (let i = 0; i < this.selectedEmployees.length; i++) {
+          let employee = this.employees.find(
+            (e) => e.full_name === this.selectedEmployees[i]
+          );
+          if (this.payrunEmployees.indexOf(employee) === -1) {
+            this.payrunEmployees.push(employee);
+          }
+        }
+        this.$store.dispatch("updatePayrunEmployees", this.payrunEmployees);
+      } else {
+        swal({
+          title: "OOPS!",
+          text: `No employees to add`,
+          icon: "error",
+        });
+      }
+    },
   },
   mounted() {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
   },
-  beforeDestroy() {
-      console.log("beforeDestroy")
-      // component before unmounted, time for update the things that happens on this component 
-    },
-    // clean all events, watchers, and child components
-    destroyed() {
-      console.log("destroyed")
-      // component unmounted, time for clean ups
-    }
 };
 </script>
 

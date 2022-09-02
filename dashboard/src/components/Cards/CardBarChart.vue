@@ -9,15 +9,15 @@
 		</div>
 		<a-row class="card-footer" type="flex" justify="center" align="top">
 			<a-col :span="6">
-				<h4>3,6K</h4>
+				<h4>3,600</h4>
 				<span>Employees</span>
 			</a-col>
 			<a-col :span="6">
-				<h4>2m</h4>
+				<h4>2</h4>
 				<span>Calendars</span>
 			</a-col>
 			<a-col :span="6">
-				<h4>$772</h4>
+				<h4>772</h4>
 				<span>Records</span>
 			</a-col>
 			<a-col :span="6">

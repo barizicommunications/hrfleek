@@ -15,29 +15,21 @@
       @submit="handleSubmit"
       :hideRequiredMark="true"
     >
-      <a-form-item class="mb-10" label="Update Password" :colon="false">
-        <a-input-group compact>
-          <a-input
-            v-decorator="[
-              'password',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                ],
-              },
-            ]"
-            style="width: calc(100% - 100px)"
-            label="Confirm Code"
-            placeholder="New password"
-          />
-          <a-button type="primary" @click="handleSubmit" id="otp-verfiy-button"
-            >Confirm</a-button
-          >
-        </a-input-group>
-      </a-form-item>
+    <a-form-item label="Enter Password">
+      <a-input
+        v-decorator="['note', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+      />
+    </a-form-item>
+    <a-form-item label="Confirm Password">
+      <a-input
+        v-decorator="['note', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+      />
+    </a-form-item>
+    <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+      <a-button type="primary" block html-type="submit">
+        Submit
+      </a-button>
+    </a-form-item>
     </a-form>
   </a-card>
   <!-- / Platform Settings Card -->

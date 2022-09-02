@@ -1,276 +1,37 @@
 <template>
   <div>
-    <a-steps :current="current">
-      <a-step v-for="item in steps" :key="item.title" :title="item.title" class="mb-5" />
-    </a-steps>
-    <div class="steps-content mb-5">
-      <a-card
-        :bordered="false"
-        class="header-solid h-full"
-        :bodyStyle="{ padding: 0 }"
-        v-if="current == 0"
-       
-      >
-        <template #title>
-          <a-row type="flex" align="middle">
-            <a-col :span="24" :md="3">
-              <h6>Employees</h6>
-              <p>
-                Total
-                <span class="text-primary">{{ payrunEmployees.length }}</span>
-              </p>
-            </a-col>
-            <a-col
-              :span="24"
-              :md="12"
-              style="
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-              "
-            >
-              <a-input-group compact>
-                <a-select
-                  mode="multiple"
-                  placeholder="Search Employees by name"
-                  :value="selectedEmployees"
-                  style="width: 80%"
-                  @change="handleChange"
-                >
-                  <a-select-option
-                    v-for="item in employees"
-                    :key="item.full_name"
-                    :value="item.full_name"
-                  >
-                    {{ item.full_name }}
-                  </a-select-option>
-                </a-select>
-                <a-button
-                  type="primary"
-                  @click="addToList"
-                  id="otp-verfiy-button"
-                  >Add to List</a-button
-                >
-              </a-input-group>
-            </a-col>
-
-            <a-col
-              :span="24"
-              :md="9"
-              style="
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-              "
-            >
-              <a-input-group compact>
-                <a-select
-                  mode="multiple"
-                  placeholder="Search Departments"
-                  :value="selectedDepartments"
-                  style="width: 80%"
-                  @change="handleDepartmentChange"
-                >
-                  <a-select-option
-                    v-for="item in currentClient.departments"
-                    :key="item.department_name"
-                    :value="item.department_name"
-                  >
-                    {{ item.department_name }}
-                  </a-select-option>
-                </a-select>
-                <a-button
-                  type="primary"
-                  @click="addDepartment"
-                  id="otp-verfiy-button"
-                  >Confirm</a-button
-                >
-              </a-input-group>
-            </a-col>
-          </a-row>
-        </template>
-        <a-table
-          :columns="columns"
-          :data-source="payrunEmployees"
-          bordered
-          rowKey="id"
-        >
-          <template slot="operation" slot-scope="text, record">
-            <div class="editable-row-operations">
-              <span>
-                <a
-                  @click="
-                    () => {
-                      removeEmployee(record);
-                    }
-                  "
-                  >Remove</a
-                >
-              </span>
-            </div>
-          </template>
-        </a-table>
-      </a-card>
-      <a-card
-        :bordered="false"
-        class="header-solid h-full"
-        :bodyStyle="{ padding: 0 }"
-        v-if="current == 1"
-      >
+    <a-tabs default-active-key="1">
+      <a-tab-pane key="1" tab="Employees">
+        <CardPayrun :calendar="calendar"></CardPayrun>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="Payslips Preview" force-render>
       <card-payslips></card-payslips>
-      </a-card>
-    </div>
-    <div class="steps-action">
-      <a-button v-if="current < steps.length - 1" type="primary" @click="next">
-        Next
-      </a-button>
-      <a-button
-        v-if="current == steps.length - 1"
-        type="primary"
-        @click="$message.success('Processing complete!')"
-      >
-        Done
-      </a-button>
-      <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-        Previous
-      </a-button>
-    </div>
+      </a-tab-pane>
+      <a-tab-pane key="3" tab="Bank Overview">
+        Content of Tab Pane 3
+      </a-tab-pane>
+      <a-tab-pane key="4" tab="Settings"> Content of Tab Pane 3 </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import swal from "sweetalert";
-import CardPayslips from '../components/Cards/CardPayslips.vue';
-import CardPayrun from '../components/Cards/CardPayrun.vue';
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "full_name",
-    scopedSlots: { customRender: "full_name" },
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    scopedSlots: { customRender: "email" },
-  },
-  {
-    title: "Department",
-    dataIndex: "department",
-    scopedSlots: { customRender: "department" },
-    filters: [
-      { text: "Sales", value: "sales" },
-      { text: "Engineering", value: "engineering" },
-    ],
-    onFilter: (value, record) => record.department.indexOf(value) === 0,
-  },
-  {
-    title: "designation",
-    dataIndex: "designation",
-    scopedSlots: { customRender: "designation" },
-  },
-  {
-    title: "Phone Number",
-    dataIndex: "phone_number",
-  },
-  {
-    title: "Basic Salary",
-    className: "column-money",
-    dataIndex: "basic_pay",
-    sorter: (a, b) => a.basic_pay - b.basic_pay,
-  },
-  {
-    title: "operation",
-    dataIndex: "operation",
-    scopedSlots: { customRender: "operation" },
-  },
-];
+import CardPayslips from "../components/Cards/CardPayslips.vue";
+import CardPayrun from "../components/Cards/CardPayrun.vue";
+
 
 export default {
   components: { CardPayslips, CardPayrun },
   data() {
     return {
       calendar: {},
-      columns,
       selectedEmployees: [],
       selectedDepartments: [],
       visible: false,
-      current: 0,
-      steps: [
-        {
-          title: "Employees",
-          content: "First-content",
-        },
-        {
-          title: "Payslips Preview",
-          content: "Second-content",
-        },
-        {
-          title: "Review and Submit",
-          content: "Last-content",
-        },
-      ],
     };
   },
   methods: {
-    next(e) {
-      this.current++;
-    },
-    prev() {
-      this.current--;
-    },
-    handleChange(selectedItems) {
-      this.selectedEmployees = selectedItems;
-    },
-    handleDepartmentChange(selectedItems) {
-      this.selectedDepartments = selectedItems;
-    },
-    addToList() {
-      if (this.selectedEmployees.length) {
-        for (let i = 0; i < this.selectedEmployees.length; i++) {
-          let employee = this.employees.find(
-            (e) => e.full_name === this.selectedEmployees[i]
-          );
-          if (this.payrunEmployees.indexOf(employee) === -1) {
-            this.payrunEmployees.push(employee);
-          }
-        }
-        this.$store.dispatch("updatePayrunEmployees", this.payrunEmployees);
-      } else {
-        swal({
-          title: "OOPS!",
-          text: `No employees to add`,
-          icon: "error",
-        });
-      }
-    },
-    addDepartment() {
-      if (this.selectedDepartments.length) {
-        for (let i = 0; i < this.selectedDepartments.length; i++) {
-          let filteredOptions = this.employees.filter(
-            (e) => e.department === this.selectedDepartments[i]
-          );
-          console.log(filteredOptions);
-          filteredOptions.forEach((element) => {
-            if (this.payrunEmployees.indexOf(element) === -1) {
-              this.payrunEmployees.push(element);
-            }
-          });
-        }
-        this.$store.dispatch("updatePayrunEmployees", this.payrunEmployees);
-      } else {
-        swal({
-          title: "OOPS!",
-          text: `please select a department`,
-          icon: "error",
-        });
-      }
-    },
-    removeEmployee(element) {
-      console.log(element);
-      let data = this.payrunEmployees.filter((e) => e !== element);
-      this.$store.dispatch("updatePayrunEmployees", data);
-    },
   },
   computed: {
     ...mapState(["calendars", "employees", "currentClient", "payrunEmployees"]),
@@ -284,19 +45,6 @@ export default {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
   },
-  beforeDestroy() {
-    this.$confirm({
-        title: 'Confirm',
-        content: 'Bla bla ...',
-        okText: 'Confirm',
-        cancelText: 'Cancel',
-      });
-    },
-    // clean all events, watchers, and child components
-    destroyed() {
-      console.log("destroyed")
-      // component unmounted, time for clean ups
-    }
 };
 </script>
 

@@ -1,115 +1,127 @@
 <template>
-       <a-card
-        :bordered="false"
-        class="header-solid h-full"
-        :bodyStyle="{ padding: 0 }"
-       
-      >
-        <template #title>
-          <a-row type="flex" align="middle">
-            <a-col :span="24" :md="3">
-              <h6>Employees</h6>
-              <p>
-                Total
-                <span class="text-primary">{{ payrunEmployees.length }}</span>
-              </p>
-            </a-col>
-            <a-col
-              :span="24"
-              :md="12"
-              style="
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-              "
-            >
-              <a-input-group compact>
-                <a-select
-                  mode="multiple"
-                  placeholder="Search Employees by name"
-                  :value="selectedEmployees"
-                  style="width: 80%"
-                  @change="handleChange"
-                >
-                  <a-select-option
-                    v-for="item in employees"
-                    :key="item.full_name"
-                    :value="item.full_name"
-                  >
-                    {{ item.full_name }}
-                  </a-select-option>
-                </a-select>
-                <a-button
-                  type="primary"
-                  @click="addToList"
-                  id="otp-verfiy-button"
-                  >Add to List</a-button
-                >
-              </a-input-group>
-            </a-col>
-
-            <a-col
-              :span="24"
-              :md="9"
-              style="
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-              "
-            >
-              <a-input-group compact>
-                <a-select
-                  mode="multiple"
-                  placeholder="Search Departments"
-                  :value="selectedDepartments"
-                  style="width: 80%"
-                  @change="handleDepartmentChange"
-                >
-                  <a-select-option
-                    v-for="item in currentClient.departments"
-                    :key="item.department_name"
-                    :value="item.department_name"
-                  >
-                    {{ item.department_name }}
-                  </a-select-option>
-                </a-select>
-                <a-button
-                  type="primary"
-                  @click="addDepartment"
-                  id="otp-verfiy-button"
-                  >Confirm</a-button
-                >
-              </a-input-group>
-            </a-col>
-          </a-row>
-        </template>
-        <a-table
-          :columns="columns"
-          :data-source="payrunEmployees"
-          bordered
-          rowKey="id"
+  <a-card
+    :bordered="false"
+    class="header-solid h-full"
+    :bodyStyle="{ padding: 0 }"
+  >
+    <template #title>
+      <a-row type="flex" align="middle">
+        <a-col :span="24" :md="3">
+          <h6>Employees</h6>
+          <p>
+            Total
+            <span class="text-primary">{{ payrunEmployees.length }}</span>
+          </p>
+        </a-col>
+        <a-col
+          :span="24"
+          :md="6"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
         >
-          <template slot="operation" slot-scope="text, record">
-            <div class="editable-row-operations">
-              <span>
-                <a
-                  @click="
-                    () => {
-                      removeEmployee(record);
-                    }
-                  "
-                  >Remove</a
-                >
-              </span>
-            </div>
-          </template>
-        </a-table>
-      </a-card>
+          <a-input-group compact>
+            <a-select
+              mode="multiple"
+              placeholder="Search  by name"
+              :value="selectedEmployees"
+              style="width: 70%"
+              @change="handleChange"
+            >
+              <a-select-option
+                v-for="item in employees"
+                :key="item.full_name"
+                :value="item.full_name"
+              >
+                {{ item.full_name }}
+              </a-select-option>
+            </a-select>
+            <a-button
+              type="primary"
+              @click="addToList"
+              id="otp-verfiy-button"
+              icon="search"
+              >Add
+            </a-button>
+          </a-input-group>
+        </a-col>
+
+        <a-col
+          :span="24"
+          :md="6"
+          style="display: flex; align-items: center; justify-content: flex-end"
+        >
+          <a-input-group compact>
+            <a-select
+              mode="multiple"
+              placeholder="Search by Departments"
+              :value="selectedDepartments"
+              style="width: 80%"
+              @change="handleDepartmentChange"
+            >
+              <a-select-option
+                v-for="item in currentClient.departments"
+                :key="item.department_name"
+                :value="item.department_name"
+              >
+                {{ item.department_name }}
+              </a-select-option>
+            </a-select>
+            <a-button
+              type="primary"
+              @click="addDepartment"
+              id="otp-verfiy-button"
+              icon="search"
+              >Add To List</a-button
+            >
+          </a-input-group>
+        </a-col>
+        <a-col
+          :span="24"
+          :md="6"
+          style="display: flex; align-items: center; justify-content: flex-end"
+        >
+          <a-button
+            type="primary"
+            @click="reviewandSubmit"
+            id="otp-verfiy-button"
+            icon="upload"
+            :loading="loading"
+            >Review and Submit</a-button
+          >
+        </a-col>
+      </a-row>
+    </template>
+    <a-table
+      :columns="columns"
+      :data-source="payrunEmployees"
+      bordered
+      rowKey="id"
+    >
+      <template slot="operation" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span>
+            <a
+              @click="
+                () => {
+                  removeEmployee(record);
+                }
+              "
+              >Remove</a
+            >
+          </span>
+        </div>
+      </template>
+    </a-table>
+  </a-card>
 </template>
 
 <script>
-    import { mapState } from "vuex";
+import { mapState } from "vuex";
 import swal from "sweetalert";
+import * as fb from "../../firebase";
 const columns = [
   {
     title: "Name",
@@ -153,37 +165,63 @@ const columns = [
   },
 ];
 export default {
-    data() {
+  props: {
+    calendar: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
     return {
-      calendar: {},
       columns,
       selectedEmployees: [],
       selectedDepartments: [],
-      visible: false,
-      current: 0,
-      steps: [
-        {
-          title: "Employees",
-          content: "First-content",
-        },
-        {
-          title: "Payslips Preview",
-          content: "Second-content",
-        },
-        {
-          title: "Review and Submit",
-          content: "Last-content",
-        },
-      ],
+      loading: false,
     };
   },
   methods: {
-    next(e) {
-      this.current++;
+    reviewandSubmit() {
+      this.loading = true;
+      if (!this.payrunEmployees.length) {
+        swal({
+          title: "OOP!",
+          text: "There are no employees to be added",
+          icon: "error",
+        });
+        this.loading=false
+      }else{
+      swal("Final Changes made will be added to your payrun").then(
+        async (value) => {
+          await fb.businessCollection
+            .doc(this.currentClient.id)
+            .collection("calendars")
+            .doc(this.calendar.id)
+            .update({
+              employees: this.payrunEmployees,
+            })
+            .then(() => {
+              console.log(
+                this.payrunEmployees,
+                this.calendar,
+                this.currentClient
+              );
+              this.$store.dispatch("updatePayrunEmployees", []);
+              this.loading = false;
+            })
+            .catch((err) => {
+              swal({
+                title: "OOP!",
+                text: "Something went wrong",
+                icon: "error",
+              });
+              this.loading = false;
+            });
+        }
+      );
+      }
+
     },
-    prev() {
-      this.current--;
-    },
+
     handleChange(selectedItems) {
       this.selectedEmployees = selectedItems;
     },
@@ -245,22 +283,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getCalendars");
-    this.calendar = this.calendars.find((e) => e.id === this.$route.params.id);
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
-    console.log("mounted")
+    console.log("mounted");
   },
-  beforeDestroy() {
-    console.log("before destroyed")
-    },
-    // clean all events, watchers, and child components
-    destroyed() {
-      console.log("destroyed")
-      // component unmounted, time for clean ups
-    }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

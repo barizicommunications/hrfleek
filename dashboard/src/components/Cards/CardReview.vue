@@ -1,6 +1,7 @@
 <!-- 
 	This is the user profile page, it uses the dashboard layout in: 
-	"./layouts/Dashboard.vue" .
+	"./l
+  components: { ReviewSettings },ayouts/Dashboard.vue" .
  -->
 
  <template>
@@ -14,7 +15,7 @@
 			<a-col :span="24" :md="8" class="mb-24">
 
 				<!-- Platform Settings Card -->
-				<CardPlatformSettings></CardPlatformSettings>
+				<review-settings></review-settings>
 				<!-- / Platform Settings Card -->
 
 			</a-col>
@@ -26,7 +27,7 @@
 			
 				<!-- Conversations Card -->
 				<CardPlatformUpdates
-					:data="conversationsData"
+					
 				></CardPlatformUpdates>
 				<!-- / Conversations Card -->
 
@@ -45,6 +46,7 @@
 	import CardPlatformUpdates from "../../components/Cards/CardPlatformUpdates"
 	import CardProject from "../../components/Cards/CardProject"
 	import { mapState } from "vuex"
+    import ReviewSettings from "./ReviewSettings.vue"
 
 	// Conversation's list data.
 	const conversationsData = [
@@ -85,6 +87,7 @@
 			CardProfileInformation,
 			CardPlatformUpdates,
 			CardProject,
+            ReviewSettings
 		},
 		data() {
 			return {

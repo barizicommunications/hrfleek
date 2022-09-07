@@ -153,7 +153,7 @@ export default new Vuex.Store({
       const ref = fb.storage.ref();
       const url = await ref
         .child(data.logo.file.name)
-        .put(data.logo.file.originFileObj, data.logo.file.type)
+        .put(data.logo.file, data.logo.file.type)
         .then((snapshot) => snapshot.ref.getDownloadURL());
       const payload = {
         company_name: data.company_name,
@@ -163,6 +163,7 @@ export default new Vuex.Store({
         address: data.company_address,
         logo: url,
       };
+      console.log(url)
 
       await fb.businessCollection
         .doc(data.kra_pin)

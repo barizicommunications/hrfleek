@@ -143,6 +143,36 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="12">
+            <a-form-item label="NSSF NUMBER">
+              <a-input
+                v-decorator="[
+                  'nssf_number',
+                  {
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="nssf number"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="NHIF NUMBER">
+              <a-input
+                v-decorator="[
+                  'nhif_number',
+                  {
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="NHIF"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
             <a-form-item label="Department">
               <a-select
                 v-decorator="[
@@ -381,6 +411,7 @@
       bordered
       :row-selection="rowSelection"
       rowKey="id"
+      :scroll="{ x: 2000 }"
     >
       <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
@@ -418,14 +449,34 @@
 <script>
 const columns = [
   {
-    title: "Name",
-    dataIndex: "full_name",
-    scopedSlots: { customRender: "full_name" },
+    title: "First Name",
+    dataIndex: "first_name",
+    scopedSlots: { customRender: "first_name" },
+  },
+  {
+    title: "Last Name",
+    dataIndex: "last_name",
+    scopedSlots: { customRender: "last_name" },
+  },
+  {
+    title: "Gender",
+    dataIndex: "Gender",
+    scopedSlots: { customRender: "gender" },
   },
   {
     title: "Email",
     dataIndex: "email",
     scopedSlots: { customRender: "email" },
+  },
+  {
+    title: "Phone Number",
+    dataIndex: "phone_number",
+    scopedSlots: { customRender: "phone_number" },
+  },
+  {
+    title: "KRA PIN",
+    dataIndex: "kra_pin",
+    scopedSlots: { customRender: "kra_pin" },
   },
   {
     title: "Department",
@@ -443,8 +494,12 @@ const columns = [
     scopedSlots: { customRender: "designation" },
   },
   {
-    title: "Phone Number",
-    dataIndex: "phone_number",
+    title: "NHIF Number",
+    dataIndex: "nhif_number",
+  },
+  {
+    title: "NSSF Number",
+    dataIndex: "nssf_number",
   },
   {
     title: "Basic Salary",
@@ -455,6 +510,7 @@ const columns = [
   {
     title: "operation",
     dataIndex: "operation",
+    fixed: 'right',
     scopedSlots: { customRender: "operation" },
   },
 ];
@@ -483,61 +539,71 @@ export default {
       sampleData: [
         {
           national_id: "35275995",
-          full_name: "Liliane Lorrainbe",
-          kra_pin: "Volkman",
-          bank_name: "Equity Bank",
+          first_name: "Liliane",
+          last_name:"Lorrainbe",
+          Gender:"male",
           email: "citlalli.wolf@hotmail.com",
+          phone_number: "0705122230",
+          address: "2448 Willms Freeway",      
+          Country: "Kenya",
+          department: "sales",
+          designation: "sales manager",
+          employment_type: "contract",
+          kra_pin: "A2030400504L",
+          nhif_number:"1923990",
+          nssf_number:"500604",
+          bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
           bank_branch: "Kenyatta Avenue",
-          department: "sales",
-          designation: "sales manager",
-          address: "2448 Willms Freeway",
-          Country: "kenya",
           basic_pay: "1000000",
-          designation: "10",
-          phone_number: "0705122230",
           Status: "active",
-          employment_type: "contract",
           employee_id: "",
         },
         {
-          national_id: "35275995",
-          full_name: "Warren ochieng",
-          kra_pin: "Volkman",
-          bank_name: "Equity Bank",
+          national_id: "35905995",
+          first_name: "Phillip",
+          last_name:"Mugo",
+          Gender:"male",
           email: "citlalli.wolf@hotmail.com",
+          phone_number: "0705122230",
+          address: "2448 Willms Freeway",      
+          Country: "Kenya",
+          department: "sales",
+          designation: "sales manager",
+          employment_type: "contract",
+          kra_pin: "A2030400504L",
+          nhif_number:"1923990",
+          nssf_number:"500604",
+          bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
           bank_branch: "Kenyatta Avenue",
-          department: "sales",
-          designation: "sales manager",
-          address: "2448 Willms Freeway",
-          Country: "kenya",
           basic_pay: "1000000",
-          designation: "10",
-          phone_number: "0705122230",
           Status: "active",
-          employment_type: "contract",
           employee_id: "",
         },
         {
-          national_id: "35275995",
-          full_name: "King Kali",
-          kra_pin: "Volkman",
-          bank_name: "Equity Bank",
+          national_id: "36275995",
+          first_name: "MIchelle",
+          last_name:"Natasha",
+          Gender:"female",
           email: "citlalli.wolf@hotmail.com",
+          phone_number: "0705122230",
+          address: "2448 Willms Freeway",      
+          Country: "Kenya",
+          department: "sales",
+          designation: "sales manager",
+          employment_type: "contract",
+          kra_pin: "A2030400504L",
+          nhif_number:"1923990",
+          nssf_number:"500604",
+          bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
           bank_branch: "Kenyatta Avenue",
-          department: "sales",
-          designation: "sales manager",
-          address: "2448 Willms Freeway",
           basic_pay: "1000000",
-          designation: "10",
-          phone_number: "0705122230",
           Status: "active",
-          employment_type: "contract",
           employee_id: "",
         },
       ],
@@ -666,7 +732,8 @@ export default {
 
     downloadFile() {
       const data = this.sampleData;
-      const fileName = "sample emplyee data";
+      console.log(typeof(data))
+      const fileName = "sample employee data";
       const exportType = exportFromJSON.types.csv;
 
       if (data) exportFromJSON({ data, fileName, exportType });

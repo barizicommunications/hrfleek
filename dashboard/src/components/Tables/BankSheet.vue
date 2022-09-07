@@ -70,39 +70,33 @@ import exportFromJSON from "export-from-json";
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "full_name",
-    scopedSlots: { customRender: "full_name" },
+    title: "PAYEE NAME",
+    dataIndex: "first_name",
+    scopedSlots: { customRender: "first_name" },
   },
   {
-    title: "Email",
-    dataIndex: "email",
-    scopedSlots: { customRender: "email" },
+    title: "ACCOUNT NUMBER",
+    dataIndex: "account_number",
+    scopedSlots: { customRender: "account_number" },
   },
   {
-    title: "Department",
-    dataIndex: "department",
-    scopedSlots: { customRender: "department" },
-    filters: [
-      { text: "Sales", value: "sales" },
-      { text: "Engineering", value: "engineering" },
-    ],
-    onFilter: (value, record) => record.department.indexOf(value) === 0,
-  },
-  {
-    title: "designation",
+    title: "BANK CODE",
     dataIndex: "designation",
     scopedSlots: { customRender: "designation" },
   },
   {
-    title: "Phone Number",
+    title: "BRANCH CODE",
     dataIndex: "phone_number",
   },
   {
-    title: "Basic Salary",
+    title: "AMOUNT",
     className: "column-money",
     dataIndex: "basic_pay",
     sorter: (a, b) => a.basic_pay - b.basic_pay,
+  },
+  {
+    title: "REFERENCE",
+    dataIndex: "phone_number",
   },
 ];
 export default {

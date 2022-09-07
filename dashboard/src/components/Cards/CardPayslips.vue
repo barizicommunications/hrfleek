@@ -22,9 +22,9 @@
               <a-select-option
                 v-for="item in employees"
                 :key="item.full_name"
-                :value="item.full_name"
+                :value="item.first_name"
               >
-                {{ item.full_name }}
+                {{ item.first_name }}{{""}}{{ item.last_name }}
               </a-select-option>
             </a-select>
             <a-button
@@ -340,7 +340,7 @@
               </tr>
               <tr>
                 <th>Name</th>
-                <td>{{ employeePayslip.full_name }}</td>
+                <td>{{ employeePayslip.first_name }}{{ employeePayslip.last_name }}</td>
                 <td></td>
                 <th>Bank Code</th>
                 <td>ABC123</td>

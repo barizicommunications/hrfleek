@@ -66,6 +66,7 @@
             :multiple="false"
             list-type="picture"
             :transform-file="transformFile"
+            :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload"
               v-decorator="[
               'logo',
               { rules: [{ required: true, message: 'Field is required!' }] },
@@ -75,7 +76,6 @@
           </a-upload>
         </a-form-item>
       </a-form>
- 
   </div>
 </template>
 
@@ -87,9 +87,21 @@ export default {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
       image:null,
+      fileList: [],
+      uploading: false,
     };
   },
   methods: {
+    handleRemove(file) {
+      const index = this.fileList.indexOf(file);
+      const newFileList = this.fileList.slice();
+      newFileList.splice(index, 1);
+      this.fileList = newFileList;
+    },
+    beforeUpload(file) {
+      this.fileList = [...this.fileList, file];
+      return false;
+    },
     transformFile(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -114,11 +126,11 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          this.$store.dispatch("addClients",values).then(()=>{
-            if(!this.error){
-              this.form.resetFields()
-            }
-          })
+          // this.$store.dispatch("addClients",values).then(()=>{
+          //   if(!this.error){
+          //     this.form.resetFields()
+          //   }
+          // })
         }
       });
     },

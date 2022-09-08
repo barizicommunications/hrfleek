@@ -40,7 +40,7 @@
     </template>
     <a-table
       :columns="columns"
-      :data-source="payrunEmployees"
+      :data-source="tableData"
       bordered
       rowKey="id"
     >
@@ -71,8 +71,8 @@ import exportFromJSON from "export-from-json";
 const columns = [
   {
     title: "PAYEE NAME",
-    dataIndex: "first_name",
-    scopedSlots: { customRender: "first_name" },
+    dataIndex: "payee_name",
+    scopedSlots: { customRender: "payee_name" },
   },
   {
     title: "ACCOUNT NUMBER",
@@ -80,13 +80,13 @@ const columns = [
     scopedSlots: { customRender: "account_number" },
   },
   {
-    title: "BANK CODE",
-    dataIndex: "designation",
-    scopedSlots: { customRender: "designation" },
+    title: "BANK",
+    dataIndex: "bank_name",
+    scopedSlots: { customRender: "bank_name" },
   },
   {
     title: "BRANCH CODE",
-    dataIndex: "phone_number",
+    dataIndex: "banck_branch",
   },
   {
     title: "AMOUNT",
@@ -96,7 +96,7 @@ const columns = [
   },
   {
     title: "REFERENCE",
-    dataIndex: "phone_number",
+    dataIndex: "reference",
   },
 ];
 export default {
@@ -112,11 +112,47 @@ export default {
       selectedEmployees: [],
       selectedDepartments: [],
       loading: false,
+      tableData:[]
     };
   },
   methods: {
+    convertTableData(){
+      let picked =[]
+      this.payrunEmployees.forEach((object)=>{
+        const sliced = {
+          "payee_name":[object.first_name,object.last_name].join(" "),
+          "account_number":object.account_number,
+          "basic_pay":object.basic_pay,
+          "bank_name":object.bank_name,
+          "banck_branch":object.bank_branch,
+          "reference":"salary"
+
+
+        }
+        picked.push(sliced)
+        
+      })
+      this.tableData =picked ;
+      console.log(this.tableData)
+    },
     downloadCsv() {
-        const data = this.payrunEmployees;
+     
+     let picked=[]
+     this.payrunEmployees.forEach((object)=>{
+        const sliced = {
+          "PAYEE NAME":[object.first_name,object.last_name].join(" "),
+          "ACCOUNT NUMBER":object.account_number,
+          "AMOUNT":object.basic_pay,
+          "BRANCH":object.bank_branch,
+          "REFERENCE":"salary"
+
+
+        }
+        picked.push(sliced)
+        
+      })
+      const data =picked ;
+      console.log(typeof(picked[0]));
       const fileName = "bank sheet";
       const exportType = exportFromJSON.types.csv;
 
@@ -184,6 +220,7 @@ export default {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
+    this.convertTableData()
   },
   destroyed() {
     this.$store.dispatch("updatePayrunEmployees", []);

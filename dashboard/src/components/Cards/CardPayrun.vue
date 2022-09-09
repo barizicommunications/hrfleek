@@ -32,10 +32,10 @@
             >
               <a-select-option
                 v-for="item in employees"
-                :key="item.full_name"
-                :value="item.full_name"
+                :key="item.first_name"
+                :value="item.first_name"
               >
-                {{ item.full_name }}
+                {{ item.first_name }}{{item.last_name}}
               </a-select-option>
             </a-select>
             <a-button
@@ -130,9 +130,14 @@ import * as fb from "../../firebase";
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "full_name",
-    scopedSlots: { customRender: "full_name" },
+    title: "First Name",
+    dataIndex: "first_name",
+    scopedSlots: { customRender: "first_name" },
+  },
+  {
+    title: "Last Name",
+    dataIndex: "last_name",
+    scopedSlots: { customRender: "last_name" },
   },
   {
     title: "Email",
@@ -240,7 +245,7 @@ export default {
       if (this.selectedEmployees.length) {
         for (let i = 0; i < this.selectedEmployees.length; i++) {
           let employee = this.employees.find(
-            (e) => e.full_name === this.selectedEmployees[i]
+            (e) => e.first_name === this.selectedEmployees[i]
           );
           if (this.payrunEmployees.indexOf(employee) === -1) {
             this.payrunEmployees.push(employee);

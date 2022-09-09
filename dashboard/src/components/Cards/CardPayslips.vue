@@ -22,9 +22,9 @@
               <a-select-option
                 v-for="item in employees"
                 :key="item.full_name"
-                :value="item.full_name"
+                :value="item.first_name"
               >
-                {{ item.full_name }}
+                {{ item.first_name }}{{ "" }}{{ item.last_name }}
               </a-select-option>
             </a-select>
             <a-button
@@ -62,20 +62,11 @@
           </tr>
           <tr>
             <th>Name</th>
-            <td>{{ employee.full_name }}</td>
-            <td></td>
-            <th>Bank Code</th>
-            <td>ABC123</td>
-            <td></td>
-            <th>Branch Name</th>
-            <td>ABC123</td>
+            <td><p>{{ employee.first_name  }}<span class="ml-5">{{ employee.last_name}}</span></p></td>
           </tr>
           <tr>
             <th>National ID</th>
             <td>{{ employee.national_id }}</td>
-            <td></td>
-            <th>Bank Name</th>
-            <td>{{ employee.bank_name }}</td>
             <td></td>
             <th>Payslip no.</th>
             <td>XXXXXXXXXX</td>
@@ -84,9 +75,6 @@
             <th>KRA PIN</th>
             <td>{{ employee.kra_pin }}</td>
             <td></td>
-            <th>Bank Branch</th>
-            <td>{{ employee.bank_branch }}</td>
-            <td></td>
             <th>Pay Period</th>
             <td>XXXXXXXXXXX</td>
           </tr>
@@ -94,21 +82,11 @@
             <th>Phone Number:</th>
             <td>{{ employee.phone_number }}</td>
             <td></td>
-            <th>Bank A/C no.</th>
-            <td>{{ employee.account_number }}</td>
-            <td></td>
-            <th>Personel Area</th>
-            <td>XXXXXXXXXX</td>
           </tr>
           <tr>
             <th>Email:</th>
             <td>{{ employee.email }}</td>
             <td></td>
-            <th>Employee Group</th>
-            <td>Sales Manager</td>
-            <td></td>
-            <th>PAN No:</th>
-            <td>MOP72182E</td>
           </tr>
           <tr class="myBackground">
             <th colspan="2">Payments</th>
@@ -328,265 +306,272 @@
       >
         <section slot="pdf-content">
           <!-- PDF Content Here -->
-          <div class="salary-slip">
-            <table class="empDetail">
-              <tr height="100px" style="background-color: #c2d69b">
-                <td colspan="4">
-                  <img height="90px" :src="currentClient.logo" />
-                </td>
-                <td colspan="4" class="companyName">
-                  {{ currentClient.company_name }}
-                </td>
-              </tr>
-              <tr>
-                <th>Name</th>
-                <td>{{ employeePayslip.full_name }}</td>
-                <td></td>
-                <th>Bank Code</th>
-                <td>ABC123</td>
-                <td></td>
-                <th>Branch Name</th>
-                <td>ABC123</td>
-              </tr>
-              <tr>
-                <th>National ID</th>
-                <td>{{ employeePayslip.national_id }}</td>
-                <td></td>
-                <th>Bank Name</th>
-                <td>{{ employeePayslip.bank_name }}</td>
-                <td></td>
-                <th>Payslip no.</th>
-                <td>XXXXXXXXXX</td>
-              </tr>
-              <tr>
-                <th>KRA PIN</th>
-                <td>{{ employeePayslip.kra_pin }}</td>
-                <td></td>
-                <th>Bank Branch</th>
-                <td>{{ employeePayslip.bank_branch }}</td>
-                <td></td>
-                <th>Pay Period</th>
-                <td>XXXXXXXXXXX</td>
-              </tr>
-              <tr>
-                <th>Phone Number:</th>
-                <td>{{ employeePayslip.phone_number }}</td>
-                <td></td>
-                <th>Bank A/C no.</th>
-                <td>{{ employeePayslip.account_number }}</td>
-                <td></td>
-                <th>Personel Area</th>
-                <td>XXXXXXXXXX</td>
-              </tr>
-              <tr>
-                <th>Email:</th>
-                <td>{{ employeePayslip.email }}</td>
-                <td></td>
-                <th>Employee Group</th>
-                <td>Sales Manager</td>
-                <td></td>
-                <th>PAN No:</th>
-                <td>MOP72182E</td>
-              </tr>
-              <tr class="myBackground">
-                <th colspan="2">Payments</th>
-                <th>Particular</th>
-                <th class="table-border-right">Amount (Rs.)</th>
-                <th colspan="2">Deductions</th>
-                <th>Particular</th>
-                <th>Amount (Rs.)</th>
-              </tr>
-              <tr>
-                <th colspan="2">Basic Salary</th>
-                <td></td>
-                <td class="myAlign">4935.00</td>
-                <th colspan="2">Provident Fund</th>
-                <td></td>
-
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <th colspan="2">Fixed Dearness Allowance</th>
-                <td></td>
-
-                <td class="myAlign">00.00</td>
-                <th colspan="2">LIC</th>
-                <td></td>
-
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <th colspan="2">Variable Dearness Allowance</th>
-                <td></td>
-
-                <td class="myAlign">00.00</td>
-                <th colspan="2">Loan</th>
-                <td></td>
-
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <th colspan="2">House Rent Allowance</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <th colspan="2">Professional Tax</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <th colspan="2">Graduation Allowance</th>
-                <td></td>
-
-                <td class="myAlign">00.00</td>
-                <th colspan="2">Security Deposite(SD)</th>
-                <td></td>
-
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <th colspan="2">Conveyance Allowance</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <th colspan="2">Staff Benefit(SB)</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <th colspan="2">Post Allowance</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <th colspan="2">Labour Welfare Fund</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <th colspan="2">Special Allowance</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <th colspan="2">NSC</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <td colspan="4" class="table-border-right"></td>
-                <th colspan="2">Union Thanco Officer(UTO)</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <td colspan="4" class="table-border-right"></td>
-                <th colspan="2">Advance</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <td colspan="4" class="table-border-right"></td>
-                <th colspan="2">Income Tax</th>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr class="myBackground">
-                <th colspan="3">Total Payments</th>
-                <td class="myAlign">10000</td>
-                <th colspan="3">Total Deductions</th>
-                <td class="myAlign">1000</td>
-              </tr>
-              <tr height="40px">
-                <th colspan="2">Projection for Financial Year:</th>
-                <th></th>
-                <td class="table-border-right"></td>
-                <th colspan="2" class="table-border-bottom">Net Salary</th>
-                <td></td>
-                <td>XXXXXXXXXX</td>
-              </tr>
-              <tr>
-                <td colspan="2">Gross Salary</td>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <td colspan="4"></td>
-              </tr>
-              <tr>
-                <td colspan="2">Aggr. Dedu - P.Tax & Std Ded</td>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <th colspan="2">Cumulative</th>
-                <td colspan="2"></td>
-              </tr>
-              <tr>
-                <td colspan="2">Gross Total Income</td>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <td colspan="2">Empl PF Contribution</td>
-                <td></td>
-                <td class="myAlign">00.00</td>
-              </tr>
-              <tr>
-                <td colspan="2">Aggr of Chapter "PF"</td>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <td colspan="4"></td>
-              </tr>
-              <tr>
-                <td colspan="2">Total Income</td>
-                <td></td>
-                <td class="myAlign">00.00</td>
-                <td colspan="4"></td>
-              </tr>
-              <tbody class="border-center">
-                <tr>
-                  <th>Attend/ Absence</th>
-                  <th>Days in Month</th>
-                  <th>Days Paid</th>
-                  <th>Days Not Paid</th>
-                  <th>Leave Position</th>
-                  <th>Privilege Leave</th>
-                  <th>Sick Leave</th>
-                  <th>Casual Leave</th>
+          <a-card
+            :bordered="false"
+            class="header-solid h-full"
+            :bodyStyle="{ padding: 2 }"
+          >
+            <div class="salary-slip">
+              <table class="empDetail">
+                <tr height="100px" style="background-color: #c2d69b">
+                  <td colspan="4">
+                    <img height="90px" :src="currentClient.logo" />
+                  </td>
+                  <td colspan="4" class="companyName">
+                    {{ currentClient.company_name }}
+                  </td>
                 </tr>
                 <tr>
+                  <th>Name</th>
+                  <td>
+                    {{ employeePayslip.first_name
+                    }}
+                  </td>
                   <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>Yrly Open Balance</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
+                 
+                  <th>Branch Name</th>
+                  <td>ABC123</td>
                 </tr>
                 <tr>
-                  <th>Current Month</th>
-                  <td>31.0</td>
-                  <td>31.0</td>
-                  <td>31.0</td>
-                  <td>Availed</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
+                  <th>National ID</th>
+                  <td>{{ employeePayslip.national_id }}</td>
+                  <td></td>
+                  <th>Bank Name</th>
+                  <td>{{ employeePayslip.bank_name }}</td>
+                  <td></td>
+                  <th>Payslip no.</th>
+                  <td>XXXXXXXXXX</td>
                 </tr>
                 <tr>
+                  <th>KRA PIN</th>
+                  <td>{{ employeePayslip.kra_pin }}</td>
+                  <td></td>
+                  <th>Bank Branch</th>
+                  <td>{{ employeePayslip.bank_branch }}</td>
+                  <td></td>
+                  <th>Pay Period</th>
+                  <td>XXXXXXXXXXX</td>
+                </tr>
+                <tr>
+                  <th>Phone Number:</th>
+                  <td>{{ employeePayslip.phone_number }}</td>
+                  <td></td>
+                  <th>Bank A/C no.</th>
+                  <td>{{ employeePayslip.account_number }}</td>
+                  <td></td>
+                  <th>Personel Area</th>
+                  <td>XXXXXXXXXX</td>
+                </tr>
+                <tr>
+                  <th>Email:</th>
+                  <td>{{ employeePayslip.email }}</td>
+                  <td></td>
+                  <th>Employee Group</th>
+                  <td>Sales Manager</td>
+                  <td></td>
+                  <th>PAN No:</th>
+                  <td>MOP72182E</td>
+                </tr>
+                <tr class="myBackground">
+                  <th colspan="2">Payments</th>
+                  <th>Particular</th>
+                  <th class="table-border-right">Amount (Rs.)</th>
+                  <th colspan="2">Deductions</th>
+                  <th>Particular</th>
+                  <th>Amount (Rs.)</th>
+                </tr>
+                <tr>
+                  <th colspan="2">Basic Salary</th>
+                  <td></td>
+                  <td class="myAlign">4935.00</td>
+                  <th colspan="2">Provident Fund</th>
+                  <td></td>
+
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Fixed Dearness Allowance</th>
+                  <td></td>
+
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">LIC</th>
+                  <td></td>
+
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Variable Dearness Allowance</th>
+                  <td></td>
+
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">Loan</th>
+                  <td></td>
+
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">House Rent Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">Professional Tax</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Graduation Allowance</th>
+                  <td></td>
+
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">Security Deposite(SD)</th>
+                  <td></td>
+
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Conveyance Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">Staff Benefit(SB)</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Post Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">Labour Welfare Fund</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Special Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">NSC</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="table-border-right"></td>
+                  <th colspan="2">Union Thanco Officer(UTO)</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="table-border-right"></td>
+                  <th colspan="2">Advance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="table-border-right"></td>
+                  <th colspan="2">Income Tax</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr class="myBackground">
+                  <th colspan="3">Total Payments</th>
+                  <td class="myAlign">10000</td>
+                  <th colspan="3">Total Deductions</th>
+                  <td class="myAlign">1000</td>
+                </tr>
+                <tr height="40px">
+                  <th colspan="2">Projection for Financial Year:</th>
+                  <th></th>
+                  <td class="table-border-right"></td>
+                  <th colspan="2" class="table-border-bottom">Net Salary</th>
+                  <td></td>
+                  <td>XXXXXXXXXX</td>
+                </tr>
+                <tr>
+                  <td colspan="2">Gross Salary</td>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
                   <td colspan="4"></td>
-                  <td>Closing Balance</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
-                  <td>0.0</td>
                 </tr>
                 <tr>
-                  <td colspan="4">&nbsp;</td>
+                  <td colspan="2">Aggr. Dedu - P.Tax & Std Ded</td>
                   <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">Cumulative</th>
+                  <td colspan="2"></td>
                 </tr>
                 <tr>
+                  <td colspan="2">Gross Total Income</td>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <td colspan="2">Empl PF Contribution</td>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <td colspan="2">Aggr of Chapter "PF"</td>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
                   <td colspan="4"></td>
-                  <td>Company Pool Leave Balance</td>
-                  <td>1500</td>
-                  <td></td>
-                  <td></td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
+                <tr>
+                  <td colspan="2">Total Income</td>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <td colspan="4"></td>
+                </tr>
+                <tbody class="border-center">
+                  <tr>
+                    <th>Attend/ Absence</th>
+                    <th>Days in Month</th>
+                    <th>Days Paid</th>
+                    <th>Days Not Paid</th>
+                    <th>Leave Position</th>
+                    <th>Privilege Leave</th>
+                    <th>Sick Leave</th>
+                    <th>Casual Leave</th>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Yrly Open Balance</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                  </tr>
+                  <tr>
+                    <th>Current Month</th>
+                    <td>31.0</td>
+                    <td>31.0</td>
+                    <td>31.0</td>
+                    <td>Availed</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                    <td>Closing Balance</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">&nbsp;</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                    <td>Company Pool Leave Balance</td>
+                    <td>1500</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </a-card>
         </section>
       </vue-html2pdf>
       <div v-if="!employees.length">
@@ -626,11 +611,10 @@ export default {
   methods: {
     generateReport() {
       this.$refs.html2Pdf.generatePdf();
-      this.loading=false
+      this.loading = false;
     },
     onProgress(e) {
       this.loading = false;
-     
     },
     hasStartedGeneration() {
       this.loading = true;
@@ -681,7 +665,7 @@ export default {
   border: 2px solid black;
   border-collapse: collapse;
   table-layout: fixed;
-  margin-left: 2px;
+  margin-left: 0px;
 }
 
 .head {

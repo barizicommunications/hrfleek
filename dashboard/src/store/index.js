@@ -215,7 +215,7 @@ export default new Vuex.Store({
         bank_name: data.bank_name,
         account_number: data.account_number,
         account_name: data.account_name,
-        bank_branch: data.branch_name,
+        bank_branch: data.bank_branch,
         first_name: data.first_name,
         last_name: data.last_name,
         full_name: data.first_name + data.last_name,
@@ -227,6 +227,9 @@ export default new Vuex.Store({
         deductions: data.deductions ?? [],
         net_pay: 0,
         employment_type: "",
+        nssf_number:data.nssf_number,
+        nhif_number:data.nssf_number,
+        Gender:data.gender
       };
       await fb.businessCollection
         .doc(selectedClient.kra_pin)

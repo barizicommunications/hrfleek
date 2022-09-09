@@ -231,7 +231,7 @@
             <a-form-item label="Branch Name">
               <a-input
                 v-decorator="[
-                  'branch_name',
+                  'bank_branch',
                   {
                     rules: [{ required: true, message: 'please enter branch' }],
                   },
@@ -360,6 +360,30 @@
               >
                 <a-select-option value="active"> Active </a-select-option>
                 <a-select-option value="inactive">Inactive</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+      
+          <a-col :span="12">
+            <a-form-item label="Gender">
+              <a-select
+                v-decorator="[
+                  'gender',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please select',
+                      },
+                    ],
+                  },
+                ]"
+                
+              >
+                <a-select-option value="male"> Male </a-select-option>
+                <a-select-option value="female">Female</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>

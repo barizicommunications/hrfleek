@@ -151,7 +151,7 @@ export default {
         picked.push(sliced)
         
       })
-      const data =picked ;
+      const data=picked;
       console.log(typeof(picked[0]));
       const fileName = "bank sheet";
       const exportType = exportFromJSON.types.csv;

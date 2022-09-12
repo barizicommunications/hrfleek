@@ -651,6 +651,7 @@ export default {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
+    this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
   },
 };
 </script>

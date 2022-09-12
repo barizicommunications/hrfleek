@@ -35,7 +35,7 @@
                 :key="item.first_name"
                 :value="item.first_name"
               >
-                {{ item.first_name }}{{item.last_name}}
+                {{ item.first_name }}{{ item.last_name }}
               </a-select-option>
             </a-select>
             <a-button
@@ -115,9 +115,7 @@
         </div>
       </template>
     </a-table>
-    <div>
-
-   </div>
+    <div></div>
   </a-card>
 </template>
 
@@ -125,8 +123,6 @@
 import { mapState } from "vuex";
 import swal from "sweetalert";
 import * as fb from "../../firebase";
-
-
 
 const columns = [
   {
@@ -176,8 +172,6 @@ const columns = [
   },
 ];
 export default {
-   
-
   props: {
     calendar: {
       type: Object,
@@ -201,38 +195,37 @@ export default {
           text: "There are no employees to be added",
           icon: "error",
         });
-        this.loading=false
-      }else{
-      swal("Final Changes made will be added to your payrun").then(
-        async (value) => {
-          await fb.businessCollection
-            .doc(this.currentClient.id)
-            .collection("calendars")
-            .doc(this.calendar.id)
-            .update({
-              employees: this.payrunEmployees,
-            })
-            .then(() => {
-              console.log(
-                this.payrunEmployees,
-                this.calendar,
-                this.currentClient
-              );
-              this.$store.dispatch("updatePayrunEmployees", []);
-              this.loading = false;
-            })
-            .catch((err) => {
-              swal({
-                title: "OOP!",
-                text: "Something went wrong",
-                icon: "error",
+        this.loading = false;
+      } else {
+        swal("Final Changes made will be added to your payrun").then(
+          async (value) => {
+            await fb.businessCollection
+              .doc(this.currentClient.id)
+              .collection("calendars")
+              .doc(this.calendar.id)
+              .update({
+                employees: this.payrunEmployees,
+              })
+              .then(() => {
+                console.log(
+                  this.payrunEmployees,
+                  this.calendar,
+                  this.currentClient
+                );
+                this.$store.dispatch("updatePayrunEmployees", []);
+                this.loading = false;
+              })
+              .catch((err) => {
+                swal({
+                  title: "OOP!",
+                  text: "Something went wrong",
+                  icon: "error",
+                });
+                this.loading = false;
               });
-              this.loading = false;
-            });
-        }
-      );
+          }
+        );
       }
-
     },
 
     handleChange(selectedItems) {
@@ -242,16 +235,41 @@ export default {
       this.selectedDepartments = selectedItems;
     },
     addToList() {
+      this.$store.dispatch("getPayrunEmployees", this.calendar.id);
       if (this.selectedEmployees.length) {
         for (let i = 0; i < this.selectedEmployees.length; i++) {
           let employee = this.employees.find(
             (e) => e.first_name === this.selectedEmployees[i]
           );
           if (this.payrunEmployees.indexOf(employee) === -1) {
-            this.payrunEmployees.push(employee);
+            swal(
+              "Changes made will be added to your payrun Press ok to Save"
+            ).then(async (value) => {
+              await fb.businessCollection
+                .doc(this.currentClient.id)
+                .collection("calendars")
+                .doc(this.$route.params.id)
+                .update({
+                  employees: fb.types.FieldValue.arrayUnion(employee),
+                })
+                .then(() => {
+                
+                  this.$store.dispatch("getPayrunEmployees", this.calendar.id);
+                  this.$message.success("employee added successfully")
+                  this.loading = false;
+                })
+                .catch((err) => {
+                  console.log(err)
+                  swal({
+                    title: "OOP!",
+                    text: "Something went wrong",
+                    icon: "error",
+                  });
+                  this.loading = false;
+                });
+            });
           }
         }
-        this.$store.dispatch("updatePayrunEmployees", this.payrunEmployees);
       } else {
         swal({
           title: "OOPS!",
@@ -268,7 +286,32 @@ export default {
           );
           filteredOptions.forEach((element) => {
             if (this.payrunEmployees.indexOf(element) === -1) {
-              this.payrunEmployees.push(element);
+              swal(
+              "Changes made will be added to your payrun Press ok to Save"
+            ).then(async (value) => {
+              await fb.businessCollection
+                .doc(this.currentClient.id)
+                .collection("calendars")
+                .doc(this.$route.params.id)
+                .update({
+                  employees: fb.types.FieldValue.arrayUnion(element),
+                })
+                .then(() => {
+                
+                  this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
+                  this.$message.success("employee added successfully")
+                  this.loading = false;
+                })
+                .catch((err) => {
+                  console.log(err)
+                  swal({
+                    title: "OOP!",
+                    text: "Something went wrong",
+                    icon: "error",
+                  });
+                  this.loading = false;
+                });
+            });
             }
           });
         }
@@ -282,9 +325,30 @@ export default {
       }
     },
     removeEmployee(element) {
-      console.log(element);
-      let data = this.payrunEmployees.filter((e) => e !== element);
-      this.$store.dispatch("updatePayrunEmployees", data);
+      swal(
+              "Changes made will be added to your payrun Press ok to Save"
+            ).then(async (value) => {
+              await fb.businessCollection
+                .doc(this.currentClient.id)
+                .collection("calendars")
+                .doc(this.$route.params.id)
+                .update({
+                  employees: fb.types.FieldValue.arrayRemove(element),
+                })
+                .then(() => {
+                  this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
+                  this.$message.error("employee removed successfully")
+                  this.loading = false;
+                })
+                .catch((err) => {
+                  swal({
+                    title: "OOP!",
+                    text: "Something went wrong",
+                    icon: "error",
+                  });
+                  this.loading = false;
+                });
+            });
     },
   },
   computed: {
@@ -297,11 +361,12 @@ export default {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
+    this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
   },
-  destroyed(){
+  destroyed() {
     this.$store.dispatch("updatePayrunEmployees", []);
-    console.log("data cleaned up")
-  }
+    console.log("data cleaned up");
+  },
 };
 </script>
 

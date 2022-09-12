@@ -130,8 +130,22 @@ export default new Vuex.Store({
     /**
      * clients Section Starts Here
      */
+     getPayrunEmployees({commit},calendar){
+      const selectedClient = JSON.parse(localStorage.getItem("client"));
+      fb.businessCollection.doc(selectedClient.id).collection("calendars").doc(calendar).get().then((docs)=>{
+        let emp=docs.data()
+        commit("setpayrunEmployees", emp.employees);
+        
+      })
+     },
+
     updatePayrunEmployees({ commit }, values) {
       commit("setpayrunEmployees", values);
+      console.log(values)
+      const selectedClient = JSON.parse(localStorage.getItem("client"));
+      // fb.businessCollection.doc(selectedClient.id).collection("calendars").doc().update({
+
+      // })
     },
     getCurrentClient({ commit }) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));

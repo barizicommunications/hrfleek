@@ -134,7 +134,7 @@ export default new Vuex.Store({
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       fb.businessCollection.doc(selectedClient.id).collection("calendars").doc(calendar).get().then((docs)=>{
         let emp=docs.data()
-        commit("setpayrunEmployees", emp.employees);
+        commit("setpayrunEmployees", emp.employees??[]);
         
       })
      },

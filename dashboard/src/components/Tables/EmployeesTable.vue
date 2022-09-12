@@ -422,9 +422,7 @@
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-            <a-radio-button value="all" @click="showModal"
-              >Add New</a-radio-button
-            >
+            <router-link to="/addnewemployee">Add New Employee</router-link>
           </a-radio-group>
         </a-col>
       </a-row>

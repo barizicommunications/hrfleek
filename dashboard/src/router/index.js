@@ -46,6 +46,15 @@ let routes = [
 		  },
 	},
 	{
+		path: '/addnewemployee',
+		name: 'AddNewemployee',
+		layout: "dashboard",
+		component: () => import('../views/NewEmployee.vue'),
+		meta: {
+			requiresAuth: true,
+		  },
+	},
+	{
 		path: '/employees',
 		name: 'employees',
 		layout: "dashboard",

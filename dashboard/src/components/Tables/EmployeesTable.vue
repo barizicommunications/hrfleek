@@ -282,23 +282,19 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="12">
-            <a-form-item label="Deductions">
-              <a-select
-                mode="multiple"
+            <a-form-item label="Date of Birth">
+              <a-date-picker
                 v-decorator="[
-                  'deductions',
+                  'date_of_birth',
                   {
                     rules: [
-                      { required: true, message: 'Please choose the bank' },
+                      { required: true, message: 'please enter account' },
                     ],
                   },
                 ]"
-                placeholder="Please choose the bank"
-              >
-                <a-select-option value="equity"> NHIF </a-select-option>
-                <a-select-option value="kcb"> NSSF</a-select-option>
-                <a-select-option value="sacco"> Saccos</a-select-option>
-              </a-select>
+                style="width: 100%"
+                placeholder="Basic Pay"
+              />
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -320,25 +316,23 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="12">
-            <a-form-item label="Allowances">
+            <a-form-item label="Gender">
               <a-select
-                mode="multiple"
                 v-decorator="[
-                  'allowances',
+                  'gender',
                   {
                     rules: [
                       {
-                        required: false,
-                        message: 'Please choose the allowances',
+                        required: true,
+                        message: 'Please select',
                       },
                     ],
                   },
                 ]"
-                placeholder="Please choose allowances"
+                
               >
-                <a-select-option value="housing"> Housing </a-select-option>
-                <a-select-option value="food"> Food</a-select-option>
-                <a-select-option value="tranport"> Transport</a-select-option>
+                <a-select-option value="male"> Male </a-select-option>
+                <a-select-option value="female">Female</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -360,30 +354,6 @@
               >
                 <a-select-option value="active"> Active </a-select-option>
                 <a-select-option value="inactive">Inactive</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-      
-          <a-col :span="12">
-            <a-form-item label="Gender">
-              <a-select
-                v-decorator="[
-                  'gender',
-                  {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Please select',
-                      },
-                    ],
-                  },
-                ]"
-                
-              >
-                <a-select-option value="male"> Male </a-select-option>
-                <a-select-option value="female">Female</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -422,7 +392,7 @@
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-            <router-link to="/addnewemployee">Add New Employee</router-link>
+           <a-button @click="showModal">Add New Employee</a-button>
           </a-radio-group>
         </a-col>
       </a-row>
@@ -646,6 +616,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.$store.dispatch("addEmployee", values);
+         console.log(values)
         }
       });
     },

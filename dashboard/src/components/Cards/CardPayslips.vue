@@ -386,7 +386,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["calendars", "employees", "currentClient", "payrunEmployees"]),
+    ...mapState(["calendars", "currentClient", "payrunEmployees"]),
     employees() {
       return this.$store.state.payrunEmployees;
     },
@@ -416,8 +416,9 @@ export default {
     },
     downloadSlips() {
       if (this.selectedEmployees.length) {
-        this.employeePayslip = this.employees.find(
-          (e) => e.full_name === this.selectedEmployees
+
+        this.employeePayslip = this.payrunEmployees.find(
+          (e) => e.first_name === this.selectedEmployees
         );
         console.log(this.employeePayslip);
         this.$refs.html2Pdf.generatePdf();

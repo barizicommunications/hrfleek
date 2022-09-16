@@ -21,6 +21,7 @@
           :file-list="fileList"
           :remove="handleRemove"
           :before-upload="beforeUpload"
+          accept=".csv"
         >
           <a-button block> <a-icon type="upload" /> Select CSV File </a-button>
         </a-upload>
@@ -185,8 +186,12 @@
                 ]"
                 placeholder="department"
               >
-                <a-select-option  v-for="department in currentClient.departments" :key="department.department_name" :value="department.department_name">
-                  {{department.department_name}}
+                <a-select-option
+                  v-for="department in currentClient.departments"
+                  :key="department.department_name"
+                  :value="department.department_name"
+                >
+                  {{ department.department_name }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -329,7 +334,6 @@
                     ],
                   },
                 ]"
-                
               >
                 <a-select-option value="male"> Male </a-select-option>
                 <a-select-option value="female">Female</a-select-option>
@@ -392,7 +396,7 @@
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-           <a-button @click="showModal">Add New Employee</a-button>
+            <a-button @click="showModal">Add New Employee</a-button>
           </a-radio-group>
         </a-col>
       </a-row>
@@ -502,7 +506,7 @@ const columns = [
   {
     title: "operation",
     dataIndex: "operation",
-    fixed: 'right',
+    fixed: "right",
     scopedSlots: { customRender: "operation" },
   },
 ];
@@ -530,20 +534,20 @@ export default {
       },
       sampleData: [
         {
-          national_id: "35275995",
+          national_id: "35276738",
           first_name: "Liliane",
-          last_name:"Lorrainbe",
-          Gender:"male",
+          last_name: "Lorrainbe",
+          Gender: "male",
           email: "citlalli.wolf@hotmail.com",
           phone_number: "0705122230",
-          address: "2448 Willms Freeway",      
+          address: "2448 Willms Freeway",
           Country: "Kenya",
           department: "sales",
           designation: "sales manager",
           employment_type: "contract",
           kra_pin: "A2030400504L",
-          nhif_number:"1923990",
-          nssf_number:"500604",
+          nhif_number: "1923990",
+          nssf_number: "500604",
           bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
@@ -553,20 +557,20 @@ export default {
           employee_id: "",
         },
         {
-          national_id: "35905995",
+          national_id: "35276738",
           first_name: "Phillip",
-          last_name:"Mugo",
-          Gender:"male",
+          last_name: "Mugo",
+          Gender: "male",
           email: "citlalli.wolf@hotmail.com",
           phone_number: "0705122230",
-          address: "2448 Willms Freeway",      
+          address: "2448 Willms Freeway",
           Country: "Kenya",
           department: "sales",
           designation: "sales manager",
           employment_type: "contract",
           kra_pin: "A2030400504L",
-          nhif_number:"1923990",
-          nssf_number:"500604",
+          nhif_number: "1923990",
+          nssf_number: "500604",
           bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
@@ -576,20 +580,20 @@ export default {
           employee_id: "",
         },
         {
-          national_id: "36275995",
+          national_id: "36273495",
           first_name: "MIchelle",
-          last_name:"Natasha",
-          Gender:"female",
+          last_name: "Natasha",
+          Gender: "female",
           email: "citlalli.wolf@hotmail.com",
           phone_number: "0705122230",
-          address: "2448 Willms Freeway",      
+          address: "2448 Willms Freeway",
           Country: "Kenya",
           department: "sales",
           designation: "sales manager",
           employment_type: "contract",
           kra_pin: "A2030400504L",
-          nhif_number:"1923990",
-          nssf_number:"500604",
+          nhif_number: "1923990",
+          nssf_number: "500604",
           bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
@@ -616,7 +620,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.$store.dispatch("addEmployee", values);
-         console.log(values)
+          console.log(values);
         }
       });
     },
@@ -670,12 +674,57 @@ export default {
             }
             //return result; //JavaScript object
             //JSON
+            function checkIdDuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.national_id === value && count++);
+              return count;
+            }
+            function checkKRADuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.kra_pin === value && count++);
+              return count;
+            }
+            function checkNSSFDuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.nssf_number === value && count++);
+              return count;
+            }
+            function checkNHIFDuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.nhif_number === value && count++);
+              return count;
+            }
             if (newresult && typeof newresult === "object") {
               Object.keys(newresult).forEach(async (data) => {
                 const selectedClient = JSON.parse(
                   localStorage.getItem("client")
                 );
-                await fb.businessCollection
+              console.log(checkIdDuplicates(newresult, newresult[data].national_id))
+
+                if (
+                  checkIdDuplicates(newresult, newresult[data].national_id)>1
+                ) {
+                  /* vendors contains the element we're looking for */
+                  console.log(newresult);
+                  this.loading = false;
+                  this.$message.error("some ID are duplicates");
+                } else if (
+                  checkKRADuplicates(newresult, newresult[data].kra_pin)>1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some KRA PINs are duplicates");
+                } else if (
+                  checkNSSFDuplicates(newresult, newresult[data].nssf_number)>1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some NSSF numbers are duplicates");
+                } else if (
+                  checkNHIFDuplicates(newresult, newresult[data].nhif_number)>1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some NHIF numbers are duplicates");
+                } else {
+                  await fb.businessCollection
                   .doc(selectedClient.kra_pin)
                   .collection("team")
                   .doc(data.national_id)
@@ -696,6 +745,9 @@ export default {
                     });
                     this.loading = false;
                   });
+                }
+
+             
               });
             }
           },
@@ -725,7 +777,7 @@ export default {
 
     downloadFile() {
       const data = this.sampleData;
-      console.log(typeof(data))
+      console.log(typeof data);
       const fileName = "sample employee data";
       const exportType = exportFromJSON.types.csv;
 
@@ -733,7 +785,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["employees","currentClient"]),
+    ...mapState(["employees", "currentClient"]),
     rowSelection() {
       return {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -755,8 +807,6 @@ export default {
   mounted() {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
-
-
   },
 };
 </script>

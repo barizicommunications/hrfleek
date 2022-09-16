@@ -727,7 +727,7 @@ export default {
                   await fb.businessCollection
                   .doc(selectedClient.kra_pin)
                   .collection("team")
-                  .doc(data.national_id)
+                  .doc(newresult[data].national_id)
                   .set(newresult[data])
                   .then(() => {
                     this.loading = false;

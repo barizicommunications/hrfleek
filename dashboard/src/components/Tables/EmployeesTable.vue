@@ -19,7 +19,7 @@
         'nssf',
         'nhif',
         'basicpay',
-        'designation'
+        'designation',
       ]"
       :slot="col"
       slot-scope="text, record, index"
@@ -124,7 +124,7 @@ const columns = [
     title: "operation",
     dataIndex: "operation",
     scopedSlots: { customRender: "operation" },
-    fixed:"right"
+    fixed: "right",
   },
 ];
 import { mapState } from "vuex";
@@ -162,17 +162,30 @@ export default {
       }
     },
     save(key) {
+      const selectedClient = JSON.parse(localStorage.getItem("client"));
       const newData = [...this.data];
       const newCacheData = [...this.cacheData];
       const target = newData.find((item) => key === item.id);
-      const targetCache = newCacheData.find((item) => key === item.id);
-      if (target && targetCache) {
-        delete target.editable;
-        this.data = newData;
-        Object.assign(targetCache, target);
-        this.cacheData = newCacheData;
-      }
+      const targetCache = newCacheData.find((item) => key === item.key);
+      console.log(target);
+      // if (target && targetCache) {
+      //   delete target.editable;
+      //   this.data = newData;
+      //   Object.assign(targetCache, target);
+      //   this.cacheData = newCacheData;
+      // }
       this.editingKey = "";
+      fb.businessCollection
+        .doc(selectedClient.id)
+        .collection("team")
+        .doc(key)
+        .update(target)
+        .then(() => {
+          this.$message.success("user details updated successfully");
+          this.$store.dispatch("getCurrentClient");
+          this.convertTableData();
+          delete target.editable;
+        });
     },
     cancel(key) {
       const newData = [...this.data];
@@ -241,7 +254,7 @@ export default {
   mounted() {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
-    this.convertTableData()
+    this.convertTableData();
   },
 };
 </script>

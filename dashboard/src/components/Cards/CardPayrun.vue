@@ -101,7 +101,7 @@
       bordered
       rowKey="id"
     >
-      <template slot="operation" slot-scope="text, record">
+      <template slot="operation" slot-scope="text, record" v-if="payrollcalendar.date.toDate() >=new Date()">
         <div class="editable-row-operations">
           <span>
             <a

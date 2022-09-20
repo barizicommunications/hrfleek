@@ -1,36 +1,81 @@
 <template>
   <div>
     <!-- Cards -->
-  		<a-row :gutter="24">
-			<a-col :span="24" :lg="12" :xl="6" class="mb-24" v-for="(stat, index) in stats" :key="index">
-				<!-- Widget 1 Card -->
-				<WidgetCounter
-					:title="stat.title"
-					:value="stat.value"
-					:prefix="stat.prefix"
-					:icon="stat.icon"
-					:status="stat.status"
-				></WidgetCounter>
-				<!-- / Widget 1 Card -->
-			</a-col>
-		</a-row>
+    <a-row :gutter="24">
+      <a-col
+        :span="24"
+        :lg="12"
+        :xl="6"
+        class="mb-24"
+      >
+        <!-- Widget 1 Card -->
+        <a-card :bordered="false" class="widget-1">
+          <a-statistic
+            title="Total Employees"
+            :value="totalEmployees"
+            :precision="0"
+            class="text-success"
+         
+          >
+          </a-statistic>
+          <div class="icon" v-html="stats[0].icon"></div>
+        </a-card>
+        <!-- / Widget 1 Card -->
+      </a-col>
+      <a-col
+        :span="24"
+        :lg="12"
+        :xl="6"
+        class="mb-24"
+      >
+        <!-- Widget 1 Card -->
+        <a-card :bordered="false" class="widget-1">
+          <a-statistic
+            title="Total Calendars"
+            :value="totalCalendars"
+            :precision="0"
+            class="text-success"
+         
+          >
+          </a-statistic>
+          <div class="icon" v-html="stats[1].icon" @click="getMeData"></div>
+        </a-card>
+        <!-- / Widget 1 Card -->
+      </a-col>
+      <a-col
+        :span="24"
+        :lg="12"
+        :xl="6"
+        class="mb-24"
+      >
+        <!-- Widget 1 Card -->
+        <a-card :bordered="false" class="widget-1">
+          <a-statistic
+            title="Total Clients"
+            :value="clients.length"
+            :precision="0"
+            class="text-success"
+         
+          >
+          </a-statistic>
+          <div class="icon" v-html="stats[2].icon"></div>
+        </a-card>
+        <!-- / Widget 1 Card -->
+      </a-col>
+    </a-row>
 
-		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :lg="10" class="mb-24">
-
-				<!-- Active Users Card -->
-				<CardBarChart></CardBarChart>
-				<!-- Active Users Card -->
-
-			</a-col>
-			<a-col :span="24" :lg="14" class="mb-24">
-				
-				<!-- Sales Overview Card -->
-				<CardLineChart></CardLineChart>
-				<!-- / Sales Overview Card -->
-
-			</a-col>
-		</a-row>
+    <a-row :gutter="24" type="flex" align="stretch">
+      <a-col :span="24" :lg="10" class="mb-24">
+        <!-- Active Users Card -->
+        <CardBarChart></CardBarChart>
+        <!-- Active Users Card -->
+      </a-col>
+      <a-col :span="24" :lg="14" class="mb-24">
+        <!-- Sales Overview Card -->
+        <CardLineChart></CardLineChart>
+        <!-- / Sales Overview Card -->
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -94,117 +139,8 @@ const stats = [
 						</svg>`,
   },
 ];
-
-// "Projects" table list of columns and their properties.
-const tableColumns = [
-  {
-    title: "COMPANIES",
-    dataIndex: "company",
-    scopedSlots: { customRender: "company" },
-    width: 300,
-  },
-  {
-    title: "MEMBERS",
-    dataIndex: "members",
-    scopedSlots: { customRender: "members" },
-  },
-  {
-    title: "BUDGET",
-    dataIndex: "budget",
-    class: "font-bold text-muted text-sm",
-  },
-  {
-    title: "COMPLETION",
-    scopedSlots: { customRender: "completion" },
-    dataIndex: "completion",
-  },
-];
-
-// "Projects" table list of rows and their properties.
-const tableData = [
-  {
-    key: "1",
-    company: {
-      name: "Soft UI Shopify Version",
-      logo: "images/logos/logo-shopify.svg",
-    },
-    members: [
-      "images/face-1.jpg",
-      "images/face-4.jpg",
-      "images/face-2.jpg",
-      "images/face-3.jpg",
-    ],
-    budget: "$14,000",
-    completion: 60,
-  },
-  {
-    key: "2",
-    company: {
-      name: "Progress Track",
-      logo: "images/logos/logo-atlassian.svg",
-    },
-    members: ["images/face-4.jpg", "images/face-3.jpg"],
-    budget: "$3,000",
-    completion: 10,
-  },
-  {
-    key: "3",
-    company: {
-      name: "Fix Platform Errors",
-      logo: "images/logos/logo-slack.svg",
-    },
-    members: ["images/face-1.jpg", "images/face-2.jpg", "images/face-3.jpg"],
-    budget: "Not Set",
-    completion: {
-      label: "100",
-      status: "success",
-      value: 100,
-    },
-  },
-  {
-    key: "4",
-    company: {
-      name: "Launch new Mobile App",
-      logo: "images/logos/logo-spotify.svg",
-    },
-    members: ["images/face-1.jpg", "images/face-2.jpg"],
-    budget: "$20,600",
-    completion: {
-      label: "100",
-      status: "success",
-      value: 100,
-    },
-  },
-  {
-    key: "5",
-    company: {
-      name: "Add the New Landing Page",
-      logo: "images/logos/logo-jira.svg",
-    },
-    members: [
-      "images/face-1.jpg",
-      "images/face-4.jpg",
-      "images/face-2.jpg",
-      "images/face-3.jpg",
-    ],
-    budget: "$4,000",
-    completion: 80,
-  },
-  {
-    key: "6",
-    company: {
-      name: "Redesign Online Store",
-      logo: "images/logos/logo-invision.svg",
-    },
-    members: ["images/face-1.jpg", "images/face-4.jpg", "images/face-3.jpg"],
-    budget: "$2,000",
-    completion: {
-      label: "Cancelled",
-      status: "exception",
-      value: 100,
-    },
-  },
-];
+import { mapState } from "vuex";
+import * as fb from "../firebase";
 
 export default {
   components: {
@@ -220,15 +156,38 @@ export default {
   },
   data() {
     return {
-      // Associating table data with its corresponding property.
-      tableData,
-
-      // Associating table columns with its corresponding property.
-      tableColumns,
 
       // Counter Widgets Stats
       stats,
+      totalEmployees:0,
+      totalCalendars:0
     };
+  },
+  methods:{
+    getMeData(){
+      fb.db.collectionGroup("team").get().then((docs)=>{
+        console.log(docs.docs.length)
+        this.totalEmployees=docs.docs.length
+      })
+     },
+     getTotalCalendars(){
+      fb.db.collectionGroup("calendars").get().then((docs)=>{
+        console.log(docs.docs.length)
+        this.totalCalendars=docs.docs.length
+      })
+     }
+  },
+  computed: {
+    ...mapState(["calendars", "employees", "clients", "payrunEmployees"]),
+  },
+  mounted() {
+    this.$store.dispatch("getCalendars");
+    this.$store.dispatch("getEmployees");
+    this.$store.dispatch("getCurrentClient");
+    this.$store.dispatch("getClients");
+    this.getMeData();
+    this.getTotalCalendars();
+
   },
 };
 </script>

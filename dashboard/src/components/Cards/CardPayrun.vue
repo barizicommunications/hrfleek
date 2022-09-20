@@ -22,7 +22,7 @@
             justify-content: space-between;
           "
         >
-          <a-input-group compact>
+          <a-input-group compact  v-if="payrollcalendar.date.toDate() >=new Date()">
             <a-select
               mode="multiple"
               placeholder="Search  by name"
@@ -53,7 +53,7 @@
           :md="12"
           style="display: flex; align-items: center; justify-content: flex-end"
         >
-          <a-input-group compact>
+          <a-input-group compact v-if="payrollcalendar.date.toDate() >=new Date()">
             <a-select
               mode="multiple"
               placeholder="Search by Departments"
@@ -93,6 +93,7 @@
           >
         </a-col> -->
       </a-row>
+
     </template>
     <a-table
       :columns="columns"
@@ -100,7 +101,7 @@
       bordered
       rowKey="id"
     >
-      <template slot="operation" slot-scope="text, record">
+      <template slot="operation" slot-scope="text, record" v-if="payrollcalendar.date.toDate() >=new Date()">
         <div class="editable-row-operations">
           <span>
             <a
@@ -196,6 +197,7 @@ export default {
           icon: "error",
         });
         this.loading = false;
+      
       } else {
         swal("Final Changes made will be added to your payrun").then(
           async (value) => {
@@ -276,6 +278,7 @@ export default {
           text: `No employees to add`,
           icon: "error",
         });
+        console.log(this.$route.params.id,"id is here")
       }
     },
     addDepartment() {
@@ -356,6 +359,9 @@ export default {
     filteredOptions() {
       return this.employees.filter((o) => !this.selectedEmployees.includes(o));
     },
+  payrollcalendar(){
+    return this.calendars.find((e)=>e.id===this.$route.params.id)
+  }
   },
   mounted() {
     this.$store.dispatch("getCalendars");

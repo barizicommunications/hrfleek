@@ -12,7 +12,7 @@
         <a-card :bordered="false" class="widget-1">
           <a-statistic
             title="Total Employees"
-            value="700"
+            :value="totalEmployees"
             :precision="0"
             class="text-success"
          
@@ -159,37 +159,26 @@ export default {
 
       // Counter Widgets Stats
       stats,
+      totalEmployees:0
     };
   },
   methods:{
     getMeData(){
-      let count=0
-      for(let i=0;i<this.clients.length;i++){
-      fb.businessCollection.doc(this.clients[i].id).collection("team").get().then((docs)=>{
-        count =docs.docs.length
-        console.log(count)
+      fb.db.collectionGroup("team").get().then((docs)=>{
+        console.log(docs.docs.length)
+        this.totalEmployees=docs.docs.length
       })
-      }
-      console.log(count)
-    }
+     }
   },
   computed: {
     ...mapState(["calendars", "employees", "clients", "payrunEmployees"]),
-    totalClients(){
-      let count =0
-      let employees
-      for(let i=0;i<this.clients.length;i++){
-      fb.businessCollection.doc(this.clients[i].id).collection("team").get().then((docs)=>{
-        console.log(docs.docs.length)
-      })
-      }
-    }
   },
   mounted() {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getClients");
+    this.getMeData()
 
   },
 };

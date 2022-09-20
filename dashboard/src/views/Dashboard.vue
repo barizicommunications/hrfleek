@@ -32,7 +32,7 @@
         <a-card :bordered="false" class="widget-1">
           <a-statistic
             title="Total Calendars"
-            :value="calendars.length"
+            :value="totalCalendars"
             :precision="0"
             class="text-success"
          
@@ -159,7 +159,8 @@ export default {
 
       // Counter Widgets Stats
       stats,
-      totalEmployees:0
+      totalEmployees:0,
+      totalCalendars:0
     };
   },
   methods:{
@@ -167,6 +168,12 @@ export default {
       fb.db.collectionGroup("team").get().then((docs)=>{
         console.log(docs.docs.length)
         this.totalEmployees=docs.docs.length
+      })
+     },
+     getTotalCalendars(){
+      fb.db.collectionGroup("calendars").get().then((docs)=>{
+        console.log(docs.docs.length)
+        this.totalCalendars=docs.docs.length
       })
      }
   },
@@ -178,7 +185,8 @@ export default {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getClients");
-    this.getMeData()
+    this.getMeData();
+    this.getTotalCalendars();
 
   },
 };

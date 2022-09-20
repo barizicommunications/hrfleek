@@ -1,60 +1,478 @@
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="data"
-    bordered
-    :scroll="{ x: 2000 }"
-    rowKey="id"
-  >
-    <template
-      v-for="col in [
-        'first_name',
-        'last_name',
-        'address',
-        'email',
-        'phone_number',
-        'gender',
-        'kra_pin',
-        'department',
-        'nssf',
-        'nhif',
-        'basicpay',
-        'designation',
-      ]"
-      :slot="col"
-      slot-scope="text, record, index"
+  <a-card>
+    <a-modal v-model="modal" title="Bulk Imports">
+      <template slot="footer">
+        <a-button key="back" @click="handleCancel"> Cancel </a-button>
+        <a-button
+          key="submit"
+          type="primary"
+          :loading="loading"
+          @click="handleUpload"
+        >
+          Upload
+        </a-button>
+      </template>
+      <div class="table-upload-btn">
+        <a-upload
+          :file-list="fileList"
+          :remove="handleRemove"
+          :before-upload="beforeUpload"
+          accept=".csv"
+        >
+          <a-button block> <a-icon type="upload" /> Select CSV File </a-button>
+        </a-upload>
+      </div>
+      <div class="table-upload-btn">
+        <a-button type="dashed" block @click.prevent="downloadFile">
+          <a-icon type="download" />
+          Download Sample CSV
+        </a-button>
+      </div>
+    </a-modal>
+    <a-drawer
+      title="Create a new employee account"
+      :width="720"
+      :visible="visible"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="onClose"
     >
-      <div :key="col">
-        <a-input
-          v-if="record.editable"
-          style="margin: -5px 0"
-          :value="text"
-          @change="(e) => handleChange(e.target.value, record.id, col)"
-        />
-        <template v-else>
-          {{ text }}
-        </template>
+      <a-form
+        :form="form"
+        layout="vertical"
+        :hide-required-mark="false"
+        @submit.prevent="handleSubmit"
+      >
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="First Name">
+              <a-input
+                v-decorator="[
+                  'first_name',
+                  {
+                    rules: [
+                      { required: true, message: 'Please enter user name' },
+                    ],
+                  },
+                ]"
+                placeholder="Please enter user name"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Last Name">
+              <a-input
+                v-decorator="[
+                  'last_name',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter your last name',
+                      },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="last name"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Email">
+              <a-input
+                v-decorator="[
+                  'email',
+                  {
+                    rules: [{ required: true, message: 'please enter email' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="email"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Phone Number">
+              <a-input
+                v-decorator="[
+                  'phone_number',
+                  {
+                    rules: [{ required: true, message: 'please enter phone' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="phone"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="National ID">
+              <a-input
+                v-decorator="[
+                  'national_id',
+                  {
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="national_id"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="KRA PIN">
+              <a-input
+                v-decorator="[
+                  'kra_pin',
+                  {
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="KRA PIN"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="NSSF NUMBER">
+              <a-input
+                v-decorator="[
+                  'nssf_number',
+                  {
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="nssf number"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="NHIF NUMBER">
+              <a-input
+                v-decorator="[
+                  'nhif_number',
+                  {
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="NHIF"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Department">
+              <a-select
+                v-decorator="[
+                  'department',
+                  {
+                    rules: [
+                      { required: true, message: 'Please select a department' },
+                    ],
+                  },
+                ]"
+                placeholder="department"
+              >
+                <a-select-option
+                  v-for="department in currentClient.departments"
+                  :key="department.department_name"
+                  :value="department.department_name"
+                >
+                  {{ department.department_name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Designation">
+              <a-input
+                v-decorator="[
+                  'designation',
+                  {
+                    rules: [
+                      { required: true, message: 'please enter designation' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="designation"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Bank Name">
+              <a-select
+                v-decorator="[
+                  'bank_name',
+                  {
+                    rules: [
+                      { required: true, message: 'Please choose the bank' },
+                    ],
+                  },
+                ]"
+                placeholder="Please choose the bank"
+              >
+                <a-select-option value="equity"> Equity Bank </a-select-option>
+                <a-select-option value="kcb"> KCB Bank </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Branch Name">
+              <a-input
+                v-decorator="[
+                  'bank_branch',
+                  {
+                    rules: [{ required: true, message: 'please enter branch' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="Branch Name"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Account Name">
+              <a-input
+                v-decorator="[
+                  'account_name',
+                  {
+                    rules: [
+                      { required: true, message: 'please enter account' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="account Name"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Account Number">
+              <a-input
+                v-decorator="[
+                  'account_number',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter account number',
+                      },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="account number"
+                type="number"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Date of Birth">
+              <a-date-picker
+                v-decorator="[
+                  'date_of_birth',
+                  {
+                    rules: [
+                      { required: true, message: 'please enter account' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="Basic Pay"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Basic Pay">
+              <a-input
+                v-decorator="[
+                  'basic_pay',
+                  {
+                    rules: [
+                      { required: true, message: 'please enter account' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="Basic Pay"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Gender">
+              <a-select
+                v-decorator="[
+                  'gender',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please select',
+                      },
+                    ],
+                  },
+                ]"
+              >
+                <a-select-option value="male"> Male </a-select-option>
+                <a-select-option value="female">Female</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Status">
+              <a-select
+                v-decorator="[
+                  'status',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please select employee status',
+                      },
+                    ],
+                  },
+                ]"
+                placeholder="Status"
+              >
+                <a-select-option value="active"> Active </a-select-option>
+                <a-select-option value="inactive">Inactive</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
+      <div
+        :style="{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+          zIndex: 1,
+        }"
+      >
+        <a-button :style="{ marginRight: '8px' }" @click="onClose">
+          Cancel
+        </a-button>
+        <a-button type="primary" @click="handleSubmit"> Submit </a-button>
       </div>
+    </a-drawer>
+    <template #title>
+      <a-row type="flex" align="middle">
+        <a-col :span="24" :md="12">
+          <h6>Employees</h6>
+          <p>
+            Total <span class="text-primary">{{ employees.length }}</span>
+          </p>
+        </a-col>
+        <a-col
+          :span="24"
+          :md="12"
+          style="display: flex; align-items: center; justify-content: flex-end"
+        >
+          <a-radio-group size="small">
+            <a-button @click="showModal">Add New Employee</a-button>
+          </a-radio-group>
+        </a-col>
+      </a-row>
     </template>
-    <template slot="operation" slot-scope="text, record, index">
-      <div class="editable-row-operations">
-        <span v-if="record.editable">
-          <a @click="() => save(record.id)">Save</a>
-          <a-popconfirm
-            title="Sure to cancel?"
-            @confirm="() => cancel(record.id)"
-          >
-            <a>Cancel</a>
-          </a-popconfirm>
-        </span>
-        <span v-else>
-          <a :disabled="editingKey !== ''" @click="() => edit(record.id)"
-            >Edit</a
-          >
-        </span>
-      </div>
-    </template>
-  </a-table>
+    <a-table
+      :columns="columns"
+      :data-source="data"
+      bordered
+      :scroll="{ x: 2000 }"
+      rowKey="id"
+    >
+      <template
+        v-for="col in [
+          'first_name',
+          'last_name',
+          'address',
+          'email',
+          'phone_number',
+          'gender',
+          'kra_pin',
+          'department',
+          'nssf',
+          'nhif',
+          'basicpay',
+          'designation',
+        ]"
+        :slot="col"
+        slot-scope="text, record, index"
+      >
+        <div :key="col">
+          <a-input
+            v-if="record.editable"
+            style="margin: -5px 0"
+            :value="text"
+            @change="(e) => handleChange(e.target.value, record.id, col)"
+          />
+          <template v-else>
+            {{ text }}
+          </template>
+        </div>
+      </template>
+      <template slot="operation" slot-scope="text, record, index">
+        <div class="editable-row-operations">
+          <span v-if="record.editable">
+            <a @click="() => save(record.id)">Save</a>
+            <a-popconfirm
+              title="Sure to cancel?"
+              @confirm="() => cancel(record.id)"
+            >
+              <a>Cancel</a>
+            </a-popconfirm>
+          </span>
+          <span v-else>
+            <a :disabled="editingKey !== ''" @click="() => edit(record.id)"
+              >Edit</a
+            >
+          </span>
+        </div>
+      </template>
+    </a-table>
+    <div class="table-upload-btn">
+      <a-button type="dashed" block @click="showDrawer">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M3 17C3 16.4477 3.44772 16 4 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H4C3.44772 18 3 17.5523 3 17ZM6.29289 6.70711C5.90237 6.31658 5.90237 5.68342 6.29289 5.29289L9.29289 2.29289C9.48043 2.10536 9.73478 2 10 2C10.2652 2 10.5196 2.10536 10.7071 2.29289L13.7071 5.29289C14.0976 5.68342 14.0976 6.31658 13.7071 6.70711C13.3166 7.09763 12.6834 7.09763 12.2929 6.70711L11 5.41421L11 13C11 13.5523 10.5523 14 10 14C9.44771 14 9 13.5523 9 13L9 5.41421L7.70711 6.70711C7.31658 7.09763 6.68342 7.09763 6.29289 6.70711Z"
+            fill="#111827"
+          />
+        </svg>
+        import CSV
+      </a-button>
+    </div>
+  </a-card>
 </template>
 <script>
 const columns = [
@@ -140,6 +558,143 @@ export default {
       data,
       columns,
       editingKey: "",
+      projectHeaderBtns: "all",
+      visible: false,
+      form: this.$form.createForm(this, { name: "coordinated" }),
+      editingKey: "",
+      modal: false,
+      loading: false,
+      fileList: [],
+      uploading: false,
+      filesrc: {
+        label: "sample.csv",
+        url: "./sample.csv",
+      },
+      sampleData: [
+        {
+          national_id: "35276738",
+          first_name: "Liliane",
+          last_name: "Lorrainbe",
+          Gender: "male",
+          email: "citlalli.wolf@hotmail.com",
+          phone_number: "0705122230",
+          address: "2448 Willms Freeway",
+          Country: "Kenya",
+          department: "sales",
+          designation: "sales manager",
+          employment_type: "contract",
+          kra_pin: "A2030400504L",
+          nhif_number: "1923990",
+          nssf_number: "500604",
+          bank_name: "Equity Bank",
+          account_name: "Warren Ochieng",
+          account_number: "49999030009",
+          bank_branch: "Kenyatta Avenue",
+          basic_pay: "1000000",
+          Status: "active",
+          adavnce_salary: 0,
+              nssf: 0,
+              nhif: 0,
+              paye: 0,
+              helb: 0,
+              pension: 0,
+              sacco: 0,
+              House: 0,
+              transport: 0,
+              telephone: 0,
+              hardship: 0,
+              transfer: 0,
+              risk: 0,
+              car: 0,
+              fuel: 0,
+              leave: 0,
+              entertainment: 0,
+              meal: 0,
+          employee_id: "",
+        },
+        {
+          national_id: "35276738",
+          first_name: "Phillip",
+          last_name: "Mugo",
+          Gender: "male",
+          email: "citlalli.wolf@hotmail.com",
+          phone_number: "0705122230",
+          address: "2448 Willms Freeway",
+          Country: "Kenya",
+          department: "sales",
+          designation: "sales manager",
+          employment_type: "contract",
+          kra_pin: "A2030400504L",
+          nhif_number: "1923990",
+          nssf_number: "500604",
+          bank_name: "Equity Bank",
+          account_name: "Warren Ochieng",
+          account_number: "49999030009",
+          bank_branch: "Kenyatta Avenue",
+          basic_pay: "1000000",
+          Status: "active",
+          adavnce_salary: 0,
+              nssf: 0,
+              nhif: 0,
+              paye: 0,
+              helb: 0,
+              pension: 0,
+              sacco: 0,
+              House: 0,
+              transport: 0,
+              telephone: 0,
+              hardship: 0,
+              transfer: 0,
+              risk: 0,
+              car: 0,
+              fuel: 0,
+              leave: 0,
+              entertainment: 0,
+              meal: 0,
+          employee_id: "",
+        },
+        {
+          national_id: "36273495",
+          first_name: "MIchelle",
+          last_name: "Natasha",
+          Gender: "female",
+          email: "citlalli.wolf@hotmail.com",
+          phone_number: "0705122230",
+          address: "2448 Willms Freeway",
+          Country: "Kenya",
+          department: "sales",
+          designation: "sales manager",
+          employment_type: "contract",
+          kra_pin: "A2030400504L",
+          nhif_number: "1923990",
+          nssf_number: "500604",
+          bank_name: "Equity Bank",
+          account_name: "Warren Ochieng",
+          account_number: "49999030009",
+          bank_branch: "Kenyatta Avenue",
+          basic_pay: "1000000",
+          Status: "active",
+          adavnce_salary: 0,
+              nssf: 0,
+              nhif: 0,
+              paye: 0,
+              helb: 0,
+              pension: 0,
+              sacco: 0,
+              House: 0,
+              transport: 0,
+              telephone: 0,
+              hardship: 0,
+              transfer: 0,
+              risk: 0,
+              car: 0,
+              fuel: 0,
+              leave: 0,
+              entertainment: 0,
+              meal: 0,
+          employee_id: "",
+        },
+      ],
     };
   },
   methods: {
@@ -229,6 +784,185 @@ export default {
         picked.push(sliced);
       });
       this.data = picked;
+    },
+    showModal() {
+      this.visible = true;
+    },
+    showDrawer() {
+      this.modal = true;
+    },
+    onClose() {
+      this.visible = false;
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          this.$store.dispatch("addEmployee", values);
+          console.log(values);
+        }
+      });
+    },
+    handleChange(value, key, column) {
+      const newData = [...this.employees];
+      const target = newData.find((item) => key === item.id);
+      if (target) {
+        target[column] = value;
+        this.employees = newData;
+      }
+    },
+    handleOk() {},
+    handleCancel() {
+      this.modal = false;
+    },
+    beforeUpload(file) {
+      this.fileList = [...this.fileList, file];
+      return false;
+    },
+    handleRemove(file) {
+      const index = this.fileList.indexOf(file);
+      const newFileList = this.fileList.slice();
+      newFileList.splice(index, 1);
+      this.fileList = newFileList;
+    },
+    handleUpload(e) {
+      e.preventDefault();
+      if (this.fileList.length) {
+        this.loading = true;
+        let promise = new Promise((resolve, reject) => {
+          var reader = new FileReader();
+          var vm = this;
+          reader.onload = (e) => {
+            resolve((vm.fileinput = reader.result));
+          };
+          reader.readAsText(this.fileList[0]);
+        });
+        promise.then(
+          (result) => {
+            /* handle a successful result */
+            var lines = result.split("\n");
+            var newresult = [];
+            var headers = lines[0].split(",");
+            for (var i = 1; i < lines.length; i++) {
+              var obj = {};
+              var currentline = lines[i].split(",");
+              for (var j = 0; j < headers.length; j++) {
+                obj[headers[j]] = currentline[j];
+              }
+              newresult.push(obj);
+            }
+            //return result; //JavaScript object
+            //JSON
+            function checkIdDuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.national_id === value && count++);
+              return count;
+            }
+            function checkKRADuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.kra_pin === value && count++);
+              return count;
+            }
+            function checkNSSFDuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.nssf_number === value && count++);
+              return count;
+            }
+            function checkNHIFDuplicates(array, value) {
+              var count = 0;
+              array.forEach((v) => v.nhif_number === value && count++);
+              return count;
+            }
+            if (newresult && typeof newresult === "object") {
+              Object.keys(newresult).forEach(async (data) => {
+                const selectedClient = JSON.parse(
+                  localStorage.getItem("client")
+                );
+                console.log(
+                  checkIdDuplicates(newresult, newresult[data].national_id)
+                );
+
+                if (
+                  checkIdDuplicates(newresult, newresult[data].national_id) > 1
+                ) {
+                  /* vendors contains the element we're looking for */
+                  console.log(newresult);
+                  this.loading = false;
+                  this.$message.error("some ID are duplicates");
+                } else if (
+                  checkKRADuplicates(newresult, newresult[data].kra_pin) > 1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some KRA PINs are duplicates");
+                } else if (
+                  checkNSSFDuplicates(newresult, newresult[data].nssf_number) >
+                  1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some NSSF numbers are duplicates");
+                } else if (
+                  checkNHIFDuplicates(newresult, newresult[data].nhif_number) >
+                  1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some NHIF numbers are duplicates");
+                } else {
+                  await fb.businessCollection
+                    .doc(selectedClient.kra_pin)
+                    .collection("team")
+                    .doc(newresult[data].national_id)
+                    .set(newresult[data])
+                    .then(() => {
+                      this.loading = false;
+                      swal({
+                        title: "Sucess!",
+                        text: `record added successfully`,
+                        icon: "success",
+                      });
+                    })
+                    .catch((err) => {
+                      swal({
+                        title: "OOPS!",
+                        text: `${err.message}`,
+                        icon: "error",
+                      });
+                      this.loading = false;
+                    });
+                }
+              });
+            }
+          },
+          (error) => {
+            /* handle an error */
+            console.log(error);
+            this.loading = false;
+          }
+        );
+      } else {
+        swal({
+          title: "OOPS!",
+          text: `please select a valid CSV file`,
+          icon: "error",
+        });
+      }
+    },
+    forceFileDownload(response, title) {
+      console.log("this is the tilte", title);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", title);
+      document.body.appendChild(link);
+      link.click();
+    },
+
+    downloadFile() {
+      const data = this.sampleData;
+      console.log(typeof data);
+      const fileName = "sample employee data";
+      const exportType = exportFromJSON.types.csv;
+
+      if (data) exportFromJSON({ data, fileName, exportType });
     },
   },
   computed: {

@@ -536,6 +536,138 @@
             </a-row>
           </a-form>
         </div>
+        <div v-if="current == 2">
+          <a-form
+            :form="form"
+            layout="vertical"
+            :hide-required-mark="false"
+            @submit.prevent="handleSubmit"
+          >
+            <a-row :gutter="16">
+              <a-col :span="12">
+                <a-form-item label="NSSF">
+                  <a-input
+                    v-decorator="[
+                      'nssf',
+                      {
+                        rules: [
+                          { required: true, message: 'Field is required' },
+                        ],
+                      },
+                    ]"
+                    placeholder=""
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label="NHIF">
+                  <a-input
+                    v-decorator="[
+                      'nhif',
+                      {
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Field is required',
+                          },
+                        ],
+                      },
+                    ]"
+                    style="width: 100%"
+                    placeholder=""
+                  />
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <a-row :gutter="16">
+              <a-col :span="12">
+                <a-form-item label="PAYE">
+                  <a-input
+                    v-decorator="[
+                      'paye',
+                      {
+                        rules: [
+                          { required: true, message: 'Field is required' },
+                        ],
+                      },
+                    ]"
+                    style="width: 100%"
+                    placeholder=""
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label="HELB">
+                  <a-input
+                    v-decorator="[
+                      'helb',
+                      {
+                        rules: [
+                          { required: true, message: 'please enter' },
+                        ],
+                      },
+                    ]"
+                    style="width: 100%"
+                    placeholder=""
+                  />
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <a-row :gutter="16">
+              <a-col :span="12">
+                <a-form-item label="PENSION">
+                  <a-input
+                    v-decorator="[
+                      'pension',
+                      {
+                        rules: [
+                          { required: true, message: 'Field is required' },
+                        ],
+                      },
+                    ]"
+                    style="width: 100%"
+                    placeholder=""
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label="SACCO">
+                  <a-input
+                    v-decorator="[
+                      'sacco',
+                      {
+                        rules: [
+                          { required: true, message: 'Field is required' },
+                        ],
+                      },
+                    ]"
+                    style="width: 100%"
+                    placeholder=""
+                  />
+                </a-form-item>
+              </a-col>
+            </a-row>
+          
+            <a-row :gutter="16">
+              <a-col :span="12">
+                <a-form-item label="SALARY ADVANCE">
+                  <a-input
+                    v-decorator="[
+                      'leaveAllowance',
+                      {
+                        rules: [
+                          { required: true, message: 'Field is required' },
+                        ],
+                      },
+                    ]"
+                    style="width: 100%"
+                    placeholder=""
+                  />
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+        </div>
       </div>
       <div class="steps-action">
         <a-button
@@ -548,7 +680,7 @@
         <a-button
           v-if="current == steps.length - 1"
           type="primary"
-          @click="$message.success('Processing complete!')"
+          @click="handleSubmit"
         >
           Done
         </a-button>
@@ -577,11 +709,7 @@ export default {
         {
           title: "Deductions",
           content: "Last-content",
-        },
-        {
-          title: "Review and Submit",
-          content: "Last-content",
-        },
+        }
       ],
       form: this.$form.createForm(this, { name: "coordinated" }),
     };
@@ -592,6 +720,17 @@ export default {
     },
     prev() {
       this.current--;
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+         // this.$store.dispatch("addEmployee", values);
+          console.log(values);
+        }else{
+          this.$message.error("some fields are empty");
+        }
+      });
     },
   },
   computed: {

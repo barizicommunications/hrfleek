@@ -121,6 +121,12 @@ let routes = [
 		name: 'Otp-Screen',
 		component: () => import('../views/Otp-screen.vue'),
 	},
+	{
+		path: '/create-employee',
+		name: 'Create-Emp;oyee',
+		layout: "dashboard",
+		component: () => import('../views/CreateEmployee.vue'),
+	},
 
 ]
 

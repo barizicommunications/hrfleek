@@ -18,8 +18,11 @@
           :remove="handleRemove"
           :before-upload="beforeUpload"
           accept=".csv"
+          style="width: 100%"
         >
-          <a-button block> <a-icon type="upload" /> Select CSV File </a-button>
+          <a-button block type="primary">
+            <a-icon type="upload" /> Select CSV File
+          </a-button>
         </a-upload>
       </div>
       <div class="table-upload-btn">
@@ -29,355 +32,6 @@
         </a-button>
       </div>
     </a-modal>
-    <a-drawer
-      title="Create a new employee account"
-      :width="720"
-      :visible="visible"
-      :body-style="{ paddingBottom: '80px' }"
-      @close="onClose"
-    >
-      <a-form
-        :form="form"
-        layout="vertical"
-        :hide-required-mark="false"
-        @submit.prevent="handleSubmit"
-      >
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="First Name">
-              <a-input
-                v-decorator="[
-                  'first_name',
-                  {
-                    rules: [
-                      { required: true, message: 'Please enter user name' },
-                    ],
-                  },
-                ]"
-                placeholder="Please enter user name"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Last Name">
-              <a-input
-                v-decorator="[
-                  'last_name',
-                  {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'please enter your last name',
-                      },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="last name"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Email">
-              <a-input
-                v-decorator="[
-                  'email',
-                  {
-                    rules: [{ required: true, message: 'please enter email' }],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="email"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Phone Number">
-              <a-input
-                v-decorator="[
-                  'phone_number',
-                  {
-                    rules: [{ required: true, message: 'please enter phone' }],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="phone"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="National ID">
-              <a-input
-                v-decorator="[
-                  'national_id',
-                  {
-                    rules: [{ required: true, message: 'Field is required' }],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="national_id"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="KRA PIN">
-              <a-input
-                v-decorator="[
-                  'kra_pin',
-                  {
-                    rules: [{ required: true, message: 'Field is required' }],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="KRA PIN"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="NSSF NUMBER">
-              <a-input
-                v-decorator="[
-                  'nssf_number',
-                  {
-                    rules: [{ required: true, message: 'Field is required' }],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="nssf number"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="NHIF NUMBER">
-              <a-input
-                v-decorator="[
-                  'nhif_number',
-                  {
-                    rules: [{ required: true, message: 'Field is required' }],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="NHIF"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Department">
-              <a-select
-                v-decorator="[
-                  'department',
-                  {
-                    rules: [
-                      { required: true, message: 'Please select a department' },
-                    ],
-                  },
-                ]"
-                placeholder="department"
-              >
-                <a-select-option
-                  v-for="department in currentClient.departments"
-                  :key="department.department_name"
-                  :value="department.department_name"
-                >
-                  {{ department.department_name }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Designation">
-              <a-input
-                v-decorator="[
-                  'designation',
-                  {
-                    rules: [
-                      { required: true, message: 'please enter designation' },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="designation"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Bank Name">
-              <a-select
-                v-decorator="[
-                  'bank_name',
-                  {
-                    rules: [
-                      { required: true, message: 'Please choose the bank' },
-                    ],
-                  },
-                ]"
-                placeholder="Please choose the bank"
-              >
-                <a-select-option value="equity"> Equity Bank </a-select-option>
-                <a-select-option value="kcb"> KCB Bank </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Branch Name">
-              <a-input
-                v-decorator="[
-                  'bank_branch',
-                  {
-                    rules: [{ required: true, message: 'please enter branch' }],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="Branch Name"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Account Name">
-              <a-input
-                v-decorator="[
-                  'account_name',
-                  {
-                    rules: [
-                      { required: true, message: 'please enter account' },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="account Name"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Account Number">
-              <a-input
-                v-decorator="[
-                  'account_number',
-                  {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'please enter account number',
-                      },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="account number"
-                type="number"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Date of Birth">
-              <a-date-picker
-                v-decorator="[
-                  'date_of_birth',
-                  {
-                    rules: [
-                      { required: true, message: 'please enter account' },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="Basic Pay"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Basic Pay">
-              <a-input
-                v-decorator="[
-                  'basic_pay',
-                  {
-                    rules: [
-                      { required: true, message: 'please enter account' },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                placeholder="Basic Pay"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Gender">
-              <a-select
-                v-decorator="[
-                  'gender',
-                  {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Please select',
-                      },
-                    ],
-                  },
-                ]"
-              >
-                <a-select-option value="male"> Male </a-select-option>
-                <a-select-option value="female">Female</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Status">
-              <a-select
-                v-decorator="[
-                  'status',
-                  {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Please select employee status',
-                      },
-                    ],
-                  },
-                ]"
-                placeholder="Status"
-              >
-                <a-select-option value="active"> Active </a-select-option>
-                <a-select-option value="inactive">Inactive</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-      <div
-        :style="{
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e9e9e9',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-          zIndex: 1,
-        }"
-      >
-        <a-button :style="{ marginRight: '8px' }" @click="onClose">
-          Cancel
-        </a-button>
-        <a-button type="primary" @click="handleSubmit"> Submit </a-button>
-      </div>
-    </a-drawer>
     <template #title>
       <a-row type="flex" align="middle">
         <a-col :span="24" :md="12">
@@ -583,37 +237,37 @@ export default {
           department: "sales",
           designation: "sales manager",
           employment_type: "contract",
-          kra_pin: "A2030400504L",
+          kra_pin: "A2030400504J",
           nhif_number: "1923990",
-          nssf_number: "500604",
+          nssf_number: "520604",
           bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
           bank_branch: "Kenyatta Avenue",
           basic_pay: "1000000",
           Status: "active",
-          adavnce_salary: 0,
-              nssf: 0,
-              nhif: 0,
-              paye: 0,
-              helb: 0,
-              pension: 0,
-              sacco: 0,
-              HouseAllowance: 0,
-              transportAllowance: 0,
-              telephoneAllowance: 0,
-              hardshipAllowance: 0,
-              transferAllowance: 0,
-              riskAllowance: 0,
-              carAllowance: 0,
-              fuelAllowance: 0,
-              leave: 0,
-              entertainmentAllowance: 0,
-              mealAllowance: 0,
+          advance_salary: 0,
+          nssf: 0,
+          nhif: 0,
+          paye: 0,
+          helb: 0,
+          pension: 0,
+          sacco: 0,
+          HouseAllowance: 0,
+          transportAllowance: 0,
+          telephoneAllowance: 0,
+          hardshipAllowance: 0,
+          transferAllowance: 0,
+          riskAllowance: 0,
+          carAllowance: 0,
+          fuelAllowance: 0,
+          leave: 0,
+          entertainmentAllowance: 0,
+          mealAllowance: 0,
           employee_id: "",
         },
         {
-          national_id: "35276738",
+          national_id: "35276728",
           first_name: "Phillip",
           last_name: "Mugo",
           Gender: "male",
@@ -624,33 +278,33 @@ export default {
           department: "sales",
           designation: "sales manager",
           employment_type: "contract",
-          kra_pin: "A2030400504L",
-          nhif_number: "1923990",
-          nssf_number: "500604",
+          kra_pin: "A2030400504K",
+          nhif_number: "19753990",
+          nssf_number: "5006043",
           bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
           account_number: "49999030009",
           bank_branch: "Kenyatta Avenue",
           basic_pay: "1000000",
           Status: "active",
-          adavnce_salary: 0,
-              nssf: 0,
-              nhif: 0,
-              paye: 0,
-              helb: 0,
-              pension: 0,
-              sacco: 0,
-              HouseAllowance: 0,
-              transportAllowance: 0,
-              telephoneAllowance: 0,
-              hardshipAllowance: 0,
-              transferAllowance: 0,
-              riskAllowance: 0,
-              carAllowance: 0,
-              fuelAllowance: 0,
-              leave: 0,
-              entertainmentAllowance: 0,
-              mealAllowance: 0,
+          advance_salary: 0,
+          nssf: 0,
+          nhif: 0,
+          paye: 0,
+          helb: 0,
+          pension: 0,
+          sacco: 0,
+          HouseAllowance: 0,
+          transportAllowance: 0,
+          telephoneAllowance: 0,
+          hardshipAllowance: 0,
+          transferAllowance: 0,
+          riskAllowance: 0,
+          carAllowance: 0,
+          fuelAllowance: 0,
+          leave: 0,
+          entertainmentAllowance: 0,
+          mealAllowance: 0,
           employee_id: "",
         },
         {
@@ -666,7 +320,7 @@ export default {
           designation: "sales manager",
           employment_type: "contract",
           kra_pin: "A2030400504L",
-          nhif_number: "1923990",
+          nhif_number: "1926990",
           nssf_number: "500604",
           bank_name: "Equity Bank",
           account_name: "Warren Ochieng",
@@ -674,24 +328,24 @@ export default {
           bank_branch: "Kenyatta Avenue",
           basic_pay: "1000000",
           Status: "active",
-          adavnce_salary: 0,
-              nssf: 0,
-              nhif: 0,
-              paye: 0,
-              helb: 0,
-              pension: 0,
-              sacco: 0,
-              HouseAllowance: 0,
-              transportAllowance: 0,
-              telephoneAllowance: 0,
-              hardshipAllowance: 0,
-              transferAllowance: 0,
-              riskAllowance: 0,
-              carAllowance: 0,
-              fuelAllowance: 0,
-              leaveAllowance: 0,
-              entertainmentAllowance: 0,
-              mealAllowance: 0,
+          advance_salary: 0,
+          nssf: 0,
+          nhif: 0,
+          paye: 0,
+          helb: 0,
+          pension: 0,
+          sacco: 0,
+          HouseAllowance: 0,
+          transportAllowance: 0,
+          telephoneAllowance: 0,
+          hardshipAllowance: 0,
+          transferAllowance: 0,
+          riskAllowance: 0,
+          carAllowance: 0,
+          fuelAllowance: 0,
+          leaveAllowance: 0,
+          entertainmentAllowance: 0,
+          mealAllowance: 0,
           employee_id: "",
         },
       ],
@@ -793,15 +447,6 @@ export default {
     },
     onClose() {
       this.visible = false;
-    },
-    handleSubmit(e) {
-      e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          this.$store.dispatch("addEmployee", values);
-          console.log(values);
-        }
-      });
     },
     handleChange(value, key, column) {
       const newData = [...this.employees];
@@ -907,13 +552,62 @@ export default {
                   this.loading = false;
                   this.$message.error("some NHIF numbers are duplicates");
                 } else {
+                  data = {
+                    national_id: newresult[data].national_id,
+                    first_name: newresult[data].first_name,
+                    last_name: newresult[data].first_name,
+                    Gender: newresult[data].Gender,
+                    email: newresult[data].email,
+                    phone_number: newresult[data].phone_number,
+                    address: newresult[data].address,
+                    Country: newresult[data].Country,
+                    department: newresult[data].department,
+                    designation: newresult[data].designation,
+                    employment_type: newresult[data].employment_type,
+                    kra_pin: newresult[data].kra_pin,
+                    nhif_number: newresult[data].nhif_number,
+                    nssf_number: newresult[data].nssf_number,
+                    bank_name: newresult[data].bank_name,
+                    account_name: newresult[data].account_name,
+                    account_number: newresult[data].account_number,
+                    bank_branch: newresult[data].bank_branch,
+                    basic_pay: newresult[data].basic_pay,
+                    Status: newresult[data].Status,
+                    allowances: {
+                      HouseAllowance: newresult[data].HouseAllowance,
+                      transportAllowance: newresult[data].transportAllowance,
+                      telephoneAllowance: newresult[data].telephoneAllowance,
+                      hardshipAllowance: newresult[data].hardshipAllowance,
+                      transferAllowance: newresult[data].transferAllowance,
+                      riskAllowance: newresult[data].riskAllowance,
+                      carAllowance: newresult[data].carAllowance,
+                      fuelAllowance: newresult[data].fuelAllowance,
+                      leave: newresult[data].leave,
+                      entertainmentAllowance:
+                        newresult[data].entertainmentAllowance,
+                      mealAllowance: newresult[data].mealAllowance,
+                    },
+                    deductions: {
+                      advance_salary: newresult[data].advance_salary,
+                      nssf: newresult[data].nssf,
+                      nhif: newresult[data].nhif,
+                      paye: newresult[data].paye,
+                      helb: newresult[data].helb,
+                      pension: newresult[data].pension,
+                      sacco: newresult[data].sacco,
+                    },
+                  };
+
                   await fb.businessCollection
                     .doc(selectedClient.kra_pin)
                     .collection("team")
-                    .doc(newresult[data].national_id)
-                    .set(newresult[data])
+                    .doc(data.national_id)
+                    .set(data)
                     .then(() => {
                       this.loading = false;
+                      this.$store.dispatch("getEmployees");
+                      this.$store.dispatch("getCurrentClient");
+                      this.convertTableData();
                       swal({
                         title: "Sucess!",
                         text: `record added successfully`,

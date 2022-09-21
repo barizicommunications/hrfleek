@@ -411,7 +411,17 @@ export default {
     },
     convertTableData() {
       let picked = [];
-      this.employees.forEach((object) => {
+      const selectedClient = JSON.parse(localStorage.getItem("client"));
+      fb.businessCollection
+        .doc(selectedClient.kra_pin)
+        .collection("team")
+        .onSnapshot((snapshot) => {
+          const loadedEmployers = [];
+          snapshot.forEach((doc) => {
+            const loadedEmployer = doc.data();
+            (loadedEmployer.id = doc.id), loadedEmployers.push(loadedEmployer);
+          });
+          loadedEmployers.forEach((object) => {
         const sliced = {
           first_name: object.first_name,
           last_name: object.last_name,
@@ -437,6 +447,7 @@ export default {
         };
         picked.push(sliced);
       });
+        });
       this.data = picked;
     },
     showModal() {
@@ -456,7 +467,6 @@ export default {
         this.employees = newData;
       }
     },
-    handleOk() {},
     handleCancel() {
       this.modal = false;
     },
@@ -679,7 +689,12 @@ export default {
       };
     },
   },
+  created(){
+    this.$store.dispatch("getEmployees");
+    this.$store.dispatch("getCurrentClient");
+  },
   mounted() {
+    console.log("mounted");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.convertTableData();

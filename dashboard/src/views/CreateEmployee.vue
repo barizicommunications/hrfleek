@@ -11,6 +11,7 @@
             layout="vertical"
             :hide-required-mark="false"
             @submit.prevent="handleSubmit"
+            class="p-5"
           >
             <a-row :gutter="16">
               <a-col :span="12">
@@ -372,6 +373,7 @@
                       },
                     ]"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -391,6 +393,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -409,6 +412,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -418,13 +422,12 @@
                     v-decorator="[
                       'hardshipAllowance',
                       {
-                        rules: [
-                          { required: true, message: 'please enter' },
-                        ],
+                        rules: [{ required: true, message: 'please enter' }],
                       },
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -443,6 +446,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -459,6 +463,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -477,6 +482,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -493,6 +499,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -511,6 +518,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -530,6 +538,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -556,6 +565,7 @@
                       },
                     ]"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -575,6 +585,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -593,6 +604,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -602,13 +614,12 @@
                     v-decorator="[
                       'helb',
                       {
-                        rules: [
-                          { required: true, message: 'please enter' },
-                        ],
+                        rules: [{ required: true, message: 'please enter' }],
                       },
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -627,6 +638,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -643,11 +655,12 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
             </a-row>
-          
+
             <a-row :gutter="16">
               <a-col :span="12">
                 <a-form-item label="SALARY ADVANCE">
@@ -662,6 +675,7 @@
                     ]"
                     style="width: 100%"
                     placeholder=""
+                    type="number"
                   />
                 </a-form-item>
               </a-col>
@@ -671,10 +685,13 @@
       </div>
       <div class="steps-action">
         <a-button
-          v-if="current < steps.length - 1"
+          v-if="current == 0"
           type="primary"
-          @click="next"
+          @click="submitEmployeeDetails"
         >
+          Next
+        </a-button>
+        <a-button v-if="current == 1" type="primary" @click="submitAllowances">
           Next
         </a-button>
         <a-button
@@ -692,7 +709,7 @@
   </div>
 </template>
 <script>
-  import { mapState } from 'vuex';
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -709,14 +726,47 @@ export default {
         {
           title: "Deductions",
           content: "Last-content",
-        }
+        },
       ],
       form: this.$form.createForm(this, { name: "coordinated" }),
+      employeeDetails:{},
+      allowances:{}
     };
   },
   methods: {
     next() {
-      this.current++;
+      if (this.current == 0) {
+        console.log("you are at the current form");
+        this.current++;
+      }
+      if (this.current == 1) {
+        console.log("you are at the second form");
+        this.current++;
+      }
+    },
+    submitEmployeeDetails(e) {
+      console.log("you are at the current form");
+
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          // this.$store.dispatch("addEmployee", values);
+          console.log(values);
+          this.employeeDetails=values
+          this.current++;
+        }
+      });
+    },
+    submitAllowances(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          // this.$store.dispatch("addEmployee", values);
+          console.log(values);
+          this.allowances=values
+          this.current++;
+        }
+      });
     },
     prev() {
       this.current--;
@@ -725,9 +775,14 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-         // this.$store.dispatch("addEmployee", values);
-          console.log(values);
-        }else{
+          
+          let details =this.employeeDetails,
+          allowances =this.allowances,
+          deductions=values
+          let formDetails={...details,deductions,allowances}
+          console.log(formDetails)
+          this.$store.dispatch("addEmployee", formDetails);
+        } else {
           this.$message.error("some fields are empty");
         }
       });

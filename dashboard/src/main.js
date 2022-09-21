@@ -7,6 +7,8 @@ import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import router from './router'
 import { auth } from "./firebase";
+import { FormModel } from 'ant-design-vue';
+
 
 
 import './scss/app.scss';
@@ -14,6 +16,7 @@ import './scss/app.scss';
 import store from './store'
 
 Vue.use(Antd);
+Vue.use(FormModel);
 
 Vue.config.productionTip = false
 

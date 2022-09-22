@@ -352,16 +352,7 @@ export default {
     };
   },
   methods: {
-    handleChange(value, key, column) {
-      const newData = [...this.data];
-      const target = newData.find((item) => key === item.id);
-      if (target) {
-        target[column] = value;
-        this.data = newData;
-      }
-    },
     edit(key) {
-      console.log(key, this.employees);
       const newData = [...this.data];
       const target = newData.find((item) => key === item.id);
       this.editingKey = key;
@@ -372,7 +363,7 @@ export default {
     },
     save(key) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
-      const newData = [...this.data];
+      const newData = [...this.employees];
       const newCacheData = [...this.cacheData];
       const target = newData.find((item) => key === item.id);
       const targetCache = newCacheData.find((item) => key === item.key);
@@ -450,6 +441,18 @@ export default {
         });
       this.data = picked;
     },
+    handleChange(value, key, column) {
+      const newData = [...this.employees];
+      const target = newData.find((item) => key === item.id);
+      if (target) {
+        target[column] = value;
+        this.$store.dispatch("updateEmployeeData",newData);
+        console.log(this.employees)
+      }
+    },
+    handleCancel() {
+      this.modal = false;
+    },
     showModal() {
       this.visible = true;
     },
@@ -459,17 +462,7 @@ export default {
     onClose() {
       this.visible = false;
     },
-    handleChange(value, key, column) {
-      const newData = [...this.employees];
-      const target = newData.find((item) => key === item.id);
-      if (target) {
-        target[column] = value;
-        this.employees = newData;
-      }
-    },
-    handleCancel() {
-      this.modal = false;
-    },
+
     beforeUpload(file) {
       this.fileList = [...this.fileList, file];
       return false;

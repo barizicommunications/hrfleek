@@ -40,17 +40,13 @@
       </a-row>
     </template>
     <a-carousel arrows>
-      <div
-        slot="prevArrow"
-        class="custom-slick-arrows"
-        style="right: 20px"
-      >
+      <div slot="prevArrow" class="custom-slick-arrows" style="right: 20px">
         <a-icon type="left-circle" />
       </div>
       <div slot="nextArrow" class="custom-slick-arrow" style="right: 10px">
         <a-icon type="right-circle" />
       </div>
-      <div class="salary-slip" v-for="employee in employees" :key="employee.id">
+      <div class="salary-slip" v-for="employee in data" :key="employee.id">
         <table class="empDetail">
           <tr height="100px">
             <td colspan="4">
@@ -105,7 +101,7 @@
             <th colspan="2">Basic Salary</th>
             <td></td>
             <td class="myAlign">4935.00</td>
-            <th colspan="2">PAYE </th>
+            <th colspan="2">PAYE</th>
             <td></td>
 
             <td class="myAlign">00.00</td>
@@ -138,7 +134,7 @@
             <td></td>
             <td class="myAlign">00.00</td>
           </tr>
-          
+
           <tr>
             <th colspan="2">Hardship Allowance</th>
             <td></td>
@@ -159,7 +155,6 @@
             <th colspan="2">Leave Allowance</th>
             <td></td>
             <td class="myAlign">00.00</td>
-           
           </tr>
           <tr>
             <td colspan="4" class="table-border-right"></td>
@@ -172,7 +167,6 @@
           </tr>
           <tr>
             <td colspan="4" class="table-border-right"></td>
-           
           </tr>
           <tr class="myBackground">
             <th colspan="3">Total Payments</th>
@@ -186,7 +180,7 @@
             <td class="table-border-right"></td>
             <th colspan="2" class="table-border-bottom">Net Salary</th>
             <td></td>
-            <td>XXXXXXXXXX</td>
+            <td>{{employee.net_pay}}</td>
           </tr>
         </table>
       </div>
@@ -216,143 +210,143 @@
           >
             <div class="salary-slip-pdf">
               <table class="empDetail-pdf">
-          <tr height="100px">
-            <td colspan="4">
-              <img height="90px" :src="currentClient.logo" />
-            </td>
-            <td colspan="4" class="companyName">
-              {{ currentClient.company_name }}
-            </td>
-          </tr>
-          <tr>
-            <th>Name</th>
-            <td>
-              <p>
-                {{ employeePayslip.first_name
-                }}<span class="ml-5">{{ employeePayslip.last_name }}</span>
-              </p>
-            </td>
-            <td></td>
-            <th>Payslip no.</th>
-            <td>XXXXXXXXXX</td>
-          </tr>
-          <tr>
-            <th>National ID</th>
-            <td>{{ employeePayslip.national_id }}</td>
-          </tr>
-          <tr>
-            <th>KRA PIN</th>
-            <td>{{ employeePayslip.kra_pin }}</td>
-            <td></td>
-            <th>Pay Period</th>
-            <td>XXXXXXXXXXX</td>
-          </tr>
-          <tr>
-            <th>Phone Number:</th>
-            <td>{{ employeePayslip.phone_number }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <th>Email:</th>
-            <td>{{ employeePayslip.email }}</td>
-            <td></td>
-          </tr>
-          <tr class="myBackground">
-            <th colspan="2">Payments</th>
-            <th></th>
-            <th class="table-border-right">Amount (Rs.)</th>
-            <th colspan="2">Deductions</th>
-            <th></th>
-            <th>Amount (Rs.)</th>
-          </tr>
-          <tr>
-            <th colspan="2">Basic Salary</th>
-            <td></td>
-            <td class="myAlign">4935.00</td>
-            <th colspan="2">PAYE </th>
-            <td></td>
+                <tr height="100px">
+                  <td colspan="4">
+                    <img height="90px" :src="currentClient.logo" />
+                  </td>
+                  <td colspan="4" class="companyName">
+                    {{ currentClient.company_name }}
+                  </td>
+                </tr>
+                <tr>
+                  <th>Name</th>
+                  <td>
+                    <p>
+                      {{ employeePayslip.first_name
+                      }}<span class="ml-5">{{
+                        employeePayslip.last_name
+                      }}</span>
+                    </p>
+                  </td>
+                  <td></td>
+                  <th>Payslip no.</th>
+                  <td>XXXXXXXXXX</td>
+                </tr>
+                <tr>
+                  <th>National ID</th>
+                  <td>{{ employeePayslip.national_id }}</td>
+                </tr>
+                <tr>
+                  <th>KRA PIN</th>
+                  <td>{{ employeePayslip.kra_pin }}</td>
+                  <td></td>
+                  <th>Pay Period</th>
+                  <td>XXXXXXXXXXX</td>
+                </tr>
+                <tr>
+                  <th>Phone Number:</th>
+                  <td>{{ employeePayslip.phone_number }}</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th>Email:</th>
+                  <td>{{ employeePayslip.email }}</td>
+                  <td></td>
+                </tr>
+                <tr class="myBackground">
+                  <th colspan="2">Payments</th>
+                  <th></th>
+                  <th class="table-border-right">Amount (Rs.)</th>
+                  <th colspan="2">Deductions</th>
+                  <th></th>
+                  <th>Amount (Rs.)</th>
+                </tr>
+                <tr>
+                  <th colspan="2">Basic Salary</th>
+                  <td></td>
+                  <td class="myAlign">4935.00</td>
+                  <th colspan="2">PAYE</th>
+                  <td></td>
 
-            <td class="myAlign">00.00</td>
-          </tr>
-          <tr>
-            <th colspan="2">House Allowance</th>
-            <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">House Allowance</th>
+                  <td></td>
 
-            <td class="myAlign">00.00</td>
-            <th colspan="2">NSSF</th>
-            <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">NSSF</th>
+                  <td></td>
 
-            <td class="myAlign">00.00</td>
-          </tr>
-          <tr>
-            <th colspan="2">Transport Allowance</th>
-            <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Transport Allowance</th>
+                  <td></td>
 
-            <td class="myAlign">00.00</td>
-            <th colspan="2">NHIF</th>
-            <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">NHIF</th>
+                  <td></td>
 
-            <td class="myAlign">00.00</td>
-          </tr>
-          <tr>
-            <th colspan="2">Entertainment Allowance</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-            <th colspan="2">HELB</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-          </tr>
-          
-          <tr>
-            <th colspan="2">Hardship Allowance</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-            <th colspan="2">Pension</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-          </tr>
-          <tr>
-            <th colspan="2">Meal Allowance</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-            <th colspan="2">SACCO</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-          </tr>
-          <tr>
-            <th colspan="2">Leave Allowance</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-           
-          </tr>
-          <tr>
-            <td colspan="4" class="table-border-right"></td>
-          </tr>
-          <tr>
-            <td colspan="4" class="table-border-right"></td>
-            <th colspan="2">Advance</th>
-            <td></td>
-            <td class="myAlign">00.00</td>
-          </tr>
-          <tr>
-            <td colspan="4" class="table-border-right"></td>
-           
-          </tr>
-          <tr class="myBackground">
-            <th colspan="3">Total Payments</th>
-            <td class="myAlign">10000</td>
-            <th colspan="3">Total Deductions</th>
-            <td class="myAlign">1000</td>
-          </tr>
-          <tr height="40px">
-            <th colspan="2"></th>
-            <th></th>
-            <td class="table-border-right"></td>
-            <th colspan="2" class="table-border-bottom">Net Salary</th>
-            
-            <td>XXXXXXXXXX</td>
-          </tr>
-        </table>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Entertainment Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">HELB</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+
+                <tr>
+                  <th colspan="2">Hardship Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">Pension</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Meal Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                  <th colspan="2">SACCO</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Leave Allowance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="table-border-right"></td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="table-border-right"></td>
+                  <th colspan="2">Advance</th>
+                  <td></td>
+                  <td class="myAlign">00.00</td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="table-border-right"></td>
+                </tr>
+                <tr class="myBackground">
+                  <th colspan="3">Total Payments</th>
+                  <td class="myAlign">10000</td>
+                  <th colspan="3">Total Deductions</th>
+                  <td class="myAlign">1000</td>
+                </tr>
+                <tr height="40px">
+                  <th colspan="2"></th>
+                  <th></th>
+                  <td class="table-border-right"></td>
+                  <th colspan="2" class="table-border-bottom">Net Salary</th>
+
+                  <td>{{employeePayslip.net_pay}}</td>
+                </tr>
+              </table>
             </div>
           </a-card>
         </section>
@@ -373,6 +367,7 @@
 <script>
 import { mapState } from "vuex";
 import VueHtml2pdf from "vue-html2pdf";
+import * as fb from "../../firebase";
 
 export default {
   components: {
@@ -383,6 +378,7 @@ export default {
       selectedEmployees: "",
       loading: false,
       employeePayslip: {},
+      data:[]
     };
   },
   computed: {
@@ -416,12 +412,25 @@ export default {
     },
     downloadSlips() {
       if (this.selectedEmployees.length) {
-
-        this.employeePayslip = this.payrunEmployees.find(
+        let emp = this.payrunEmployees.find(
           (e) => e.first_name === this.selectedEmployees
         );
-        console.log(this.employeePayslip);
-        this.$refs.html2Pdf.generatePdf();
+        let allowances = Object.values(emp.allowances);
+        let deductions = Object.values(emp.deductions);
+        const totalAllowances = allowances.reduce(
+          (a, b) => Number(a) + Number(b),
+          0
+        );
+        const totalDeductions = deductions.reduce(
+          (a, b) => Number(a) + Number(b),
+          0
+        );
+        let net_pay = Number(emp.basic_pay) + totalAllowances - totalDeductions;
+        let new_employee = { ...emp, net_pay };
+        console.log(net_pay, new_employee);
+        this.employeePayslip = new_employee;
+
+       this.$refs.html2Pdf.generatePdf();
       } else {
         swal({
           title: "OOPS!",
@@ -430,12 +439,44 @@ export default {
         });
       }
     },
+    convertTableData(){
+      const selectedClient = JSON.parse(localStorage.getItem("client"));
+      fb.businessCollection
+        .doc(selectedClient.id)
+        .collection("calendars")
+        .doc(this.$route.params.id)
+        .get()
+        .then((docs) => {
+          let emp = docs.data();
+          
+          emp.employees.forEach((e)=>{
+        let allowances = Object.values(e.allowances);
+        let deductions = Object.values(e.deductions);
+        const totalAllowances = allowances.reduce(
+          (a, b) => Number(a) + Number(b),
+           0
+        );
+        const totalDeductions = deductions.reduce(
+         (a, b) => Number(a) + Number(b),
+           0
+       );
+
+         let net_pay = Number(e.basic_pay) + totalAllowances - totalDeductions;
+         
+
+        let new_employee = { ...e, net_pay };
+       this.data.push(new_employee)
+          })
+         
+        });
+    }
   },
   mounted() {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
+    this.convertTableData()
   },
 };
 </script>
@@ -445,7 +486,7 @@ export default {
   margin-top: 30px;
   align-content: center;
 }
-.salary-slip-pdf{
+.salary-slip-pdf {
   margin-top: 0px;
   align-content: center;
 }

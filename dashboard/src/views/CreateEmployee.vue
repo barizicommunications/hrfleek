@@ -21,11 +21,11 @@
                       'first_name',
                       {
                         rules: [
-                          { required: true, message: 'Please enter user name' },
+                          { required: true, message: 'Please enter  name' },
                         ],
                       },
                     ]"
-                    placeholder="Please enter user name"
+                    placeholder="First Name"
                   />
                 </a-form-item>
               </a-col>
@@ -287,7 +287,7 @@
                       },
                     ]"
                     style="width: 100%"
-                    placeholder="Basic Pay"
+                    placeholder="Date of Birth"
                   />
                 </a-form-item>
               </a-col>
@@ -298,12 +298,13 @@
                       'basic_pay',
                       {
                         rules: [
-                          { required: true, message: 'please enter account' },
+                          { required: true, message: 'please enter amount' },
                         ],
                       },
                     ]"
                     style="width: 100%"
                     placeholder="Basic Pay"
+                    type="number"
                   />
                 </a-form-item>
               </a-col>

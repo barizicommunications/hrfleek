@@ -352,16 +352,7 @@ export default {
     };
   },
   methods: {
-    handleChange(value, key, column) {
-      const newData = [...this.data];
-      const target = newData.find((item) => key === item.id);
-      if (target) {
-        target[column] = value;
-        this.data = newData;
-      }
-    },
     edit(key) {
-      console.log(key, this.employees);
       const newData = [...this.data];
       const target = newData.find((item) => key === item.id);
       this.editingKey = key;
@@ -372,7 +363,7 @@ export default {
     },
     save(key) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
-      const newData = [...this.data];
+      const newData = [...this.employees];
       const newCacheData = [...this.cacheData];
       const target = newData.find((item) => key === item.id);
       const targetCache = newCacheData.find((item) => key === item.key);
@@ -411,7 +402,17 @@ export default {
     },
     convertTableData() {
       let picked = [];
-      this.employees.forEach((object) => {
+      const selectedClient = JSON.parse(localStorage.getItem("client"));
+      fb.businessCollection
+        .doc(selectedClient.kra_pin)
+        .collection("team")
+        .onSnapshot((snapshot) => {
+          const loadedEmployers = [];
+          snapshot.forEach((doc) => {
+            const loadedEmployer = doc.data();
+            (loadedEmployer.id = doc.id), loadedEmployers.push(loadedEmployer);
+          });
+          loadedEmployers.forEach((object) => {
         const sliced = {
           first_name: object.first_name,
           last_name: object.last_name,
@@ -437,7 +438,20 @@ export default {
         };
         picked.push(sliced);
       });
+        });
       this.data = picked;
+    },
+    handleChange(value, key, column) {
+      const newData = [...this.employees];
+      const target = newData.find((item) => key === item.id);
+      if (target) {
+        target[column] = value;
+        this.$store.dispatch("updateEmployeeData",newData);
+        console.log(this.employees)
+      }
+    },
+    handleCancel() {
+      this.modal = false;
     },
     showModal() {
       this.visible = true;
@@ -448,18 +462,7 @@ export default {
     onClose() {
       this.visible = false;
     },
-    handleChange(value, key, column) {
-      const newData = [...this.employees];
-      const target = newData.find((item) => key === item.id);
-      if (target) {
-        target[column] = value;
-        this.employees = newData;
-      }
-    },
-    handleOk() {},
-    handleCancel() {
-      this.modal = false;
-    },
+
     beforeUpload(file) {
       this.fileList = [...this.fileList, file];
       return false;
@@ -679,7 +682,12 @@ export default {
       };
     },
   },
+  created(){
+    this.$store.dispatch("getEmployees");
+    this.$store.dispatch("getCurrentClient");
+  },
   mounted() {
+    console.log("mounted");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.convertTableData();

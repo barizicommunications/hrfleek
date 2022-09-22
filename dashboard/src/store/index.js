@@ -52,6 +52,7 @@ export default new Vuex.Store({
       try {
       } catch (error) {}
     },
+
     async login({ dispatch }, newUser) {
       try {
         const { user } = await fb.auth.signInWithEmailAndPassword(
@@ -130,18 +131,25 @@ export default new Vuex.Store({
     /**
      * clients Section Starts Here
      */
-     getPayrunEmployees({commit},calendar){
+    updateEmployeeData({commit},data){
+      commit("setEmployees",data)
+    },
+    getPayrunEmployees({ commit }, calendar) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
-      fb.businessCollection.doc(selectedClient.id).collection("calendars").doc(calendar).get().then((docs)=>{
-        let emp=docs.data()
-        commit("setpayrunEmployees", emp.employees??[]);
-        
-      })
-     },
+      fb.businessCollection
+        .doc(selectedClient.id)
+        .collection("calendars")
+        .doc(calendar)
+        .get()
+        .then((docs) => {
+          let emp = docs.data();
+          commit("setpayrunEmployees", emp.employees ?? []);
+        });
+    },
 
     updatePayrunEmployees({ commit }, values) {
       commit("setpayrunEmployees", values);
-      console.log(values)
+      console.log(values);
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       // fb.businessCollection.doc(selectedClient.id).collection("calendars").doc().update({
 
@@ -177,7 +185,7 @@ export default new Vuex.Store({
         address: data.company_address,
         logo: url,
       };
-      console.log(url)
+      console.log(url);
 
       await fb.businessCollection
         .doc(data.kra_pin)
@@ -241,9 +249,9 @@ export default new Vuex.Store({
         deductions: data.deductions ?? [],
         net_pay: 0,
         employment_type: "",
-        nssf_number:data.nssf_number,
-        nhif_number:data.nssf_number,
-        Gender:data.gender
+        nssf_number: data.nssf_number,
+        nhif_number: data.nssf_number,
+        Gender: data.gender,
       };
       await fb.businessCollection
         .doc(selectedClient.kra_pin)
@@ -376,6 +384,9 @@ export default new Vuex.Store({
     },
     payrunEmployees: (state) => {
       return state.payrunEmployees;
+    },
+    employees: (state) => {
+      return state.employees;
     },
   },
 });

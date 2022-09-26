@@ -555,48 +555,10 @@
           >
             <a-row :gutter="16">
               <a-col :span="12">
-                <a-form-item label="NSSF">
+                <a-form-item label="LIFE INSURANCE">
                   <a-input
                     v-decorator="[
-                      'nssf',
-                      {
-                        rules: [
-                          { required: true, message: 'Field is required' },
-                        ],
-                      },
-                    ]"
-                    placeholder=""
-                    type="number"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="NHIF">
-                  <a-input
-                    v-decorator="[
-                      'nhif',
-                      {
-                        rules: [
-                          {
-                            required: true,
-                            message: 'Field is required',
-                          },
-                        ],
-                      },
-                    ]"
-                    style="width: 100%"
-                    placeholder=""
-                    type="number"
-                  />
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-row :gutter="16">
-              <a-col :span="12">
-                <a-form-item label="PAYE">
-                  <a-input
-                    v-decorator="[
-                      'paye',
+                      'life_insurance',
                       {
                         rules: [
                           { required: true, message: 'Field is required' },
@@ -731,7 +693,9 @@ export default {
       ],
       form: this.$form.createForm(this, { name: "coordinated" }),
       employeeDetails:{},
-      allowances:{}
+      allowances:{},
+      PAYE:0,
+      net_gross:0
     };
   },
   methods: {
@@ -765,6 +729,14 @@ export default {
           // this.$store.dispatch("addEmployee", values);
           console.log(values);
           this.allowances=values
+          let allowances = Object.values(values);
+        const totalAllowances = allowances.reduce(
+          (a, b) => Number(a) + Number(b),
+          0
+        );
+        let gross_pay = Number(this.employeeDetails.basic_pay) + totalAllowances;
+        let new_employee = { ...this.employeeDetails, gross_pay };
+        this.employeeDetails=new_employee
           this.current++;
         }
       });
@@ -772,17 +744,31 @@ export default {
     prev() {
       this.current--;
     },
+    firstTaxBand(value){           
+          if(this.net_gross<=24000){
+           return 0.1*net_gross
+          }else if(this.net_gross>24000&&this.net_gross<=32332){
+            return  0.25*this.net_gross
+          }else{
+            return 0.25*this.net_gross
+          }
+    },
     handleSubmit(e) {
+      
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          console.log(this.employeeDetails.gross_pay)
+          let net_gross=this.employeeDetails.gross_pay - values.pension - values.life_insurance
           
-          let details =this.employeeDetails,
-          allowances =this.allowances,
-          deductions=values
-          let formDetails={...details,deductions,allowances}
-          console.log(formDetails)
-          this.$store.dispatch("addEmployee", formDetails);
+          console.log("this is the Tax",this.firstTaxBand(net_gross))
+
+          // let details =this.employeeDetails,
+          // allowances =this.allowances,
+          // deductions=values
+          // let formDetails={...details,deductions,allowances}
+          // console.log(formDetails)
+          // this.$store.dispatch("addEmployee", formDetails);
         } else {
           this.$message.error("some fields are empty");
         }

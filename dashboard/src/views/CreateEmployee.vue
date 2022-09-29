@@ -180,21 +180,28 @@
               </a-col>
               <a-col :span="12">
                 <a-form-item label="Designation">
-                  <a-input
+                  <a-select
                     v-decorator="[
                       'designation',
                       {
                         rules: [
                           {
                             required: true,
-                            message: 'please enter designation',
+                            message: 'Please select a designation',
                           },
                         ],
                       },
                     ]"
-                    style="width: 100%"
-                    placeholder="designation"
-                  />
+                    placeholder="hr manager"
+                  >
+                    <a-select-option
+                      v-for="designation in currentClient.designations"
+                      :key="designation.designation"
+                      :value="designation.designation_name"
+                    >
+                      {{ designation.designation_name }}
+                    </a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
             </a-row>

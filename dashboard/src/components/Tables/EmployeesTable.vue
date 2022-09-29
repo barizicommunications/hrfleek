@@ -558,7 +558,7 @@ export default {
                   data = {
                     national_id: newresult[data].national_id,
                     first_name: newresult[data].first_name,
-                    last_name: newresult[data].first_name,
+                    last_name: newresult[data].last_name,
                     Gender: newresult[data].Gender,
                     email: newresult[data].email,
                     phone_number: newresult[data].phone_number,

@@ -282,7 +282,8 @@
                       'date_of_birth',
                       {
                         rules: [
-                          { required: true, message: 'please enter account' },
+                          { required: true, message: 'Field is required'},
+                          {validator:validateDate }
                         ],
                       },
                     ]"
@@ -654,6 +655,9 @@
         >
           Next
         </a-button>
+        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev" class="mx-5">
+          Previous
+        </a-button>
         <a-button v-if="current == 1" type="primary" @click="submitAllowances">
           Next
         </a-button>
@@ -664,9 +668,7 @@
         >
           Done
         </a-button>
-        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-          Previous
-        </a-button>
+
       </div>
     </a-card>
   </div>
@@ -699,6 +701,14 @@ export default {
     };
   },
   methods: {
+    validateDate(rule, value, callback) {
+    let tentDate= new Date().getFullYear()-value.toDate().getFullYear()
+      if (tentDate<18) {
+        callback('Employee must be over 18yrs!');
+      } else {
+        callback();
+      }
+    },
     next() {
       if (this.current == 0) {
         console.log("you are at the current form");

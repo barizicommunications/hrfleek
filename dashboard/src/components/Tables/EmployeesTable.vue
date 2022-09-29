@@ -16,6 +16,7 @@
         <a-upload
           :file-list="fileList"
           :remove="handleRemove"
+          @change="handleFileChange"
           :before-upload="beforeUpload"
           accept=".csv"
           style="width: 100%"
@@ -47,6 +48,9 @@
         >
           <a-radio-group size="small">
             <router-link to="/create-employee">Add New Employee</router-link>
+          </a-radio-group>
+          <a-radio-group size="small" class="mx-5">
+            <a-button @click="exportData">Export Employee Data</a-button>
           </a-radio-group>
         </a-col>
       </a-row>
@@ -352,6 +356,12 @@ export default {
     };
   },
   methods: {
+    handleFileChange(info) {
+      let fileList = [...info.fileList];
+      // 1. Limit the number of uploaded files
+      fileList = fileList.slice(-1);
+      this.fileList = fileList;
+    },
     edit(key) {
       const newData = [...this.data];
       const target = newData.find((item) => key === item.id);
@@ -413,31 +423,31 @@ export default {
             (loadedEmployer.id = doc.id), loadedEmployers.push(loadedEmployer);
           });
           loadedEmployers.forEach((object) => {
-        const sliced = {
-          first_name: object.first_name,
-          last_name: object.last_name,
-          account_number: object.account_number,
-          basic_pay: object.basic_pay,
-          bank_name: object.bank_name,
-          bank_branch: object.bank_branch,
-          address: object.address,
-          Country: object.Country,
-          Gender: object.Gender,
-          Status: object.Status,
-          account_name: object.account_name,
-          department: object.department,
-          designation: object.designation,
-          email: object.email,
-          employment_type: object.employment_type,
-          id: object.id,
-          kra_pin: object.kra_pin,
-          national_id: object.national_id,
-          nhif_number: object.national_id,
-          nssf_number: object.nssf_number,
-          phone_number: object.phone_number,
-        };
-        picked.push(sliced);
-      });
+            const sliced = {
+              first_name: object.first_name,
+              last_name: object.last_name,
+              account_number: object.account_number,
+              basic_pay: object.basic_pay,
+              bank_name: object.bank_name,
+              bank_branch: object.bank_branch,
+              address: object.address,
+              Country: object.Country,
+              Gender: object.Gender,
+              Status: object.Status,
+              account_name: object.account_name,
+              department: object.department,
+              designation: object.designation,
+              email: object.email,
+              employment_type: object.employment_type,
+              id: object.id,
+              kra_pin: object.kra_pin,
+              national_id: object.national_id,
+              nhif_number: object.national_id,
+              nssf_number: object.nssf_number,
+              phone_number: object.phone_number,
+            };
+            picked.push(sliced);
+          });
         });
       this.data = picked;
     },
@@ -446,8 +456,8 @@ export default {
       const target = newData.find((item) => key === item.id);
       if (target) {
         target[column] = value;
-        this.$store.dispatch("updateEmployeeData",newData);
-        console.log(this.employees)
+        this.$store.dispatch("updateEmployeeData", newData);
+        console.log(this.employees);
       }
     },
     handleCancel() {
@@ -558,7 +568,7 @@ export default {
                   data = {
                     national_id: newresult[data].national_id,
                     first_name: newresult[data].first_name,
-                    last_name: newresult[data].first_name,
+                    last_name: newresult[data].last_name,
                     Gender: newresult[data].Gender,
                     email: newresult[data].email,
                     phone_number: newresult[data].phone_number,
@@ -661,6 +671,14 @@ export default {
 
       if (data) exportFromJSON({ data, fileName, exportType });
     },
+    exportData() {
+      const data = this.employees;
+      console.log(typeof data);
+      const fileName = "employee data";
+      const exportType = exportFromJSON.types.csv;
+
+      if (data) exportFromJSON({ data, fileName, exportType });
+    },
   },
   computed: {
     ...mapState(["employees", "currentClient"]),
@@ -682,7 +700,7 @@ export default {
       };
     },
   },
-  created(){
+  created() {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
   },

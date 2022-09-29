@@ -16,6 +16,7 @@ export default new Vuex.Store({
     loading: false,
     currentClient: {},
     payrunEmployees: [],
+    designations:[],
     error: "",
   },
   mutations: {
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     setError(state, val) {
       state.error = val;
     },
+    setDeductions(state,val){
+      state.designations=val
+    }
   },
   actions: {
     /**

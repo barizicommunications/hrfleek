@@ -47,7 +47,10 @@
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-            <router-link to="/create-employee">Add New Employee</router-link>
+            <a-button type="primary">
+              <router-link to="/create-employee">Add New Employee</router-link>
+            </a-button>
+            
           </a-radio-group>
           <a-radio-group size="small" class="mx-5">
             <a-button @click="exportData">Export Employee Data</a-button>
@@ -138,6 +141,7 @@ const columns = [
     title: "First Name",
     dataIndex: "first_name",
     scopedSlots: { customRender: "first_name" },
+    fixed:"left"
   },
   {
     title: "Last Name",

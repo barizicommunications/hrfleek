@@ -138,6 +138,16 @@ export default new Vuex.Store({
     updateEmployeeData({commit},data){
       commit("setEmployees",data)
     },
+    updateClientFromFirebase({commit},data){
+      fb.businessCollection.doc(data.id).get().then((docs)=>{
+        let data=docs.data()
+        console.log(data)
+        //localStorage.setItem("client",data)
+      }).catch((err)=>{
+        console.Console.log(err)
+      })
+
+    },
     getPayrunEmployees({ commit }, calendar) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       fb.businessCollection
@@ -330,7 +340,7 @@ export default new Vuex.Store({
           commit("setCalendars", loadedCalendars);
         });
     },
-    async createDepartment({ commit }, data) {
+    async createDepartment({ commit,dispatch}, data) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       commit("setLoading", true);
       fb.businessCollection

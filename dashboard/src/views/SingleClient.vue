@@ -39,8 +39,11 @@
           </a-menu-item>
      
       </a-sub-menu>
-        <a-menu-item key="reports">
+      <a-menu-item key="reports">
           <span class="label">Reports</span>
+        </a-menu-item>
+        <a-menu-item key="profile">
+          <span class="label">Company Profile</span>
         </a-menu-item>
       </a-menu>
     </div>

@@ -33,6 +33,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import * as fb from "../../firebase";
 export default {
   data() {
     return {
@@ -51,8 +52,29 @@ export default {
       this.loading = true;
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          console.log("values", values);
-          this.$store.dispatch("createDepartment", values);
+          const selectedClient = JSON.parse(localStorage.getItem("client"));
+          let docRef = fb.businessCollection.doc(selectedClient.id);
+          fb.db.runTransaction((transaction) => {
+            return transaction
+              .get(docRef)
+              .then((doc) => {
+                if (!doc.exists) {
+                  throw "no client with this id";
+                }
+                let departments = doc.data().departments;
+               let depo= departments.some((e)=>e.department_name===values.department_name)
+               
+               
+               if(depo){
+                this.$message.error("department exists");
+               }else{
+                this.$store.dispatch("createDepartment", values);
+               }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
         }
       });
     },
@@ -61,6 +83,7 @@ export default {
     ...mapGetters({
       loadingFromStore: "loading",
     }),
+    ...mapState(["clients"]),
     loading: {
       get() {
         return this.loadingFromStore;

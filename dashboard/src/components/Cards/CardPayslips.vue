@@ -388,6 +388,9 @@ export default {
     },
   },
   methods: {
+    calculateNetPay(){
+      
+    },
     generateReport() {
       this.$refs.html2Pdf.generatePdf();
       this.loading = false;
@@ -412,25 +415,34 @@ export default {
     },
     downloadSlips() {
       if (this.selectedEmployees.length) {
+        // find employee
         let emp = this.payrunEmployees.find(
           (e) => e.first_name === this.selectedEmployees
         );
-        let allowances = Object.values(emp.allowances);
-        let deductions = Object.values(emp.deductions);
+        console.log("basic pay",emp.basic_pay)
+        // calculate total allowances
+        let allowances = Object.values(emp.allowances);    
         const totalAllowances = allowances.reduce(
           (a, b) => Number(a) + Number(b),
           0
         );
+        console.log("total allowances",totalAllowances)
+        // calculate gross pay
+        let grossPay=Number(emp.basic_pay)+totalAllowances
+        console.log("gross pay",grossPay)
+
+        let deductions = Object.values(emp.deductions);
         const totalDeductions = deductions.reduce(
           (a, b) => Number(a) + Number(b),
           0
         );
+       
         let net_pay = Number(emp.basic_pay) + totalAllowances - totalDeductions;
         let new_employee = { ...emp, net_pay };
-        console.log(net_pay, new_employee);
+        console.log(net_pay);
         this.employeePayslip = new_employee;
 
-       this.$refs.html2Pdf.generatePdf();
+       //this.$refs.html2Pdf.generatePdf();
       } else {
         swal({
           title: "OOPS!",

@@ -254,19 +254,18 @@ export default new Vuex.Store({
         date_of_birth: new Date(data.date_of_birth),
         contract_type: data.contract_type,
         allowances:
-          [
-            { leave_allowance: data.leave_allowance },
-
-            { transportAllowance: data.transportAllowance },
-            { telephoneAllowance: data.telephoneAllowance },
-            { hardshipAllowance: data.hardshipAllowance },
-            { transportAllowance: data.transferAllowance },
-            { riskAllowance: data.riskAllowance },
-            { carAllowance: data.carAllowance },
-            { fuelAllowance: data.fuelAllowance },
-            { leave_allowance: data.leave_allowance },
-            { entertainmentAllowance: data.entertainmentAllowance },
-          ] ?? [],
+          {
+            house_allowance:data.house_allowance,
+            leave_allowance: data.leave_allowance,
+            transportAllowance: data.transportAllowance,
+            telephoneAllowance: data.telephoneAllowance,
+            hardshipAllowance: data.hardshipAllowance,
+            transferAllowance: data.transferAllowance,
+            riskAllowance: data.riskAllowance,
+            carAllowance: data.carAllowance,
+            fuelAllowance: data.fuelAllowance,
+            entertainmentAllowance: data.entertainmentAllowance,
+          } ?? [],
         bank_name: data.bank_name,
         account_number: data.account_number,
         account_name: data.account_name,
@@ -280,20 +279,19 @@ export default new Vuex.Store({
         hours_worked: 0,
         basic_pay: data.basic_pay,
         deductions:
-          [
-            { life_insurance: data.life_insurance },
-            { helb: data.helb },
-            { pension: data.pension },
-            { sacco: data.sacco },
-            { salary_advance: data.salary_advance },
-          ] ?? [],
+          {
+            life_insurance: data.life_insurance,
+            helb: data.helb,
+            pension: data.pension,
+            sacco: data.sacco,
+            salary_advance: data.salary_advance,
+          } ?? {},
         net_pay: 0,
         employment_type: "",
         nssf_number: data.nssf_number,
         nhif_number: data.nssf_number,
         Gender: data.gender,
       };
-      console.log(payload);
       await fb.businessCollection
         .doc(selectedClient.kra_pin)
         .collection("team")
@@ -305,7 +303,9 @@ export default new Vuex.Store({
             title: "success!",
             text: `employee ${data.first_name} added successfully`,
             icon: "success",
-          });
+          }).then(()=>{
+            router.go(-1)
+          })
         })
         .catch((err) => {
           commit("setLoading", false);

@@ -381,7 +381,7 @@
           <a-form-item label="House Allowance">
             <a-input
               v-decorator="[
-                'houseAllowance',
+                'house_allowance',
                 {
                   rules: [{ required: true, message: 'Field is required' }],
                 },

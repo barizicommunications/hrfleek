@@ -16,7 +16,7 @@ export default new Vuex.Store({
     loading: false,
     currentClient: {},
     payrunEmployees: [],
-    designations:[],
+    designations: [],
     error: "",
   },
   mutations: {
@@ -44,9 +44,9 @@ export default new Vuex.Store({
     setError(state, val) {
       state.error = val;
     },
-    setDeductions(state,val){
-      state.designations=val
-    }
+    setDeductions(state, val) {
+      state.designations = val;
+    },
   },
   actions: {
     /**
@@ -135,18 +135,21 @@ export default new Vuex.Store({
     /**
      * clients Section Starts Here
      */
-    updateEmployeeData({commit},data){
-      commit("setEmployees",data)
+    updateEmployeeData({ commit }, data) {
+      commit("setEmployees", data);
     },
-    updateClientFromFirebase({commit},data){
-      fb.businessCollection.doc(data.id).get().then((docs)=>{
-        let data=docs.data()
-        console.log(data)
-        //localStorage.setItem("client",data)
-      }).catch((err)=>{
-        console.Console.log(err)
-      })
-
+    updateClientFromFirebase({ commit }, data) {
+      fb.businessCollection
+        .doc(data.id)
+        .get()
+        .then((docs) => {
+          let data = docs.data();
+          console.log(data);
+          //localStorage.setItem("client",data)
+        })
+        .catch((err) => {
+          console.Console.log(err);
+        });
     },
     getPayrunEmployees({ commit }, calendar) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
@@ -247,7 +250,23 @@ export default new Vuex.Store({
         kra_pin: data.kra_pin,
         national_id: data.national_id,
         status: data.status,
-        allowances: data.allowances ?? [],
+        date_of_appointment: new Date(data.date_of_appointment),
+        date_of_birth: new Date(data.date_of_birth),
+        contract_type: data.contract_type,
+        allowances:
+          [
+            { leave_allowance: data.leave_allowance },
+
+            { transportAllowance: data.transportAllowance },
+            { telephoneAllowance: data.telephoneAllowance },
+            { hardshipAllowance: data.hardshipAllowance },
+            { transportAllowance: data.transferAllowance },
+            { riskAllowance: data.riskAllowance },
+            { carAllowance: data.carAllowance },
+            { fuelAllowance: data.fuelAllowance },
+            { leave_allowance: data.leave_allowance },
+            { entertainmentAllowance: data.entertainmentAllowance },
+          ] ?? [],
         bank_name: data.bank_name,
         account_number: data.account_number,
         account_name: data.account_name,
@@ -260,13 +279,21 @@ export default new Vuex.Store({
         pay_rate: 0,
         hours_worked: 0,
         basic_pay: data.basic_pay,
-        deductions: data.deductions ?? [],
+        deductions:
+          [
+            { life_insurance: data.life_insurance },
+            { helb: data.helb },
+            { pension: data.pension },
+            { sacco: data.sacco },
+            { salary_advance: data.salary_advance },
+          ] ?? [],
         net_pay: 0,
         employment_type: "",
         nssf_number: data.nssf_number,
         nhif_number: data.nssf_number,
         Gender: data.gender,
       };
+      console.log(payload);
       await fb.businessCollection
         .doc(selectedClient.kra_pin)
         .collection("team")
@@ -340,7 +367,7 @@ export default new Vuex.Store({
           commit("setCalendars", loadedCalendars);
         });
     },
-    async createDepartment({ commit,dispatch}, data) {
+    async createDepartment({ commit, dispatch }, data) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       commit("setLoading", true);
       fb.businessCollection

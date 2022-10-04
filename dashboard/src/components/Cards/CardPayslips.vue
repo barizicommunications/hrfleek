@@ -180,7 +180,7 @@
             <td class="table-border-right"></td>
             <th colspan="2" class="table-border-bottom">Net Salary</th>
             <td></td>
-            <td>{{employee.net_pay}}</td>
+            <td>{{ employee.net_pay }}</td>
           </tr>
         </table>
       </div>
@@ -344,7 +344,7 @@
                   <td class="table-border-right"></td>
                   <th colspan="2" class="table-border-bottom">Net Salary</th>
 
-                  <td>{{employeePayslip.net_pay}}</td>
+                  <td>{{ employeePayslip.net_pay }}</td>
                 </tr>
               </table>
             </div>
@@ -378,7 +378,8 @@ export default {
       selectedEmployees: "",
       loading: false,
       employeePayslip: {},
-      data:[]
+      data: [],
+      taxable_income: 0,
     };
   },
   computed: {
@@ -388,9 +389,6 @@ export default {
     },
   },
   methods: {
-    calculateNetPay(){
-      
-    },
     generateReport() {
       this.$refs.html2Pdf.generatePdf();
       this.loading = false;
@@ -413,36 +411,117 @@ export default {
     handleDepartmentChange(selectedItems) {
       this.selectedDepartments = selectedItems;
     },
+    taxableIncomeAfterMortgage(mortgage, grosspay) {
+      let income = 0;
+      if (mortgage) {
+        if (Number(mortgage) > 25000) {
+          income = grosspay - 25000;
+        } else {
+          income = grosspay - Number(mortgage);
+        }
+      } else {
+        income = grosspay;
+      }
+
+      return income;
+    },
+    taxableIncomeAfterPension(pension, grosspay) {
+      let income = 0;
+      if (Number(pension) > 20000) {
+        income = grosspay - 20000;
+      } else {
+        income = grosspay - Number(pension);
+      }
+      return income;
+    },
+    payeWithoutRelief(taxableIncome) {
+      let paye = 0;
+      let pay2=0;
+      let pay2pro=0;
+      let pay3=0
+      if (taxableIncome < 24000) {
+        paye = 0;
+      }
+      if (taxableIncome >= 24000) {
+        let phaseone = 0.1 * 24000;
+        paye = phaseone;
+        console.log("phase one", paye);
+      }
+      let tierone=taxableIncome-24000
+      if (tierone <= 32333) {
+         pay2 = 0.25 * tierone;
+        
+        console.log("phase 2", pay2);
+      }else{
+         pay2pro = 0.25 * 8333;
+        console.log("phase 2 pro", pay2pro);
+      }
+      let tier3=taxableIncome - 32333
+      if (taxableIncome > 32333) {
+         pay3 = 0.3 * tier3;
+        
+        console.log("phase 3",taxableIncome,tier3, pay3);
+      }
+      return paye +pay2+pay2pro+pay3;
+    },
     downloadSlips() {
       if (this.selectedEmployees.length) {
         // find employee
         let emp = this.payrunEmployees.find(
           (e) => e.first_name === this.selectedEmployees
         );
-        console.log("basic pay",emp.basic_pay)
+        console.log("basic pay", emp.basic_pay);
         // calculate total allowances
-        let allowances = Object.values(emp.allowances);    
+        let allowances = Object.values(emp.allowances);
         const totalAllowances = allowances.reduce(
           (a, b) => Number(a) + Number(b),
           0
         );
-        console.log("total allowances",totalAllowances)
+        console.log("total allowances", totalAllowances);
         // calculate gross pay
-        let grossPay=Number(emp.basic_pay)+totalAllowances
-        console.log("gross pay",grossPay)
+        let grossPay = Number(emp.basic_pay) + totalAllowances;
+        console.log("gross pay", grossPay);
+        //taxable income-mortgage
+        console.log(
+          "taxable income after mortgage",
+          this.taxableIncomeAfterMortgage(emp.deductions.mortgage, grossPay)
+        );
 
+        //taxable income-pension
+        console.log(
+          "taxable income after pension",
+          this.taxableIncomeAfterMortgage(
+            emp.deductions.pension,
+            this.taxableIncomeAfterMortgage(emp.deductions.mortgage, grossPay)
+          )
+        );
+
+        //PAYE without relief
+
+        console.log(
+          "Paye without relief",
+          this.payeWithoutRelief(
+            this.taxableIncomeAfterMortgage(
+              emp.deductions.pension,
+              this.taxableIncomeAfterMortgage(emp.deductions.mortgage, grossPay)
+            )
+          )
+        );
+        // net pay
         let deductions = Object.values(emp.deductions);
         const totalDeductions = deductions.reduce(
           (a, b) => Number(a) + Number(b),
           0
         );
-       
-        let net_pay = Number(emp.basic_pay) + totalAllowances - totalDeductions;
+        // net pay
+        let net_pay =
+          Number(emp.basic_pay) +
+          totalAllowances -
+          totalDeductions 
         let new_employee = { ...emp, net_pay };
         console.log(net_pay);
         this.employeePayslip = new_employee;
-
-       //this.$refs.html2Pdf.generatePdf();
+        //this.$refs.html2Pdf.generatePdf();
       } else {
         swal({
           title: "OOPS!",
@@ -451,7 +530,7 @@ export default {
         });
       }
     },
-    convertTableData(){
+    convertTableData() {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       fb.businessCollection
         .doc(selectedClient.id)
@@ -460,35 +539,34 @@ export default {
         .get()
         .then((docs) => {
           let emp = docs.data();
-          
-          emp.employees.forEach((e)=>{
-        let allowances = Object.values(e.allowances);
-        let deductions = Object.values(e.deductions);
-        const totalAllowances = allowances.reduce(
-          (a, b) => Number(a) + Number(b),
-           0
-        );
-        const totalDeductions = deductions.reduce(
-         (a, b) => Number(a) + Number(b),
-           0
-       );
 
-         let net_pay = Number(e.basic_pay) + totalAllowances - totalDeductions;
-         
+          emp.employees.forEach((e) => {
+            let allowances = Object.values(e.allowances);
+            let deductions = Object.values(e.deductions);
+            const totalAllowances = allowances.reduce(
+              (a, b) => Number(a) + Number(b),
+              0
+            );
+            const totalDeductions = deductions.reduce(
+              (a, b) => Number(a) + Number(b),
+              0
+            );
 
-        let new_employee = { ...e, net_pay };
-       this.data.push(new_employee)
-          })
-         
+            let net_pay =
+              Number(e.basic_pay) + totalAllowances - totalDeductions;
+
+            let new_employee = { ...e, net_pay };
+            this.data.push(new_employee);
+          });
         });
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
-    this.convertTableData()
+    this.convertTableData();
   },
 };
 </script>

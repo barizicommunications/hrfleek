@@ -436,9 +436,9 @@ export default {
     },
     payeWithoutRelief(taxableIncome) {
       let paye = 0;
-      let pay2=0;
-      let pay2pro=0;
-      let pay3=0
+      let pay2 = 0;
+      let pay2pro = 0;
+      let pay3 = 0;
       if (taxableIncome < 24000) {
         paye = 0;
       }
@@ -447,22 +447,70 @@ export default {
         paye = phaseone;
         console.log("phase one", paye);
       }
-      let tierone=taxableIncome-24000
+      let tierone = taxableIncome - 24000;
       if (tierone <= 32333) {
-         pay2 = 0.25 * tierone;
-        
+        pay2 = 0.25 * tierone;
+
         console.log("phase 2", pay2);
-      }else{
-         pay2pro = 0.25 * 8333;
+      } else {
+        pay2pro = 0.25 * 8333;
         console.log("phase 2 pro", pay2pro);
       }
-      let tier3=taxableIncome - 32333
+      let tier3 = taxableIncome - 32333;
       if (taxableIncome > 32333) {
-         pay3 = 0.3 * tier3;
-        
-        console.log("phase 3",taxableIncome,tier3, pay3);
+        pay3 = 0.3 * tier3;
+
+        console.log("phase 3", taxableIncome, tier3, pay3);
       }
-      return paye +pay2+pay2pro+pay3;
+      return paye + pay2 + pay2pro + pay3;
+    },
+    calculateNhif(grossPay) {
+      let nhif = 0;
+      if (grossPay < 5999) {
+        return 150;
+      } else if (grossPay > 5999 && grossPay < 7999) {
+        return 300;
+      } else if (grossPay > 7999 && grossPay < 11999) {
+        return 400;
+      } else if (grossPay > 11999 && grossPay < 14999) {
+        return 500;
+      } else if (grossPay > 19999 && grossPay < 24999) {
+        return 750;
+      } else if (grossPay > 24999 && grossPay < 29999) {
+        return 850;
+      } else if (grossPay > 29999 && grossPay < 34999) {
+        return 900;
+      } else if (grossPay > 34999 && grossPay < 39999) {
+        return 950;
+      } else if (grossPay > 39999 && grossPay < 44999) {
+        return 1000;
+      } else if (grossPay > 44999 && grossPay < 49999) {
+        return 1100;
+      } else if (grossPay > 49999 && grossPay < 59999) {
+        return 1200;
+      } else if (grossPay > 59999 && grossPay < 69999) {
+        return 1300;
+      } else if (grossPay > 69999 && grossPay < 79999) {
+        return 1400;
+      } else if (grossPay > 79999 && grossPay < 89999) {
+        return 1500;
+      } else if (grossPay > 89999 && grossPay < 99999) {
+        return 1600;
+      } else {
+        return 1700;
+      }
+    },
+    // paye with reliefs
+    payeWithRelief(employee, payee) {
+      console.log(employee, payee);
+      lifeInsuranceRelief = 0;
+      nhifRelief = 0;
+      let premiums = 0.15 * employee.deductions.life_insurance;
+      if (premiums > 5000) {
+        lifeInsuranceRelief = 5000;
+      } else {
+        lifeInsuranceRelief = premiums;
+      }
     },
     downloadSlips() {
       if (this.selectedEmployees.length) {
@@ -504,6 +552,24 @@ export default {
             this.taxableIncomeAfterMortgage(
               emp.deductions.pension,
               this.taxableIncomeAfterMortgage(emp.deductions.mortgage, grossPay)
+            ) - 200
+          )
+        );
+        //nhif
+        console.log("NHIF bracket",this.calculateNhif(grossPay))
+        // pay with relief
+        console.log(
+          "pay with relief",
+          this.payeWithRelief(
+            emp,
+            this.payeWithoutRelief(
+              this.taxableIncomeAfterMortgage(
+                emp.deductions.pension,
+                this.taxableIncomeAfterMortgage(
+                  emp.deductions.mortgage,
+                  grossPay
+                )
+              ) - 200
             )
           )
         );
@@ -514,10 +580,7 @@ export default {
           0
         );
         // net pay
-        let net_pay =
-          Number(emp.basic_pay) +
-          totalAllowances -
-          totalDeductions 
+        let net_pay = Number(emp.basic_pay) + totalAllowances - totalDeductions;
         let new_employee = { ...emp, net_pay };
         console.log(net_pay);
         this.employeePayslip = new_employee;

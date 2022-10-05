@@ -33,6 +33,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import * as fb from "../../firebase";
 export default {
   data() {
     return {
@@ -51,7 +52,29 @@ export default {
       this.loading = true;
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          this.$store.dispatch("createDesignation", values);
+          const selectedClient = JSON.parse(localStorage.getItem("client"));
+          let docRef = fb.businessCollection.doc(selectedClient.id);
+          fb.db.runTransaction((transaction) => {
+            return transaction
+              .get(docRef)
+              .then((doc) => {
+                if (!doc.exists) {
+                  throw "no client with this id";
+                }
+                let designations = doc.data().designations;
+               let depo= designations.some((e)=>e.designation_name===values.designation_name)
+               
+               
+               if(depo){
+                this.$message.error("designation already exists");
+               }else{
+                this.$store.dispatch("createDesignation", values);
+               }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
         }
       });
     },

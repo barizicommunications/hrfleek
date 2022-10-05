@@ -100,7 +100,7 @@
           <tr>
             <th colspan="2">Basic Salary</th>
             <td></td>
-            <td class="myAlign">4935.00</td>
+            <td class="myAlign">{{employee.basic_pay}}</td>
             <th colspan="2">PAYE</th>
             <td></td>
 
@@ -110,17 +110,17 @@
             <th colspan="2">House Allowance</th>
             <td></td>
 
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.house_allowance}}</td>
             <th colspan="2">NSSF</th>
             <td></td>
 
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.deductions.nssf}}</td>
           </tr>
           <tr>
             <th colspan="2">Transport Allowance</th>
             <td></td>
 
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.transportAllowance}}</td>
             <th colspan="2">NHIF</th>
             <td></td>
 
@@ -129,7 +129,7 @@
           <tr>
             <th colspan="2">Entertainment Allowance</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.entertainmentAllowance}}</td>
             <th colspan="2">HELB</th>
             <td></td>
             <td class="myAlign">00.00</td>
@@ -138,15 +138,15 @@
           <tr>
             <th colspan="2">Hardship Allowance</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.hardshipAllowance}}</td>
             <th colspan="2">Pension</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.deductions.pension}}</td>
           </tr>
           <tr>
-            <th colspan="2">Meal Allowance</th>
+            <th colspan="2">Fuel Allowance</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.fuelAllowance}}</td>
             <th colspan="2">SACCO</th>
             <td></td>
             <td class="myAlign">00.00</td>
@@ -180,7 +180,7 @@
             <td class="table-border-right"></td>
             <th colspan="2" class="table-border-bottom">Net Salary</th>
             <td></td>
-            <td>{{employee.net_pay}}</td>
+            <td>{{ employee.net_pay }}</td>
           </tr>
         </table>
       </div>
@@ -264,48 +264,48 @@
                 <tr>
                   <th colspan="2">Basic Salary</th>
                   <td></td>
-                  <td class="myAlign">4935.00</td>
+                  <td class="myAlign">{{employeePayslip.basic_pay}}</td>
                   <th colspan="2">PAYE</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">{{employeePayslip.PAYE}}</td>
                 </tr>
                 <tr>
                   <th colspan="2">House Allowance</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">0</td>
                   <th colspan="2">NSSF</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">0</td>
                 </tr>
                 <tr>
                   <th colspan="2">Transport Allowance</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">0</td>
                   <th colspan="2">NHIF</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">{{employeePayslip.NHIF}}</td>
                 </tr>
                 <tr>
                   <th colspan="2">Entertainment Allowance</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                   <th colspan="2">HELB</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                 </tr>
 
                 <tr>
                   <th colspan="2">Hardship Allowance</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                   <th colspan="2">Pension</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                 </tr>
                 <tr>
                   <th colspan="2">Meal Allowance</th>
@@ -333,10 +333,10 @@
                   <td colspan="4" class="table-border-right"></td>
                 </tr>
                 <tr class="myBackground">
-                  <th colspan="3">Total Payments</th>
-                  <td class="myAlign">10000</td>
+                  <th colspan="3">Total Allowances</th>
+                  <td class="myAlign">{{employeePayslip.totalAllowances}}</td>
                   <th colspan="3">Total Deductions</th>
-                  <td class="myAlign">1000</td>
+                  <td class="myAlign">{{employeePayslip.totalDeductions}}</td>
                 </tr>
                 <tr height="40px">
                   <th colspan="2"></th>
@@ -344,7 +344,7 @@
                   <td class="table-border-right"></td>
                   <th colspan="2" class="table-border-bottom">Net Salary</th>
 
-                  <td>{{employeePayslip.net_pay}}</td>
+                  <td>{{ employeePayslip.net_pay }}</td>
                 </tr>
               </table>
             </div>
@@ -378,7 +378,8 @@ export default {
       selectedEmployees: "",
       loading: false,
       employeePayslip: {},
-      data:[]
+      data: [],
+      taxable_income: 0,
     };
   },
   computed: {
@@ -410,27 +411,212 @@ export default {
     handleDepartmentChange(selectedItems) {
       this.selectedDepartments = selectedItems;
     },
+    taxableIncomeAfterMortgage(mortgage, grosspay) {
+      let income = 0;
+      if (mortgage) {
+        if (Number(mortgage) > 25000) {
+          income = grosspay - 25000;
+        } else {
+          income = grosspay - Number(mortgage);
+        }
+      } else {
+        income = grosspay;
+      }
+
+      return income;
+    },
+    taxableIncomeAfterPension(pension, grosspay) {
+      let income = 0;
+      if (Number(pension) > 20000) {
+        income = grosspay - 20000;
+      } else {
+        income = grosspay - Number(pension);
+      }
+      return income;
+    },
+    payeWithoutRelief(taxableIncome) {
+      let paye = 0;
+      let pay2 = 0;
+      let pay2pro = 0;
+      let pay3 = 0;
+      if (taxableIncome < 24000) {
+        paye = 0;
+      }
+      if (taxableIncome >= 24000) {
+        let phaseone = 0.1 * 24000;
+        paye = phaseone;
+      }
+      let tierone = taxableIncome - 24000;
+      if (tierone <= 32333) {
+        pay2 = 0.25 * tierone;
+      } else {
+        pay2pro = 0.25 * 8333;
+      }
+      let tier3 = taxableIncome - 32333;
+      if (taxableIncome > 32333) {
+        pay3 = 0.3 * tier3;
+      }
+      return paye + pay2 + pay2pro + pay3;
+    },
+    calculateNhif(grossPay) {
+      let nhif = 0;
+      if (grossPay < 5999) {
+        return 150;
+      } else if (grossPay > 5999 && grossPay < 7999) {
+        return 300;
+      } else if (grossPay > 7999 && grossPay < 11999) {
+        return 400;
+      } else if (grossPay > 11999 && grossPay < 14999) {
+        return 500;
+      } else if (grossPay > 19999 && grossPay < 24999) {
+        return 750;
+      } else if (grossPay > 24999 && grossPay < 29999) {
+        return 850;
+      } else if (grossPay > 29999 && grossPay < 34999) {
+        return 900;
+      } else if (grossPay > 34999 && grossPay < 39999) {
+        return 950;
+      } else if (grossPay > 39999 && grossPay < 44999) {
+        return 1000;
+      } else if (grossPay > 44999 && grossPay < 49999) {
+        return 1100;
+      } else if (grossPay > 49999 && grossPay < 59999) {
+        return 1200;
+      } else if (grossPay > 59999 && grossPay < 69999) {
+        return 1300;
+      } else if (grossPay > 69999 && grossPay < 79999) {
+        return 1400;
+      } else if (grossPay > 79999 && grossPay < 89999) {
+        return 1500;
+      } else if (grossPay > 89999 && grossPay < 99999) {
+        return 1600;
+      } else {
+        return 1700;
+      }
+    },
+    // paye with reliefs
+    payeWithRelief(employee, payee,nhif) {
+      let lifeInsuranceRelief = 0;
+      let nhifPremiums = 0.15*nhif;
+      let nhifRelief=0;
+      let insurancepremiums = 0.15 * employee.deductions.life_insurance;
+      //get life insurance relief
+      if (insurancepremiums > 5000) {
+        lifeInsuranceRelief = 5000;
+      } else {
+        lifeInsuranceRelief = insurancepremiums;
+      }
+      //get nhif relief
+      if(nhifPremiums>5000){
+        nhifRelief=500
+      }else{
+        nhifRelief=nhifPremiums
+      }
+      //calculate total relief
+      let totalRelief = payee-(lifeInsuranceRelief+nhifRelief+2400)
+      return totalRelief
+    },
     downloadSlips() {
       if (this.selectedEmployees.length) {
+        // find employee
         let emp = this.payrunEmployees.find(
           (e) => e.first_name === this.selectedEmployees
         );
+        console.log("basic pay", emp.basic_pay);
+        // calculate total allowances
         let allowances = Object.values(emp.allowances);
-        let deductions = Object.values(emp.deductions);
         const totalAllowances = allowances.reduce(
           (a, b) => Number(a) + Number(b),
           0
         );
+        console.log("total allowances", totalAllowances);
+        // calculate gross pay
+        let grossPay = Number(emp.basic_pay) + totalAllowances;
+        console.log("gross pay", grossPay);
+        //taxable income-mortgage
+        console.log(
+          "taxable income after mortgage",
+          this.taxableIncomeAfterMortgage(emp.deductions.mortgage, grossPay)
+        );
+
+        //taxable income-pension
+        console.log(
+          "taxable income after pension",
+          this.taxableIncomeAfterMortgage(
+            emp.deductions.pension,
+            this.taxableIncomeAfterMortgage(emp.deductions.mortgage, grossPay)
+          )
+        );
+
+        //PAYE without relief
+
+        console.log(
+          "Paye without relief",
+          this.payeWithoutRelief(
+            this.taxableIncomeAfterMortgage(
+              emp.deductions.pension,
+              this.taxableIncomeAfterMortgage(emp.deductions.mortgage, grossPay)
+            ) - 200
+          )
+        );
+        //nhif
+        console.log("NHIF bracket",this.calculateNhif(grossPay))
+        // pay with relief
+        console.log(
+          "pay with relief",
+          this.payeWithRelief(
+            emp,
+            this.payeWithoutRelief(
+              this.taxableIncomeAfterMortgage(
+                emp.deductions.pension,
+                this.taxableIncomeAfterMortgage(
+                  emp.deductions.mortgage,
+                  grossPay
+                )
+              ) - emp.deductions.nssf
+            ),
+            this.calculateNhif(grossPay)
+          )
+        );
+        // net pay
+        let deductions = Object.values(emp.deductions);
         const totalDeductions = deductions.reduce(
           (a, b) => Number(a) + Number(b),
           0
         );
-        let net_pay = Number(emp.basic_pay) + totalAllowances - totalDeductions;
-        let new_employee = { ...emp, net_pay };
-        console.log(net_pay, new_employee);
+        // net pay
+        let net_pay = Number(emp.basic_pay) + totalAllowances - (totalDeductions+   this.payeWithRelief(
+            emp,
+            this.payeWithoutRelief(
+              this.taxableIncomeAfterMortgage(
+                emp.deductions.pension,
+                this.taxableIncomeAfterMortgage(
+                  emp.deductions.mortgage,
+                  grossPay
+                )
+              ) - emp.deductions.nssf
+            ),
+            this.calculateNhif(grossPay)
+          )+this.calculateNhif(grossPay));
+          let NHIF =this.calculateNhif(grossPay)
+          let PAYEs =this.payeWithRelief(
+            emp,
+            this.payeWithoutRelief(
+              this.taxableIncomeAfterMortgage(
+                emp.deductions.pension,
+                this.taxableIncomeAfterMortgage(
+                  emp.deductions.mortgage,
+                  grossPay
+                )
+              ) - emp.deductions.nssf
+            ),
+            this.calculateNhif(grossPay)
+          )
+          let PAYE =Math.round((PAYEs + Number.EPSILON) * 100) / 100
+        let new_employee = { ...emp, net_pay,PAYE,NHIF,totalAllowances,totalDeductions};
+        console.log(new_employee);
         this.employeePayslip = new_employee;
-
-       this.$refs.html2Pdf.generatePdf();
+        this.$refs.html2Pdf.generatePdf();
       } else {
         swal({
           title: "OOPS!",
@@ -439,7 +625,7 @@ export default {
         });
       }
     },
-    convertTableData(){
+    convertTableData() {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       fb.businessCollection
         .doc(selectedClient.id)
@@ -448,35 +634,34 @@ export default {
         .get()
         .then((docs) => {
           let emp = docs.data();
-          
-          emp.employees.forEach((e)=>{
-        let allowances = Object.values(e.allowances);
-        let deductions = Object.values(e.deductions);
-        const totalAllowances = allowances.reduce(
-          (a, b) => Number(a) + Number(b),
-           0
-        );
-        const totalDeductions = deductions.reduce(
-         (a, b) => Number(a) + Number(b),
-           0
-       );
 
-         let net_pay = Number(e.basic_pay) + totalAllowances - totalDeductions;
-         
+          emp.employees.forEach((e) => {
+            let allowances = Object.values(e.allowances);
+            let deductions = Object.values(e.deductions);
+            const totalAllowances = allowances.reduce(
+              (a, b) => Number(a) + Number(b),
+              0
+            );
+            const totalDeductions = deductions.reduce(
+              (a, b) => Number(a) + Number(b),
+              0
+            );
 
-        let new_employee = { ...e, net_pay };
-       this.data.push(new_employee)
-          })
-         
+            let net_pay =
+              Number(e.basic_pay) + totalAllowances - totalDeductions;
+
+            let new_employee = { ...e, net_pay };
+            this.data.push(new_employee);
+          });
         });
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("getCalendars");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
-    this.convertTableData()
+    this.convertTableData();
   },
 };
 </script>

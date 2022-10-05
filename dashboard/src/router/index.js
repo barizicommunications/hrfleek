@@ -123,7 +123,7 @@ let routes = [
 	},
 	{
 		path: '/create-employee',
-		name: 'Create-Emp;oyee',
+		name: 'Create-Employee',
 		layout: "dashboard",
 		component: () => import('../views/CreateEmployee.vue'),
 	},

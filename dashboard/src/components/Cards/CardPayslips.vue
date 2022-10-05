@@ -445,22 +445,16 @@ export default {
       if (taxableIncome >= 24000) {
         let phaseone = 0.1 * 24000;
         paye = phaseone;
-        console.log("phase one", paye);
       }
       let tierone = taxableIncome - 24000;
       if (tierone <= 32333) {
         pay2 = 0.25 * tierone;
-
-        console.log("phase 2", pay2);
       } else {
         pay2pro = 0.25 * 8333;
-        console.log("phase 2 pro", pay2pro);
       }
       let tier3 = taxableIncome - 32333;
       if (taxableIncome > 32333) {
         pay3 = 0.3 * tier3;
-
-        console.log("phase 3", taxableIncome, tier3, pay3);
       }
       return paye + pay2 + pay2pro + pay3;
     },
@@ -501,16 +495,26 @@ export default {
       }
     },
     // paye with reliefs
-    payeWithRelief(employee, payee) {
-      console.log(employee, payee);
-      lifeInsuranceRelief = 0;
-      nhifRelief = 0;
-      let premiums = 0.15 * employee.deductions.life_insurance;
-      if (premiums > 5000) {
+    payeWithRelief(employee, payee,nhif) {
+      let lifeInsuranceRelief = 0;
+      let nhifPremiums = 0.15*nhif;
+      let nhifRelief=0;
+      let insurancepremiums = 0.15 * employee.deductions.life_insurance;
+      //get life insurance relief
+      if (insurancepremiums > 5000) {
         lifeInsuranceRelief = 5000;
       } else {
-        lifeInsuranceRelief = premiums;
+        lifeInsuranceRelief = insurancepremiums;
       }
+      //get nhif relief
+      if(nhifPremiums>5000){
+        nhifRelief=500
+      }else{
+        nhifRelief=nhifPremiums
+      }
+      //calculate total relief
+      let totalRelief = payee-(lifeInsuranceRelief+nhifRelief+2400)
+      return totalRelief
     },
     downloadSlips() {
       if (this.selectedEmployees.length) {
@@ -569,8 +573,9 @@ export default {
                   emp.deductions.mortgage,
                   grossPay
                 )
-              ) - 200
-            )
+              ) - emp.deductions.nssf
+            ),
+            this.calculateNhif(grossPay)
           )
         );
         // net pay
@@ -580,7 +585,19 @@ export default {
           0
         );
         // net pay
-        let net_pay = Number(emp.basic_pay) + totalAllowances - totalDeductions;
+        let net_pay = Number(emp.basic_pay) + totalAllowances - (totalDeductions+   this.payeWithRelief(
+            emp,
+            this.payeWithoutRelief(
+              this.taxableIncomeAfterMortgage(
+                emp.deductions.pension,
+                this.taxableIncomeAfterMortgage(
+                  emp.deductions.mortgage,
+                  grossPay
+                )
+              ) - emp.deductions.nssf
+            ),
+            this.calculateNhif(grossPay)
+          )+this.calculateNhif(grossPay));
         let new_employee = { ...emp, net_pay };
         console.log(net_pay);
         this.employeePayslip = new_employee;

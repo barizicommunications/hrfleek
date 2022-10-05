@@ -256,6 +256,7 @@ export default {
           salary_advance: 0,
           helb: 0,
           pension: 0,
+          nssf:200,
           sacco: 0,
           house_allowance: 0,
           transportAllowance: 0,
@@ -414,6 +415,7 @@ export default {
           reader.onload = (e) => {
             resolve((vm.fileinput = reader.result));
           };
+          console.log(this.fileList[0])
           reader.readAsText(this.fileList[0]);
         });
         promise.then(

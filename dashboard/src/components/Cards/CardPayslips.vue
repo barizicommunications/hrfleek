@@ -100,7 +100,7 @@
           <tr>
             <th colspan="2">Basic Salary</th>
             <td></td>
-            <td class="myAlign">4935.00</td>
+            <td class="myAlign">{{employee.basic_pay}}</td>
             <th colspan="2">PAYE</th>
             <td></td>
 
@@ -110,17 +110,17 @@
             <th colspan="2">House Allowance</th>
             <td></td>
 
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.house_allowance}}</td>
             <th colspan="2">NSSF</th>
             <td></td>
 
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.deductions.nssf}}</td>
           </tr>
           <tr>
             <th colspan="2">Transport Allowance</th>
             <td></td>
 
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.transportAllowance}}</td>
             <th colspan="2">NHIF</th>
             <td></td>
 
@@ -129,7 +129,7 @@
           <tr>
             <th colspan="2">Entertainment Allowance</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.entertainmentAllowance}}</td>
             <th colspan="2">HELB</th>
             <td></td>
             <td class="myAlign">00.00</td>
@@ -138,15 +138,15 @@
           <tr>
             <th colspan="2">Hardship Allowance</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.hardshipAllowance}}</td>
             <th colspan="2">Pension</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.deductions.pension}}</td>
           </tr>
           <tr>
-            <th colspan="2">Meal Allowance</th>
+            <th colspan="2">Fuel Allowance</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.fuelAllowance}}</td>
             <th colspan="2">SACCO</th>
             <td></td>
             <td class="myAlign">00.00</td>
@@ -264,48 +264,48 @@
                 <tr>
                   <th colspan="2">Basic Salary</th>
                   <td></td>
-                  <td class="myAlign">4935.00</td>
+                  <td class="myAlign">{{employeePayslip.basic_pay}}</td>
                   <th colspan="2">PAYE</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">{{employeePayslip.PAYE}}</td>
                 </tr>
                 <tr>
                   <th colspan="2">House Allowance</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">0</td>
                   <th colspan="2">NSSF</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">0</td>
                 </tr>
                 <tr>
                   <th colspan="2">Transport Allowance</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">0</td>
                   <th colspan="2">NHIF</th>
                   <td></td>
 
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign">{{employeePayslip.NHIF}}</td>
                 </tr>
                 <tr>
                   <th colspan="2">Entertainment Allowance</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                   <th colspan="2">HELB</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                 </tr>
 
                 <tr>
                   <th colspan="2">Hardship Allowance</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                   <th colspan="2">Pension</th>
                   <td></td>
-                  <td class="myAlign">00.00</td>
+                  <td class="myAlign"></td>
                 </tr>
                 <tr>
                   <th colspan="2">Meal Allowance</th>
@@ -333,10 +333,10 @@
                   <td colspan="4" class="table-border-right"></td>
                 </tr>
                 <tr class="myBackground">
-                  <th colspan="3">Total Payments</th>
-                  <td class="myAlign">10000</td>
+                  <th colspan="3">Total Allowances</th>
+                  <td class="myAlign">{{employeePayslip.totalAllowances}}</td>
                   <th colspan="3">Total Deductions</th>
-                  <td class="myAlign">1000</td>
+                  <td class="myAlign">{{employeePayslip.totalDeductions}}</td>
                 </tr>
                 <tr height="40px">
                   <th colspan="2"></th>
@@ -598,10 +598,25 @@ export default {
             ),
             this.calculateNhif(grossPay)
           )+this.calculateNhif(grossPay));
-        let new_employee = { ...emp, net_pay };
-        console.log(net_pay);
+          let NHIF =this.calculateNhif(grossPay)
+          let PAYEs =this.payeWithRelief(
+            emp,
+            this.payeWithoutRelief(
+              this.taxableIncomeAfterMortgage(
+                emp.deductions.pension,
+                this.taxableIncomeAfterMortgage(
+                  emp.deductions.mortgage,
+                  grossPay
+                )
+              ) - emp.deductions.nssf
+            ),
+            this.calculateNhif(grossPay)
+          )
+          let PAYE =Math.round((PAYEs + Number.EPSILON) * 100) / 100
+        let new_employee = { ...emp, net_pay,PAYE,NHIF,totalAllowances,totalDeductions};
+        console.log(new_employee);
         this.employeePayslip = new_employee;
-        //this.$refs.html2Pdf.generatePdf();
+        this.$refs.html2Pdf.generatePdf();
       } else {
         swal({
           title: "OOPS!",

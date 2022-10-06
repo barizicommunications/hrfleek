@@ -627,6 +627,21 @@
             />
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label="MORTGAGE">
+            <a-input
+              v-decorator="[
+                'mortgage',
+                {
+                  rules: [{ required: true, message: 'Field is required' }],
+                },
+              ]"
+              style="width: 100%"
+              placeholder=""
+              type="number"
+            />
+          </a-form-item>
+        </a-col>
       </a-row>
 
       <a-form-item :wrapper-col="{ span: 12, offset: 5 }">

@@ -154,12 +154,41 @@
           <tr>
             <th colspan="2">Leave Allowance</th>
             <td></td>
-            <td class="myAlign">00.00</td>
+            <td class="myAlign">{{employee.allowances.leave_allowance}}</td>
+            <th colspan="2">Mortgage</th>
+            <td></td>
+            <td class="myAlign">{{employee.deductions.mortgage}}.00</td>
           </tr>
           <tr>
             <td colspan="4" class="table-border-right"></td>
           </tr>
           <tr>
+            <th colspan="2">Car Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employee.allowances.carAllowance}}</td>
+       
+          </tr>
+          <tr>
+            <th colspan="2">Risk Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employee.allowances.riskAllowance}}</td>
+       
+          </tr>
+          <tr>
+            <th colspan="2">Telephone Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employee.allowances.telephoneAllowance}}</td>
+       
+          </tr>
+          <tr>
+            <th colspan="2">Transfer Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employee.allowances.transferAllowance}}</td>
+       
+          </tr>
+         
+          <tr>
+            
             <td colspan="4" class="table-border-right"></td>
             <th colspan="2">Salary Advance</th>
             <td></td>
@@ -210,9 +239,9 @@
           >
             <div class="salary-slip-pdf">
               <table class="empDetail-pdf">
-                <tr height="100px">
+                <tr height="60px">
                   <td colspan="4">
-                    <img height="90px" :src="currentClient.logo" />
+                    <img height="50px" :src="currentClient.logo" />
                   </td>
                   <td colspan="4" class="companyName">
                     {{ currentClient.company_name }}
@@ -319,7 +348,35 @@
                   <th colspan="2">Leave Allowance</th>
                   <td></td>
                   <td class="myAlign">{{employeePayslip.allowances.leave_allowance}}.00</td>
+                  <th colspan="2">Mortgage</th>
+                  <td></td>
+                  <td class="myAlign">{{employeePayslip.deductions.mortgage}}.00</td>
+                  
                 </tr>
+                <tr>
+            <th colspan="2">Car Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employeePayslip.allowances.carAllowance}}</td>
+       
+          </tr>
+          <tr>
+            <th colspan="2">Risk Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employeePayslip.allowances.riskAllowance}}</td>
+       
+          </tr>
+          <tr>
+            <th colspan="2">Telephone Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employeePayslip.allowances.telephoneAllowance}}</td>
+       
+          </tr>
+          <tr>
+            <th colspan="2">Transfer Allowance</th>
+            <td></td>
+            <td class="myAlign">{{employeePayslip.allowances.transferAllowance}}</td>
+       
+          </tr>
                 <tr>
                   <td colspan="4" class="table-border-right"></td>
                 </tr>

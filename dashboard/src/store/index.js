@@ -286,6 +286,7 @@ export default new Vuex.Store({
             sacco: data.sacco,
             nssf:200,
             salary_advance: data.salary_advance,
+            mortgage: data.mortgage
           } ?? {},
         net_pay: 0,
         employment_type: "",

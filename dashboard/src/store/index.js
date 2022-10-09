@@ -226,6 +226,48 @@ export default new Vuex.Store({
           });
         });
     },
+    async updateClients({ commit }, data) {
+      commit("setLoading", true);
+
+      // const ref = fb.storage.ref();
+      // const url = await ref
+      //   .child(data.logo.file.name)
+      //   .put(data.logo.file, data.logo.file.type)
+      //   .then((snapshot) => snapshot.ref.getDownloadURL());
+      const payload = {
+        company_name: data.company_name,
+        company_email: data.company_email,
+        company_phone: data.prefix + data.company_phone,
+        kra_pin: data.kra_pin,
+        address: data.company_address,
+      };
+
+
+      await fb.businessCollection
+        .doc(data.kra_pin)
+        .update(payload)
+        .then(() => {
+          commit("setError", "");
+          commit("setLoading", false);
+          swal({
+            title: "SUCCESS!",
+            text: `Client details updated successfully`,
+            icon: "success",
+          }).then(()=>{
+            router.push("/clients")
+          })
+
+        })
+        .catch((err) => {
+          commit("setLoading", false);
+          commit("setError", err.message);
+          swal({
+            title: "OOPS!",
+            text: `${err.message}`,
+            icon: "error",
+          });
+        });
+    },
     async getEmployees({ commit }) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       fb.businessCollection

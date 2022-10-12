@@ -144,11 +144,11 @@ export default {
       });
     },
     getAllDepartments(){
-      console.log(this.clients)
-      this.clients.
-      foreach((client)=>{
-        console.log(client.departments)
-      })
+      let departments=[]
+      for(let i=0;i<this.clients.length;i++){
+        departments.push(this.clients[i].departments)
+      }
+      console.log(departments)
     }
   },
   beforeCreate() {

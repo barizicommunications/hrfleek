@@ -147,6 +147,7 @@
                 },
               ]"
               placeholder="department"
+              @change="handleDepartmentChange"
             >
               <a-select-option
                 v-for="department in currentClient.departments"
@@ -172,11 +173,11 @@
                   ],
                 },
               ]"
-              placeholder="hr manager"
+              placeholder="select department"
             >
               <a-select-option
-                v-for="designation in currentClient.designations"
-                :key="designation.designation"
+                v-for="designation in designations"
+                :key="designation.designation_name"
                 :value="designation.designation_name"
               >
                 {{ designation.designation_name }}
@@ -678,9 +679,16 @@ export default {
       allowances: {},
       PAYE: 0,
       net_gross: 0,
+      designations:[]
     };
   },
   methods: {
+    handleDepartmentChange(value){
+
+      let dept =this.currentClient.departments.find((d)=>d.department_name===value)
+       console.log(dept.designations)
+       this.designations=dept.designations
+    },
     validateDate(rule, value, callback) {
       const { getFieldError, isFieldTouched } = this.form;
       let tentDate = new Date().getFullYear() - value.toDate().getFullYear();

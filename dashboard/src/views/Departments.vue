@@ -37,7 +37,7 @@
       </a-modal>
     </div>
     <a-drawer
-      title="Create a new account"
+      title="Create a designation"
       :width="720"
       :visible="drawer"
       :body-style="{ paddingBottom: '80px' }"
@@ -52,7 +52,7 @@
             v-decorator="[
              department.department_name,
               {
-                rules: [{ required: true, message: 'Field is required!' }],
+                rules: [{ required: false, message: 'Field is required!' }],
               },
             ]">
     <a-select-option   v-for="designation of department.designations" :key="designation.designation_name">

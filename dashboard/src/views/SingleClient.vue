@@ -26,8 +26,6 @@
 
           <a-menu-item key="allowances"> Add Allowances </a-menu-item>
           <a-menu-item key="deductions"> Add Deductions </a-menu-item>
-
-          <a-menu-item key="designations"> Add Designations </a-menu-item>
         </a-sub-menu>
         <a-menu-item key="reports">
           <span class="label">Reports</span>

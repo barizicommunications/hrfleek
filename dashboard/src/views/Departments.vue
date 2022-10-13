@@ -44,7 +44,7 @@
       </a-modal>
     </div>
     <a-drawer
-      title="Create a designation"
+      :title="currentClient.company_name"
       :width="720"
       :visible="drawer"
       :body-style="{ paddingBottom: '80px' }"
@@ -54,7 +54,7 @@
         <a-row :gutter="16">
           <a-col
             :span="12"
-            v-for="department of departments"
+            v-for="department of currentClient.departments"
             :key="department.department_name"
           >
             <a-form-item

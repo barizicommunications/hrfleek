@@ -17,6 +17,7 @@ export default new Vuex.Store({
     currentClient: {},
     payrunEmployees: [],
     designations: [],
+    departments:[],
     error: "",
   },
   mutations: {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     setDeductions(state, val) {
       state.designations = val;
     },
+    setDepartments(state,val){
+      state.departments=val
+    }
   },
   actions: {
     /**
@@ -135,21 +139,16 @@ export default new Vuex.Store({
     /**
      * clients Section Starts Here
      */
+     getCurrentClient({ commit }) {
+      const selectedClient = JSON.parse(localStorage.getItem("client"));
+      commit("setCurrentClient", selectedClient);
+    },
     updateEmployeeData({ commit }, data) {
       commit("setEmployees", data);
     },
-    updateClientFromFirebase({ commit }, data) {
-      fb.businessCollection
-        .doc(data.id)
-        .get()
-        .then((docs) => {
-          let data = docs.data();
-          console.log(data);
-          //localStorage.setItem("client",data)
-        })
-        .catch((err) => {
-          console.Console.log(err);
-        });
+    updateClientFromFirebase({state, commit }, data) {
+    let client =state.clients.find((c) => c.id === data.id);
+    localStorage.setItem("client",JSON.stringify(client))
     },
     getPayrunEmployees({ commit }, calendar) {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
@@ -172,10 +171,7 @@ export default new Vuex.Store({
 
       // })
     },
-    getCurrentClient({ commit }) {
-      const selectedClient = JSON.parse(localStorage.getItem("client"));
-      commit("setCurrentClient", selectedClient);
-    },
+
     async getClients({ commit }) {
       fb.businessCollection.onSnapshot((snapshot) => {
         const loadedEmployers = [];
@@ -421,11 +417,15 @@ export default new Vuex.Store({
         })
         .then(() => {
           commit("setLoading", false);
+          dispatch("updateClientFromFirebase",selectedClient)
           swal({
             title: "success!",
             text: `department added successfully`,
             icon: "success",
-          });
+          }).then(()=>{
+            dispatch("getCurrentClient")
+          })
+        
         })
         .catch((err) => {
           commit("setLoading", false);

@@ -34,9 +34,9 @@
             >
               <a-select-option
                 v-for="department of departments"
-                :key="department.department_name"
+                :key="department"
               >
-                {{ department.department_name }}
+                {{ department}}
               </a-select-option>
             </a-select>
           </a-form-item>
@@ -212,10 +212,10 @@ export default {
           break;
         }
         this.clients[i].departments.forEach((e) => {
-          departments.push(e);
+          departments.push(e.department_name);
         });
       }
-      this.departments = departments;
+      this.departments = [...new Set(departments)];
     },
     submitDesignation(e) {
       e.preventDefault();

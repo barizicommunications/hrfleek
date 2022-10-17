@@ -177,10 +177,10 @@
             >
               <a-select-option
                 v-for="designation in designations"
-                :key="designation.designation_name"
-                :value="designation.designation_name"
+                :key="designation.name"
+                :value="designation.name"
               >
-                {{ designation.designation_name }}
+                {{ designation.name }}
               </a-select-option>
             </a-select>
           </a-form-item>
@@ -686,8 +686,19 @@ export default {
     handleDepartmentChange(value){
 
       let dept =this.currentClient.departments.find((d)=>d.department_name===value)
-       console.log(dept.designations)
-       this.designations=dept.designations
+       let designations = [];
+      for (let i = 0; i < this.clients.length; i++) {
+        if (this.clients[i].designations == undefined) {
+          break;
+        }
+        this.clients[i].designations.forEach((e) => {
+          designations.push(e);
+        });
+      }
+
+      let filtered = designations.filter((e) => e.department == value);
+      console.log("designations", filtered);
+      this.designations = filtered;
     },
     validateDate(rule, value, callback) {
       const { getFieldError, isFieldTouched } = this.form;
@@ -777,7 +788,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["employees", "currentClient"]),
+    ...mapState(["employees", "currentClient","clients"]),
     rowSelection() {
       return {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -799,6 +810,7 @@ export default {
   mounted() {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
+    this.$store.dispatch("getClients");
   },
 };
 </script>

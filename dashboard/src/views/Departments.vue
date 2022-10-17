@@ -36,73 +36,88 @@
                 v-for="department of departments"
                 :key="department"
               >
-                {{ department}}
+                {{ department }}
               </a-select-option>
             </a-select>
           </a-form-item>
         </a-form>
       </a-modal>
     </div>
-    <a-drawer
-      :title="currentClient.company_name"
-      :width="720"
-      :visible="drawer"
-      :body-style="{ paddingBottom: '80px' }"
-      @close="onClose"
-    >
-      <a-form :form="form" layout="vertical" hide-required-mark>
-        <a-row :gutter="16">
-          <a-col
-            :span="12"
-            v-for="department of currentClient.departments"
-            :key="department.department_name"
+    <div>
+      <a-modal v-model="drawer" title="Create Designation" on-ok="handleSubmit">
+        <template slot="footer">
+          <a-button key="back" @click="handleCancel"> Cancel </a-button>
+          <a-button
+            key="submit"
+            type="primary"
+            :loading="loading"
+            @click="submitDesignation"
           >
-            <a-form-item
-              class="mb-10"
-              :label="department.department_name"
-              :colon="false"
-            >
-              <a-select
-                mode="tags"
-                style="width: 100%"
-                placeholder="Type or search to select"
-                v-decorator="[
-                  department.department_name,
-                  {
-                    rules: [{ required: false, message: 'Field is required!' }],
-                  },
-                ]"
+            Submit
+          </a-button>
+        </template>
+        <a-form
+          id="components-form-demo-normal-login"
+          :form="form"
+          class="login-form"
+          @submit.prevent="submitDesignation"
+          :hideRequiredMark="false"
+        >
+          <a-row :gutter="16">
+            <a-col :span="12">
+              <a-form-item
+                class="mb-10"
+                label="Select Department"
+                :colon="false"
               >
-                <a-select-option
-                  v-for="designation of department.designations"
-                  :key="designation.designation_name"
+                <a-select
+                  @change="handleDeptChange"
+                  v-decorator="[
+                    'department',
+                    {
+                      rules: [
+                        { required: false, message: 'Field is required!' },
+                      ],
+                    },
+                  ]"
                 >
-                  {{ designation.designation_name }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-      <div
-        :style="{
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e9e9e9',
-          padding: '10px 16px',
-          background: '#fff',
-          textAlign: 'right',
-          zIndex: 1,
-        }"
-      >
-        <a-button :style="{ marginRight: '8px' }" @click="onClose">
-          Cancel
-        </a-button>
-        <a-button type="primary" @click="submitDesignation"> Submit </a-button>
-      </div>
-    </a-drawer>
+                  <a-select-option
+                    v-for="dept in currentClient.departments"
+                    :key="dept.department_name"
+                  >
+                    {{ dept.department_name }}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item class="mb-10" label="Designations" :colon="false">
+                <a-select
+                  mode="tags"
+                  style="width: 100%"
+                  placeholder="Type or search to select"
+                  v-decorator="[
+                    'designations',
+                    {
+                      rules: [
+                        { required: false, message: 'Field is required!' },
+                      ],
+                    },
+                  ]"
+                >
+                  <a-select-option
+                    v-for="designation of designations"
+                    :key="designation.name"
+                  >
+                    {{ designation.name }}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
+      </a-modal>
+    </div>
 
     <template #title>
       <a-row type="flex" align="middle">
@@ -150,9 +165,25 @@ export default {
       drawer: false,
       value: [],
       departments: [],
+      designations: [],
     };
   },
   methods: {
+    handleDeptChange(value) {
+      let designations = [];
+      for (let i = 0; i < this.clients.length; i++) {
+        if (this.clients[i].designations == undefined) {
+          break;
+        }
+        this.clients[i].designations.forEach((e) => {
+          designations.push(e);
+        });
+      }
+
+      let filtered = designations.filter((e) => e.department == value);
+      console.log("designations", filtered);
+      this.designations = filtered;
+    },
     openModal() {
       this.visible = true;
     },
@@ -192,9 +223,13 @@ export default {
                     this.loading = false;
                     break;
                   } else {
-                    this.$store.dispatch("createDepartment", {
-                      department_name: values.departments[i],
-                    });
+                    this.$store
+                      .dispatch("createDepartment", {
+                        department_name: values.departments[i],
+                      })
+                      .then(() => {
+                        this.visible = false;
+                      });
                   }
                 }
               })
@@ -222,35 +257,22 @@ export default {
       this.loading = true;
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          let objectkeys = Object.keys(values);
-          let updatedChanges=[]
-
-          for (let i = 0; i < objectkeys.length; i++) {
-            if (values[objectkeys[i]] == undefined) {
-              break;
-            }
-            let objone = {};
-            let newobj = Object.defineProperties(objone, {
-              department_name:{
-                value:objectkeys[i],
-                writable: true
-              },
-              designations: {
-                value:values[objectkeys[i]],
-                writable: true
-              },
-              
-            });
-            console.log(newobj);
-            const selectedClient = JSON.parse(localStorage.getItem("client"));
-            //  fb.businessCollection.doc(selectedClient.id).set({
-            //   objectkeys,[i]:[
-
-            //   ],
-            //   deartments:[
-
-            //   ]
-            //  },{merge:true})
+          console.log(values);
+          const selectedClient = JSON.parse(localStorage.getItem("client"));
+          for (let i = 0; i < values.designations.length; i++) {
+            let data = {
+              department: values.department,
+              name: values.designations[i],
+            };
+            console.log(data);
+            fb.businessCollection.doc(selectedClient.id).update({
+             designations:fb.types.FieldValue.arrayUnion(data)
+            }).then(()=>{
+              this.$message.success("successfully added")
+              this.drawer=false
+            }).catch(()=>{
+              this.$message.error("something went wrong")
+            })
           }
         }
       });

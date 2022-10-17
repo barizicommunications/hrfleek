@@ -64,11 +64,11 @@
           >
             <a-select
               slot="addonBefore"
-              v-decorator="['prefix', { initialValue: '86' }]"
+              v-decorator="['prefix', { initialValue: '+254' }]"
               style="width: 70px"
             >
-              <a-select-option value="86"> +254 </a-select-option>
-              <a-select-option value="87"> +1 </a-select-option>
+              <a-select-option value="+254"> +254 </a-select-option>
+              <a-select-option value="+1"> +1 </a-select-option>
             </a-select>
           </a-input>
         </a-form-item>
@@ -76,7 +76,7 @@
           <a-input
             v-decorator="[
               'company_address',
-              {initialValue:currentClient.company_address,
+              {initialValue:currentClient.address,
                  rules: [{ required: true, message: 'Field is required!' }] },
             ]"
           />
@@ -92,7 +92,7 @@
             :before-upload="beforeUpload"
             v-decorator="[
               'logo',
-              { rules: [{ required: true, message: 'Field is required!' }] },
+              { rules: [{ required: false, message: 'Field is required!' }] },
             ]"
           >
             <a-button> <a-icon type="upload" /> Click to Upload logo</a-button>
@@ -206,11 +206,11 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          // this.$store.dispatch("addClients",values).then(()=>{
-          //   if(!this.error){
-          //     this.form.resetFields()
-          //   }
-          // })
+          this.$store.dispatch("updateClients",values).then(()=>{
+            if(!this.error){
+              this.form.resetFields()
+            }
+          })
         }
       });
     },

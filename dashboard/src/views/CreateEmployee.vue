@@ -147,6 +147,7 @@
                 },
               ]"
               placeholder="department"
+              @change="handleDepartmentChange"
             >
               <a-select-option
                 v-for="department in currentClient.departments"
@@ -172,14 +173,14 @@
                   ],
                 },
               ]"
-              placeholder="hr manager"
+              placeholder="select department"
             >
               <a-select-option
-                v-for="designation in currentClient.designations"
-                :key="designation.designation"
-                :value="designation.designation_name"
+                v-for="designation in designations"
+                :key="designation.name"
+                :value="designation.name"
               >
-                {{ designation.designation_name }}
+                {{ designation.name }}
               </a-select-option>
             </a-select>
           </a-form-item>
@@ -678,9 +679,27 @@ export default {
       allowances: {},
       PAYE: 0,
       net_gross: 0,
+      designations:[]
     };
   },
   methods: {
+    handleDepartmentChange(value){
+
+      let dept =this.currentClient.departments.find((d)=>d.department_name===value)
+       let designations = [];
+      for (let i = 0; i < this.clients.length; i++) {
+        if (this.clients[i].designations == undefined) {
+          break;
+        }
+        this.clients[i].designations.forEach((e) => {
+          designations.push(e);
+        });
+      }
+
+      let filtered = designations.filter((e) => e.department == value);
+      console.log("designations", filtered);
+      this.designations = filtered;
+    },
     validateDate(rule, value, callback) {
       const { getFieldError, isFieldTouched } = this.form;
       let tentDate = new Date().getFullYear() - value.toDate().getFullYear();
@@ -769,7 +788,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["employees", "currentClient"]),
+    ...mapState(["employees", "currentClient","clients"]),
     rowSelection() {
       return {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -791,6 +810,7 @@ export default {
   mounted() {
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
+    this.$store.dispatch("getClients");
   },
 };
 </script>

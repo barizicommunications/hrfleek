@@ -135,7 +135,19 @@
   </a-card>
 </template>
 <script>
-const columns = [
+import { mapState } from "vuex";
+import exportFromJSON from "export-from-json";
+import * as fb from "../../firebase";
+import swal from "sweetalert";
+const data = [];
+
+export default {
+  data() {
+    this.cacheData = data.map((item) => ({ ...item }));
+    return {
+      data,
+      departmentFilters:[],
+      columns:[
   {
     title: "First Name",
     dataIndex: "first_name",
@@ -171,10 +183,7 @@ const columns = [
     title: "Department",
     dataIndex: "department",
     scopedSlots: { customRender: "department" },
-    filters: [
-      { text: "Sales", value: "sales" },
-      { text: "Engineering", value: "engineering" },
-    ],
+    filters: [],
     onFilter: (value, record) => record.department.indexOf(value) === 0,
   },
   {
@@ -205,19 +214,7 @@ const columns = [
     scopedSlots: { customRender: "operation" },
     fixed: "right",
   },
-];
-import { mapState } from "vuex";
-import exportFromJSON from "export-from-json";
-import * as fb from "../../firebase";
-import swal from "sweetalert";
-const data = [];
-
-export default {
-  data() {
-    this.cacheData = data.map((item) => ({ ...item }));
-    return {
-      data,
-      columns,
+],
       editingKey: "",
       projectHeaderBtns: "all",
       visible: false,
@@ -602,6 +599,16 @@ export default {
 
       if (data) exportFromJSON({ data, fileName, exportType });
     },
+    filterDepartments(){
+      this.currentClient.departments.forEach((d)=>{
+        let newFitler={text:d.department_name,value:d.department_name
+        }
+        this.columns[6].filters.push(newFitler) 
+       
+      })
+      console.log(this.columns[6].filters) 
+      
+    }
   },
   computed: {
     ...mapState(["employees", "currentClient"]),
@@ -628,11 +635,14 @@ export default {
     this.$store.dispatch("getCurrentClient");
   },
   mounted() {
-    console.log("mounted");
     this.$store.dispatch("getEmployees");
     this.$store.dispatch("getCurrentClient");
     this.convertTableData();
+    this.filterDepartments();
   },
+  updated(){
+    
+  }
 };
 </script>
 <style scoped>

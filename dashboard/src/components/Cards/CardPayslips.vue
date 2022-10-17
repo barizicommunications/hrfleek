@@ -484,12 +484,13 @@ export default {
     },
     taxableIncomeAfterPension(pension, grosspay) {
       let income = 0;
-      if (Number(pension) > 20000) {
+      let netPension =pension+200
+      if (Number(netPension) > 20000) {
         income = grosspay - 20000;
       } else {
-        income = grosspay - Number(pension);
+        income = grosspay - Number(netPension);
       }
-      return income-200;
+      return income;
     },
     payeWithoutRelief(taxableIncome) {
       let paye = 0;

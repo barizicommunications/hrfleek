@@ -69,5 +69,7 @@ GET http://localhost:5001/scanpal-f74da/us-central1/barizi/people/get/sbB7Kzb723
 
 ### send test mail
 POST http://localhost:5001/scanpal-f74da/us-central1/barizi/mail
+### send mpesa
+GEt http://127.0.0.1:5001/scanpal-f74da/us-central1/barizi/mpesa/pay/10/254705122230
 
 

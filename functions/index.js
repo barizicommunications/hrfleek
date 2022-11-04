@@ -5,7 +5,8 @@ const cors = require("cors");
 const people = require("./routes/people");
 const auth =require('./routes/auth');
 const clients =require('./routes/clients');
-const mail =require('./routes/mail')
+const mail =require('./routes/mail');
+const mpesa =require('./routes/mpesa');
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/auth", auth);
 app.use("/people", people);
 app.use("/clients",clients);
 app.use("/mail",mail)
+app.use('/mpesa',mpesa);
 //error handlers
 app.use((req, res, next) => {
   const error = new Error("Not Found");

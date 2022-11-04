@@ -146,7 +146,7 @@
         v-for="department of currentClient.departments"
         :key="department.department_name"
       >
-        <a-button class="m-5" icon="edit" type="link">
+        <a-button class="m-5" icon="edit" size="large">
           {{ department.department_name }}
         </a-button>
       </a-col>

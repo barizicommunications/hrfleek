@@ -49,10 +49,11 @@ router.post("/create/:employer_id",(req, res, next)=>{
                 accountName:req.body.accountName,
                 bank_branch:req.body.bank_branch,       
                 full_name:req.body.full_name,
+                email:req.body.email,
+                phone_number:req.body.phone_number,
                 department:req.body.department,
                 designation:req.body.designation,
                 pay_rate:req.body.pay_rate,
-                hours_worked:req.body.hours_worked,
                 basic_pay:req.body.basic_pay,
                 deductions:req.body.deductions,
                 net_pay:req.body.net_pay

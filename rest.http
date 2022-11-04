@@ -15,7 +15,6 @@ Content-Type: application/json
 {
         "company_name": "Asanti consulting",
         "company_email": "admin@belmacconsluting.com",
-        "number_of_employees": 23,
         "company_phone": "0705122230",
         "address": "2nd Avenue Ngong,I&M Towers"
 }
@@ -37,11 +36,11 @@ Content-Type: application/json
 ### delete client
 DELETE http://localhost:5001/scanpal-f74da/us-central1/barizi/clients/delete/73Tzy8ojX6eYIweEcPXy
 ### add employee
-POST http://localhost:5001/scanpal-f74da/us-central1/barizi/people/create/sbB7Kzb7236AJBO7uKdc
+POST http://localhost:5001/scanpal-f74da/us-central1/barizi/people/create/zVD1Ov9ihcmrHZzELgWM
 Content-Type: application/json
 
 {
-                    "bank_name":"equity bank",
+                "bank_name":"equity bank",
                 "account_number":"1239499940",
                 "accountName":"Warren Ochieng",
                 "bank_branch":"KU",       
@@ -49,6 +48,8 @@ Content-Type: application/json
                 "department":"Engineering",
                 "designation":"fullstack developer",
                 "pay_rate":"300",
+                "email":"ochiengwarren10@gmail.com",
+                "phone_number":"0605004030",
                 "hours_worked":"0",
                 "basic_pay":"3000",
                 "deductions":[
@@ -65,5 +66,8 @@ GET http://localhost:5001/scanpal-f74da/us-central1/barizi/people/get/sbB7Kzb723
 
 ### get single employee
 GET http://localhost:5001/scanpal-f74da/us-central1/barizi/people/get/sbB7Kzb7236AJBO7uKdc/single/YTlqFp3XDD0EcfSrknGS
+
+### send test mail
+POST http://localhost:5001/scanpal-f74da/us-central1/barizi/mail
 
 

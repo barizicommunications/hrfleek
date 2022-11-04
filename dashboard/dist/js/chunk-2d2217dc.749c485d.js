@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d2217dc"],{cb29:function(e,n,c){"use strict";c.r(n);var l=function(){var e=this,n=e.$createElement,c=e._self._c||n;return c("div",[c("employees-tabale")],1)},t=[],a=c("87c9"),o={components:{EmployeesTabale:a["a"]}},s=o,u=c("2877"),p=Object(u["a"])(s,l,t,!1,null,null,null);n["default"]=p.exports}}]);
+//# sourceMappingURL=chunk-2d2217dc.749c485d.js.map

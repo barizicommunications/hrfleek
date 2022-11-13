@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-tabs default-active-key="1">
-      <a-tab-pane key="1" tab="Employees">
+      <a-tab-pane key="1" tab="Add Employees">
         <CardPayrun :calendar="calendar"></CardPayrun>
       </a-tab-pane>
       <a-tab-pane key="2" tab="Payslips Preview" force-render>

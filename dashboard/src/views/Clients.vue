@@ -17,21 +17,17 @@
     <!-- Cards -->
     <CardInfo :clients="resultQuery"></CardInfo>
     <!-- / Cards -->
-         <a-modal v-model="visible" title="Title" on-ok="handleOk">
-      <template slot="footer">
-        <a-button key="back" @click="handleCancel">
-          Cancel
-        </a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="handleSubmit">
-          Submit
-        </a-button>
-      </template>
-      <a-form
-        :form="form"
-       
-        @submit.prevent="handleSubmit"
-      >
-        <a-form-item label="Company Name">
+    <a-drawer
+      title="Create a new account"
+      :width="720"
+      :visible="visible"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="handleCancel"
+    >
+      <a-form :form="form" layout="vertical" hide-required-mark @submit.prevent="handleSubmit">
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Company Name">
           <a-input
             v-decorator="[
               'company_name',
@@ -39,16 +35,9 @@
             ]"
           />
         </a-form-item>
-                <a-form-item label="KRA PIN">
-          <a-input
-            v-decorator="[
-              'kra_pin',
-              { rules: [{ required: true, message: 'Field is required!' }] },
-            ]"
-            placholder="KRA PIN"
-          />
-        </a-form-item>
-        <a-form-item label="Company Email">
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Company Email">
           <a-input
             v-decorator="[
               'company_email',
@@ -56,7 +45,11 @@
             ]"
           />
         </a-form-item>
-        <a-form-item label="Phone Number">
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Phone Number">
           <a-input
             v-decorator="[
               'company_phone',
@@ -78,7 +71,46 @@
             </a-select>
           </a-input>
         </a-form-item>
-        <a-form-item label="Company Address">
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="KRA PIN">
+          <a-input
+            v-decorator="[
+              'kra_pin',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder="KRA PIN"
+          />
+        </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="NHIF Number">
+              <a-input
+            v-decorator="[
+              'nhif_number',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder=""
+          />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="NSSF Number">
+              <a-input
+            v-decorator="[
+              'nssf_number',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder=""
+          />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Company Address">
           <a-input
             v-decorator="[
               'company_address',
@@ -86,7 +118,9 @@
             ]"
           />
         </a-form-item>
-        <a-form-item label="Company Logo">
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Company Logo">
           <a-upload
             name="file"
             :multiple="false"
@@ -101,8 +135,36 @@
             <a-button> <a-icon type="upload" /> Click to Upload logo</a-button>
           </a-upload>
         </a-form-item>
+          </a-col>
+          
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+
+          </a-col>
+        </a-row>
       </a-form>
-    </a-modal>
+      <div
+        :style="{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+          zIndex: 1,
+        }"
+      >
+        <a-button :style="{ marginRight: '8px' }" @click="handleCancel">
+          Cancel
+        </a-button>
+        <a-button type="primary" :loading="loading" @click="handleSubmit">
+          Submit
+        </a-button>
+      </div>
+    </a-drawer>
 
   </div>
 </template>

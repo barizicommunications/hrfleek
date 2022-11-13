@@ -1,6 +1,6 @@
 <template>
   <a-card :bordered="false" class="card-info">
-    <a-modal v-model="visible" title="Title" on-ok="handleOk">
+    <a-modal v-model="visible" :title="currentClient.company_name + 'Details'" on-ok="handleOk">
       <template slot="footer">
         <a-button key="back" @click="handleCancel"> Cancel </a-button>
         <a-button
@@ -39,6 +39,26 @@
                  rules: [{ required: true, message: 'Field is required!' }] },
             ]"
             placholder="KRA PIN"
+          />
+        </a-form-item>
+        <a-form-item label="NHIF NUMBER">
+          <a-input
+            v-decorator="[
+              'nhif_number',
+              {initialValue:currentClient.nhif_number,
+                 rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder="KRA PIN"
+          />
+        </a-form-item>
+        <a-form-item label="NSSF NUMBER">
+          <a-input
+            v-decorator="[
+              'nssf_number',
+              {initialValue:currentClient.nssf_number,
+                 rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder=""
           />
         </a-form-item>
         <a-form-item label="Company Email">

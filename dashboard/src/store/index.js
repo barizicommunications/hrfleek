@@ -222,6 +222,34 @@ export default new Vuex.Store({
           });
         });
     },
+    //allowances & deductions
+    async addAllowance({commit},data){
+      console.log(data.id)
+      fb.businessCollection.doc(data.id).update({
+        allowances:fb.types.FieldValue.arrayUnion(data.values)
+      }).then(()=>{
+        swal({
+          title: "SUCCESS!",
+          text: `allowances updated successfully`,
+          icon: "success",
+        })
+      })
+
+    },
+    
+    async addDeduction({commit},data){
+      console.log(data.id)
+      fb.businessCollection.doc(data.id).update({
+        deductions:fb.types.FieldValue.arrayUnion(data.values)
+      }).then(()=>{
+        swal({
+          title: "SUCCESS!",
+          text: `deductions updated successfully`,
+          icon: "success",
+        })
+      })
+
+    },
     async updateClients({ commit }, data) {
       commit("setLoading", true);
 

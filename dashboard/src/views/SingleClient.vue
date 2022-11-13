@@ -13,32 +13,31 @@
         </a-menu-item>
         <a-sub-menu key="calendar">
           <span slot="title" class="submenu-title-wrapper"
-            ><a-icon type="calendar" />Calendar</span
+            ><a-icon type="calendar" />Payroll</span
           >
           <a-menu-item key="createcalendar"> Create Calendar </a-menu-item>
-          <a-menu-item key="calendar"> View Calendar </a-menu-item>
+          <a-menu-item key="calendar"> View Calendars </a-menu-item>
         </a-sub-menu>
         <a-sub-menu>
           <span slot="title" class="submenu-title-wrapper"
-            ><a-icon type="setting" />Bulk Edits</span
+            ><a-icon type="setting" />Company Profile</span
           >
           <a-menu-item key="departments">Departments</a-menu-item>
 
-          <a-menu-item key="allowances"> Add Allowances </a-menu-item>
-          <a-menu-item key="deductions"> Add Deductions </a-menu-item>
+          <a-menu-item key="allowances">Allowances </a-menu-item>
+          <a-menu-item key="statdeductions">Statutory Deductions </a-menu-item>
+          <a-menu-item key="otherdeductions">Other Deductions </a-menu-item>
+          <a-menu-item key="users">Users </a-menu-item>
         </a-sub-menu>
         <a-menu-item key="reports">
           <span class="label">Reports</span>
-        </a-menu-item>
-        <a-menu-item key="profile">
-          <span class="label">Company Profile</span>
         </a-menu-item>
       </a-menu>
     </div>
     <EmployeesTableVue v-if="current[0] == 'employees'"></EmployeesTableVue>
     <CardCalendarVue v-if="current[0] == 'calendar'"></CardCalendarVue>
     <CalendarForm v-if="current[0] == 'createcalendar'"></CalendarForm>
-    <DeductionsForm v-if="current[0] == 'deductions'"></DeductionsForm>
+    <DeductionsForm v-if="current[0] == 'otherdeductions'"></DeductionsForm>
     <AllowanceForm v-if="current[0] == 'allowances'"></AllowanceForm>
     <Departments v-if="current[0] == 'departments'"></Departments>
     <DesignationForm v-if="current[0] == 'designations'"></DesignationForm>

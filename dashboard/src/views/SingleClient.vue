@@ -29,9 +29,9 @@
           <a-menu-item key="otherdeductions">Deductions </a-menu-item>
           <a-menu-item key="users">Users </a-menu-item>
         </a-sub-menu>
-        <a-menu-item key="reports">
+        <!-- <a-menu-item key="reports">
           <span class="label">Reports</span>
-        </a-menu-item>
+        </a-menu-item> -->
       </a-menu>
     </div>
     <EmployeesTableVue v-if="current[0] == 'employees'"></EmployeesTableVue>

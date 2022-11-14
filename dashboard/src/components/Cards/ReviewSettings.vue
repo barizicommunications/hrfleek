@@ -3,33 +3,27 @@
 	<!-- Platform Settings Card -->
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{paddingTop: 0, paddingBottom: 0 }">
 		<template #title>
-			<h6 class="font-semibold m-0">Payroll Settings</h6>
+			<h6 class="font-semibold m-0">Payroll Reports</h6>
 		</template>
 		<ul class="list settings-list">
 			<li>
-				<h6 class="list-header text-sm text-muted">ALLOWANCES</h6>
-			</li>
-			<li>
 				<a-switch v-model="emailForFollows" />
-				<span>Email client bank sheet copy</span>
+				<span>NHIF REPORT</span>
 			</li>
 			<li>
 				<a-switch v-model="emailForAnswers"/>
-				<span>Save employee settings</span>
+				<span>NSSF REPORT</span>
 			</li>
 			<li>
 				<a-switch v-model="emailForMentions" />
-				<span>Download All Payroll</span>
+				<span>BANK REPORT</span>
 			</li>
             <li>
 				<a-switch v-model="emailForMentions" />
-				<span>Generate report</span>
+				<span>MASTER ROLL</span>
 				
 			</li>
 		</ul>
-        <a-button type="primary" class="mb-5">
-      Submit
-    </a-button>
 	</a-card>
 	<!-- / Platform Settings Card -->
 

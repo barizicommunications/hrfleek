@@ -11,7 +11,7 @@
             justify-content: space-between;
           "
         >
-          <a-input-group compact>
+          <!-- <a-input-group compact>
             <a-select
               placeholder="Select"
               :value="selectedEmployees"
@@ -35,10 +35,46 @@
               :loading="loading"
               >Download
             </a-button>
-          </a-input-group>
+          </a-input-group> -->
         </a-col>
       </a-row>
     </template>
+    <a-table
+      :columns="columns"
+      :data-source="data"
+      bordered
+      rowKey="id"
+      :scroll="{ x: 2000 }"
+    >
+      <template slot="operation" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span>
+            <a
+              @click="
+                () => {
+                  viewPAyslip(record);
+                }
+              "
+              >Preview</a
+            >
+          </span>
+        </div>
+      </template>
+      <template slot="emailslip" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span>
+            <a
+              @click="
+                () => {
+                  viewPAyslip(record);
+                }
+              "
+              >Email</a
+            >
+          </span>
+        </div>
+      </template>
+    </a-table>
     <a-carousel arrows>
       <div slot="prevArrow" class="custom-slick-arrows" style="right: 20px">
         <a-icon type="left-circle" />
@@ -426,6 +462,63 @@ import { mapState } from "vuex";
 import VueHtml2pdf from "vue-html2pdf";
 import * as fb from "../../firebase";
 
+const columns = [
+  {
+    title: "First Name",
+    dataIndex: "first_name",
+    scopedSlots: { customRender: "first_name" },
+  },
+  {
+    title: "Last Name",
+    dataIndex: "last_name",
+    scopedSlots: { customRender: "last_name" },
+  },
+  {
+    title: "Basic Salary",
+    className: "column-money",
+    dataIndex: "basic_pay",
+    sorter: (a, b) => a.basic_pay - b.basic_pay,
+  },
+  {
+    title: "Total Allowances",
+    dataIndex: "totalAllowances",
+  },
+  {
+    title: "Total Deductions",
+    dataIndex: "totalDeductions",
+  },
+  {
+    title: "PAYE",
+    dataIndex: "PAYE",
+  },
+  {
+    title: "NSSF",
+    dataIndex: "deductions.nssf",
+  },
+  {
+    title: "NHIF",
+    dataIndex: "NHIF",
+  },
+  {
+    title: "Gross Pay",
+    dataIndex: "grossPay",
+  },
+  {
+    title: "Net Pay",
+    dataIndex: "net_pay",
+  },
+  {
+    title: "operation",
+    dataIndex: "operation",
+    scopedSlots: { customRender: "operation" },
+  },
+  {
+    
+    title: "Email Payslip",
+    dataIndex: "emailslip",
+    scopedSlots: { customRender: "emailslip" },
+  }
+];
 export default {
   components: {
     VueHtml2pdf,
@@ -437,6 +530,7 @@ export default {
       employeePayslip: {},
       data: [],
       taxable_income: 0,
+      columns
     };
   },
   computed: {
@@ -446,6 +540,9 @@ export default {
     },
   },
   methods: {
+    viewPayslip(record){
+      console.log(record)
+    },
     generateReport() {
       this.$refs.html2Pdf.generatePdf();
       this.loading = false;
@@ -722,7 +819,7 @@ export default {
         let net_pay = Number(e.basic_pay) + totalAllowances - (totalDeductions+ PAYE+this.calculateNhif(grossPay));
        
          
-        let new_employee = { ...e, net_pay,PAYE,NHIF,totalAllowances,totalDeductions};
+        let new_employee = { ...e, net_pay,PAYE,NHIF,totalAllowances,totalDeductions,grossPay};
         
         this.employeePayslip = new_employee;
         

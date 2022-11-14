@@ -30,8 +30,8 @@
             ]"
           >
             <a-select-option value="monthly"> Monthly </a-select-option>
-            <a-select-option value="weekly"> Weekly </a-select-option>
-            <a-select-option value="hourly"> Hourly </a-select-option>
+            <a-select-option value="weekly" disabled> Weekly </a-select-option>
+            <a-select-option value="hourly" disabled> Hourly </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="Normal Payday">

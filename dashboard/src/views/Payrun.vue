@@ -4,13 +4,13 @@
       <a-tab-pane key="1" tab="Add Employees">
         <CardPayrun :calendar="calendar"></CardPayrun>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Payslips Preview" force-render>
+      <a-tab-pane key="2" tab="Payslips" force-render>
         <card-payslips :calendar="calendar"></card-payslips>
       </a-tab-pane>
       <a-tab-pane key="3" tab="Bank Overview">
       <bank-sheet :calendar="calendar"></bank-sheet>
       </a-tab-pane>
-      <a-tab-pane key="4" tab="Review and Submit"> 
+      <a-tab-pane key="4" tab="Reports"> 
         <card-review></card-review>
       </a-tab-pane>
     </a-tabs>
@@ -24,6 +24,7 @@ import CardPayrun from "../components/Cards/CardPayrun.vue";
 import * as fb from "../firebase";
 import BankSheet from '../components/Tables/BankSheet.vue';
 import CardReview from '../components/Cards/CardReview.vue';
+
 
 export default {
   components: { CardPayslips, CardPayrun, BankSheet, CardReview },

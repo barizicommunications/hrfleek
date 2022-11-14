@@ -41,6 +41,7 @@
     <AllowanceForm v-if="current[0] == 'allowances'"></AllowanceForm>
     <Departments v-if="current[0] == 'departments'"></Departments>
     <DesignationForm v-if="current[0] == 'designations'"></DesignationForm>
+    <UserfromVue v-if="current[0] == 'users'"></UserfromVue>
 
     <!-- / Cards -->
   </div>
@@ -59,6 +60,8 @@ import DepartmentForm from "../components/forms/DepartmentsForm.vue";
 import DesignationForm from "../components/forms/DesignationForm.vue";
 import ClientCardVue from "../components/Cards/ClientCard.vue";
 import Departments from "./Departments.vue"
+import UserfromVue from '../components/forms/Userfrom.vue';
+
 
 export default {
   components: {
@@ -73,7 +76,8 @@ export default {
     DepartmentForm,
     DesignationForm,
     ClientCardVue,
-    Departments
+    Departments,
+    UserfromVue
   },
   data() {
     return {

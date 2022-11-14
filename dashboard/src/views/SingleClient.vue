@@ -25,8 +25,8 @@
           <a-menu-item key="departments">Departments</a-menu-item>
 
           <a-menu-item key="allowances">Allowances </a-menu-item>
-          <a-menu-item key="statdeductions">Statutory Deductions </a-menu-item>
-          <a-menu-item key="otherdeductions">Other Deductions </a-menu-item>
+          <!-- <a-menu-item key="statdeductions">Statutory Deductions </a-menu-item> -->
+          <a-menu-item key="otherdeductions">Deductions </a-menu-item>
           <a-menu-item key="users">Users </a-menu-item>
         </a-sub-menu>
         <a-menu-item key="reports">

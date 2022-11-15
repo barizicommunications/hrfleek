@@ -39,7 +39,7 @@
     <CalendarForm v-if="current[0] == 'createcalendar'"></CalendarForm>
     <DeductionsForm v-if="current[0] == 'otherdeductions'"></DeductionsForm>
     <AllowanceForm v-if="current[0] == 'allowances'"></AllowanceForm>
-    <Departments v-if="current[0] == 'departments'"></Departments>
+    <Departments v-if="current[0] == 'departments'" :client="client"></Departments>
     <DesignationForm v-if="current[0] == 'designations'"></DesignationForm>
     <UserfromVue v-if="current[0] == 'users'"></UserfromVue>
 

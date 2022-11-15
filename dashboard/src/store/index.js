@@ -445,22 +445,18 @@ export default new Vuex.Store({
         });
     },
     async createDepartment({ commit, dispatch }, data) {
-      const selectedClient = JSON.parse(localStorage.getItem("client"));
       commit("setLoading", true);
       fb.businessCollection
-        .doc(selectedClient.kra_pin)
+        .doc(data.client)
         .update({
-          departments: fb.types.FieldValue.arrayUnion(data),
+          departments: fb.types.FieldValue.arrayUnion(data.departments),
         })
         .then(() => {
           commit("setLoading", false);
-          dispatch("updateClientFromFirebase",selectedClient)
           swal({
             title: "success!",
             text: `department added successfully`,
             icon: "success",
-          }).then(()=>{
-            dispatch("getCurrentClient")
           })
         
         })
@@ -468,7 +464,7 @@ export default new Vuex.Store({
           commit("setLoading", false);
           swal({
             title: "OOps!",
-            text: `something went wrong`,
+            text: `${err}`,
             icon: "error",
           });
         });

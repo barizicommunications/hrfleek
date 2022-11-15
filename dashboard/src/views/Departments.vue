@@ -82,7 +82,7 @@
                   ]"
                 >
                   <a-select-option
-                    v-for="dept in currentClient.departments"
+                    v-for="dept in client.departments"
                     :key="dept.department_name"
                   >
                     {{ dept.department_name }}
@@ -140,15 +140,16 @@
         </a-col>
       </a-row>
     </template>
-    <a-row type="flex" align="middle">
+    <a-row type="flex" align="middle" v-if="client.departments">
       <a-col
         :span="4"
-        v-for="department of currentClient.departments"
+        v-for="department of client.departments"
         :key="department.department_name"
       >
-      <h5>{{ department.department_name }}</h5>
+        <h5>{{ department.department_name }}</h5>
       </a-col>
     </a-row>
+    <a-empty v-else />
   </a-card>
 </template>
 
@@ -157,6 +158,7 @@ import { mapState, mapGetters } from "vuex";
 import * as fb from "../firebase";
 
 export default {
+  props: ["client"],
   data() {
     return {
       visible: false,
@@ -200,41 +202,42 @@ export default {
       this.form.validateFields(async (err, values) => {
         if (!err) {
           this.loading = true;
-          const selectedClient = JSON.parse(localStorage.getItem("client"));
-          let docRef = fb.businessCollection.doc(selectedClient.id);
-          fb.db.runTransaction((transaction) => {
-            return transaction
-              .get(docRef)
-              .then((doc) => {
-                if (!doc.exists) {
-                  this.loading = false;
-                  throw "no client with this id";
-                }
-
-                let departments = doc.data().departments;
-                for (let i = 0; i < values.departments.length; i++) {
-                  let depo = departments.some(
-                    (e) => e.department_name === values.departments[i]
-                  );
-                  if (depo) {
-                    this.$message.error("some department already exist");
-                    this.loading = false;
-                    break;
-                  } else {
-                    this.$store
-                      .dispatch("createDepartment", {
-                        department_name: values.departments[i],
-                      })
-                      .then(() => {
-                        this.visible = false;
-                      });
-                  }
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          });
+          if (this.client.departments) {
+            for (let i = 0; i < values.departments.length; i++) {
+              let depo = this.client.departments.some(
+                (e) => e.department_name === values.departments[i]
+              );
+              if (depo) {
+                this.$message.error("some departments already exist clear before you continue");
+                this.loading = false;
+                break;
+              } else {
+                this.$store
+                  .dispatch("createDepartment", {
+                    client: this.client.id,
+                    departments: {
+                      department_name: values.departments[i],
+                    },
+                  })
+                  .then(() => {
+                    this.visible = false;
+                  });
+              }
+            }
+          } else {
+            for (let i = 0; i < values.departments.length; i++) {
+              this.$store
+                .dispatch("createDepartment", {
+                  client: this.client.id,
+                  departments: {
+                    department_name: values.departments[i],
+                  },
+                })
+                .then(() => {
+                  this.visible = false;
+                });
+            }
+          }
         }
       });
     },
@@ -263,14 +266,18 @@ export default {
               name: values.designations[i],
             };
             console.log(data);
-            fb.businessCollection.doc(selectedClient.id).update({
-             designations:fb.types.FieldValue.arrayUnion(data)
-            }).then(()=>{
-              this.$message.success("successfully added")
-              this.drawer=false
-            }).catch(()=>{
-              this.$message.error("something went wrong")
-            })
+            fb.businessCollection
+              .doc(selectedClient.id)
+              .update({
+                designations: fb.types.FieldValue.arrayUnion(data),
+              })
+              .then(() => {
+                this.$message.success("successfully added");
+                this.drawer = false;
+              })
+              .catch(() => {
+                this.$message.error("something went wrong");
+              });
           }
         }
       });
@@ -281,7 +288,7 @@ export default {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   computed: {
-    ...mapState(["employees", "currentClient", "clients"]),
+    ...mapState(["employees", "clients"]),
     ...mapGetters({
       loadingFromStore: "loading",
     }),
@@ -296,9 +303,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getEmployees");
-    const selectedClient = JSON.parse(localStorage.getItem("client"));
-    this.$store.dispatch("updateClientFromFirebase", selectedClient);
-    this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getClients");
     this.getAllDepartments();
   },

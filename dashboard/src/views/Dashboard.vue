@@ -2,12 +2,7 @@
   <div>
     <!-- Cards -->
     <a-row :gutter="24">
-      <a-col
-        :span="24"
-        :lg="12"
-        :xl="6"
-        class="mb-24"
-      >
+      <a-col :span="24" :lg="12" :xl="6" class="mb-24">
         <!-- Widget 1 Card -->
         <a-card :bordered="false" class="widget-1">
           <a-statistic
@@ -15,19 +10,13 @@
             :value="totalEmployees"
             :precision="0"
             class="text-success"
-         
           >
           </a-statistic>
           <div class="icon" v-html="stats[0].icon"></div>
         </a-card>
         <!-- / Widget 1 Card -->
       </a-col>
-      <a-col
-        :span="24"
-        :lg="12"
-        :xl="6"
-        class="mb-24"
-      >
+      <a-col :span="24" :lg="12" :xl="6" class="mb-24">
         <!-- Widget 1 Card -->
         <a-card :bordered="false" class="widget-1">
           <a-statistic
@@ -35,19 +24,13 @@
             :value="totalCalendars"
             :precision="0"
             class="text-success"
-         
           >
           </a-statistic>
           <div class="icon" v-html="stats[1].icon" @click="getMeData"></div>
         </a-card>
         <!-- / Widget 1 Card -->
       </a-col>
-      <a-col
-        :span="24"
-        :lg="12"
-        :xl="6"
-        class="mb-24"
-      >
+      <a-col :span="24" :lg="12" :xl="6" class="mb-24">
         <!-- Widget 1 Card -->
         <a-card :bordered="false" class="widget-1">
           <a-statistic
@@ -55,7 +38,6 @@
             :value="clients.length"
             :precision="0"
             class="text-success"
-         
           >
           </a-statistic>
           <div class="icon" v-html="stats[2].icon"></div>
@@ -63,19 +45,175 @@
         <!-- / Widget 1 Card -->
       </a-col>
     </a-row>
-
-    <a-row :gutter="24" type="flex" align="stretch">
-      <a-col :span="24" :lg="10" class="mb-24">
-        <!-- Active Users Card -->
-        <CardBarChart></CardBarChart>
-        <!-- Active Users Card -->
+    <a-card>
+      <template #title>
+        <a-row type="flex" align="stretch" class="mb-10">
+      <a-col :span="24" :md="12" class="col-info">
+        <a-input-search
+          placeholder="search client"
+          style="width: 200px"
+          @search="onSearch"
+          :loading="searchLoading"
+          v-model="searchQuery"
+        />
       </a-col>
-      <a-col :span="24" :lg="14" class="mb-24">
-        <!-- Sales Overview Card -->
-        <CardLineChart></CardLineChart>
-        <!-- / Sales Overview Card -->
+      <a-col :span="24" :md="12" class="col-info">
+        <a-button type="primary" @click="visible=true" size="large">Add New Client</a-button>
       </a-col>
     </a-row>
+
+    <CardInfo :clients="resultQuery" class="mt-5"></CardInfo>
+    </template>
+    </a-card>
+<!-- drawer -->
+<a-drawer
+      title="Create a new account"
+      :width="720"
+      :visible="visible"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="handleCancel"
+    >
+      <a-form :form="form" layout="vertical" hide-required-mark @submit.prevent="handleSubmit">
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Company Name">
+          <a-input
+            v-decorator="[
+              'company_name',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+          />
+        </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Company Email">
+          <a-input
+            v-decorator="[
+              'company_email',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+          />
+        </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Phone Number">
+          <a-input
+            v-decorator="[
+              'company_phone',
+              {
+                rules: [
+                  { required: true, message: 'Please input phone number!' },
+                ],
+              },
+            ]"
+            style="width: 100%"
+          >
+            <a-select
+              slot="addonBefore"
+              v-decorator="['prefix', { initialValue: '86' }]"
+              style="width: 70px"
+            >
+              <a-select-option value="86"> +254 </a-select-option>
+              <a-select-option value="87"> +1 </a-select-option>
+            </a-select>
+          </a-input>
+        </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="KRA PIN">
+          <a-input
+            v-decorator="[
+              'kra_pin',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder="KRA PIN"
+          />
+        </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="NHIF Number">
+              <a-input
+            v-decorator="[
+              'nhif_number',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder=""
+          />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="NSSF Number">
+              <a-input
+            v-decorator="[
+              'nssf_number',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+            placholder=""
+          />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Company Address">
+          <a-input
+            v-decorator="[
+              'company_address',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+          />
+        </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Company Logo">
+          <a-upload
+            name="file"
+            :multiple="false"
+            list-type="picture"
+            :transform-file="transformFile"
+            :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload"
+              v-decorator="[
+              'logo',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]"
+          >
+            <a-button> <a-icon type="upload" /> Click to Upload logo</a-button>
+          </a-upload>
+        </a-form-item>
+          </a-col>
+          
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="24">
+
+          </a-col>
+        </a-row>
+      </a-form>
+      <div
+        :style="{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+          zIndex: 1,
+        }"
+      >
+        <a-button :style="{ marginRight: '8px' }" @click="handleCancel">
+          Cancel
+        </a-button>
+        <a-button type="primary" :loading="loading" @click="handleSubmit">
+          Submit
+        </a-button>
+      </div>
+    </a-drawer>
   </div>
 </template>
 
@@ -102,6 +240,7 @@ import CardInfo from "../components/Cards/CardInfo";
 import CardInfo2 from "../components/Cards/CardInfo2";
 import EmployeesTableVue from "../components/Tables/EmployeesTable.vue";
 import ClientCardVue from "../components/Cards/ClientCard.vue";
+import ClientForm from "../components/forms/ClientForm.vue";
 
 // Counter Widgets stats
 const stats = [
@@ -153,32 +292,129 @@ export default {
     CardInfo2,
     EmployeesTableVue,
     ClientCardVue,
+    ClientForm,
   },
   data() {
     return {
-
       // Counter Widgets Stats
       stats,
-      totalEmployees:0,
-      totalCalendars:0
+      totalEmployees: 0,
+      totalCalendars: 0,
+      searchQuery: null,
+      searchLoading: false,
+      allowed: false,
+      visible:false,
+      formLayout: "horizontal",
+      form: this.$form.createForm(this, { name: "coordinated" }),
+      image:null,
+      fileList: [],
+      uploading: false,
     };
   },
-  methods:{
-    getMeData(){
-      fb.db.collectionGroup("team").get().then((docs)=>{
-        console.log(docs.docs.length)
-        this.totalEmployees=docs.docs.length
-      })
-     },
-     getTotalCalendars(){
-      fb.db.collectionGroup("calendars").get().then((docs)=>{
-        console.log(docs.docs.length)
-        this.totalCalendars=docs.docs.length
-      })
-     }
+  methods: {
+    getMeData() {
+      fb.db
+        .collectionGroup("team")
+        .get()
+        .then((docs) => {
+          console.log(docs.docs.length);
+          this.totalEmployees = docs.docs.length;
+        });
+    },
+    getTotalCalendars() {
+      fb.db
+        .collectionGroup("calendars")
+        .get()
+        .then((docs) => {
+          console.log(docs.docs.length);
+          this.totalCalendars = docs.docs.length;
+        });
+    },
+    logKeys() {
+      console.log(this.current[0]);
+    },
+      onSearch(value) {
+      console.log(value, this.searchQuery);
+      if (this.searchQuery) {
+        this.visible = true;
+        return this.assets.filter((item) => {
+          return this.searchQuery
+            .toLowerCase()
+            .split(" ")
+            .every((v) => {
+              item.asset_name.toLowerCase().includes(v)||item.category.toLowerCase().includes(v)
+            });
+        });
+      } else {
+        return this.assets;
+      }
+    },
+    handleCancel(){
+      this.visible=false
+    },
+    handleRemove(file) {
+      const index = this.fileList.indexOf(file);
+      const newFileList = this.fileList.slice();
+      newFileList.splice(index, 1);
+      this.fileList = newFileList;
+    },
+    beforeUpload(file) {
+      this.fileList = [...this.fileList, file];
+      return false;
+    },
+    transformFile(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const canvas = document.createElement("canvas");
+          const img = document.createElement("img");
+          img.src = reader.result;
+          img.onload = () => {
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            ctx.fillStyle = "red";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Ant Design", 20, 20);
+            canvas.toBlob(resolve);
+          };
+        };
+      });
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+          this.$store.dispatch("addClients",values).then(()=>{
+            if(!this.error){
+              this.form.resetFields()
+            }
+          })
+        }
+      });
+    },
   },
   computed: {
-    ...mapState(["calendars", "employees", "clients", "payrunEmployees"]),
+    ...mapState(["calendars", "employees", "clients", "payrunEmployees","currentClient"]),
+    resultQuery() {
+      if (this.searchQuery) {
+        return this.clients.filter((item) => {
+          return this.searchQuery.toString()
+            .toLowerCase()
+            .split(" ")
+            .every((v) => item.company_name.toLowerCase().includes(v));
+        });
+      } else {
+        return this.clients;
+      }
+    },
+    loading(){
+      return this.$store.state.loading
+    },
+    error(){
+      return this.$store.state.error
+    }
   },
   mounted() {
     this.$store.dispatch("getCalendars");
@@ -187,7 +423,6 @@ export default {
     this.$store.dispatch("getClients");
     this.getMeData();
     this.getTotalCalendars();
-
   },
 };
 </script>

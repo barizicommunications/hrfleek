@@ -112,11 +112,11 @@
           >
             <a-select
               slot="addonBefore"
-              v-decorator="['prefix', { initialValue: '86' }]"
+              v-decorator="['prefix', { initialValue: '+254' }]"
               style="width: 70px"
             >
-              <a-select-option value="86"> +254 </a-select-option>
-              <a-select-option value="87"> +1 </a-select-option>
+              <a-select-option value="+254"> +254 </a-select-option>
+              <a-select-option value="+1"> +1 </a-select-option>
             </a-select>
           </a-input>
         </a-form-item>

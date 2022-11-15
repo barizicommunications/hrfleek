@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Cards -->
-    <ClientCardVue></ClientCardVue>
+    <ClientCardVue :client="client"></ClientCardVue>
     <div
       :class="['ant-layout-sider-' + 'primary', 'ant-layout-sider-' + 'light']"
       theme="light"
@@ -61,8 +61,7 @@ import DesignationForm from "../components/forms/DesignationForm.vue";
 import ClientCardVue from "../components/Cards/ClientCard.vue";
 import Departments from "./Departments.vue"
 import UserfromVue from '../components/forms/Userfrom.vue';
-
-
+import { mapState } from 'vuex';
 export default {
   components: {
     CardInfo,
@@ -83,11 +82,24 @@ export default {
     return {
       current: ["employees"],
     };
+
   },
   methods: {
     logKeys() {
       console.log(this.current[0]);
     },
+
+  },
+  computed: {
+    ...mapState(["clients"]),
+    client(){
+    return this.clients.find((client)=>client.id==this.$route.params.id)
+
+    }
+  },
+  mounted() {
+    this.$store.dispatch("getClients");
+
   },
 };
 </script>

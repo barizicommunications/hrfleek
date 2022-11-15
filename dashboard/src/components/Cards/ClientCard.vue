@@ -1,17 +1,12 @@
 <template>
   <a-card :bordered="false" class="card-info">
-    <a-modal v-model="visible" :title="currentClient.company_name + 'Details'" on-ok="handleOk">
-      <template slot="footer">
-        <a-button key="back" @click="handleCancel"> Cancel </a-button>
-        <a-button
-          key="submit"
-          type="primary"
-          :loading="loading"
-          @click="handleSubmit"
-        >
-          Submit
-        </a-button>
-      </template>
+    <a-drawer
+      :title="client.company_name"
+      :width="720"
+      :visible="visible"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="handleCancel"
+    >
       <a-form
         id="components-form-demo-normal-login"
         :form="form"
@@ -19,62 +14,75 @@
         @submit="handleChange"
         :hideRequiredMark="true"
       >
-        <a-form-item label="Company Name">
+
+      <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Company Name">
           <a-input
             v-decorator="[
               'company_name',
               { 
-                initialValue:currentClient.company_name,
+                initialValue:client.company_name,
                 rules: [{ required: true, message: 'Field is required!' }] },
               
 
             ]"
           />
-        </a-form-item>
-        <a-form-item label="KRA PIN">
+        </a-form-item></a-col>
+          <a-col :span="12">
+            <a-form-item label="KRA PIN">
           <a-input
             v-decorator="[
               'kra_pin',
-              {initialValue:currentClient.kra_pin,
+              {initialValue:client.kra_pin,
                  rules: [{ required: true, message: 'Field is required!' }] },
             ]"
             placholder="KRA PIN"
           />
-        </a-form-item>
-        <a-form-item label="NHIF NUMBER">
+        </a-form-item></a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="NHIF NUMBER">
           <a-input
             v-decorator="[
               'nhif_number',
-              {initialValue:currentClient.nhif_number,
+              {initialValue:client.nhif_number,
                  rules: [{ required: true, message: 'Field is required!' }] },
             ]"
             placholder="KRA PIN"
           />
-        </a-form-item>
-        <a-form-item label="NSSF NUMBER">
+        </a-form-item></a-col>
+          <a-col :span="12">
+            <a-form-item label="NSSF NUMBER">
           <a-input
             v-decorator="[
               'nssf_number',
-              {initialValue:currentClient.nssf_number,
+              {initialValue:client.nssf_number,
                  rules: [{ required: true, message: 'Field is required!' }] },
             ]"
             placholder=""
           />
-        </a-form-item>
+        </a-form-item></a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+          
         <a-form-item label="Company Email">
           <a-input
             v-decorator="[
               'company_email',
-              {initialValue:currentClient.company_email,
+              {initialValue:client.company_email,
                  rules: [{ required: true, message: 'Field is required!' }] },
             ]"
           />
-        </a-form-item>
-        <a-form-item label="Phone Number">
+        </a-form-item></a-col>
+          <a-col :span="12">
+            <a-form-item label="Phone Number">
           <a-input
             v-decorator="[
               'company_phone',
-              {initialValue:currentClient.company_phone,
+              {initialValue:client.company_phone,
                 rules: [
                   { required: true, message: 'Please input phone number!' },
                 ],
@@ -91,17 +99,21 @@
               <a-select-option value="+1"> +1 </a-select-option>
             </a-select>
           </a-input>
-        </a-form-item>
-        <a-form-item label="Company Address">
+        </a-form-item></a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Company Address">
           <a-input
             v-decorator="[
               'company_address',
-              {initialValue:currentClient.address,
+              {initialValue:client.address,
                  rules: [{ required: true, message: 'Field is required!' }] },
             ]"
           />
-        </a-form-item>
-        <a-form-item label="Company Logo">
+        </a-form-item></a-col>
+          <a-col :span="12">
+            <a-form-item label="Company Logo">
           <a-upload
             name="file"
             :multiple="false"
@@ -117,16 +129,37 @@
           >
             <a-button> <a-icon type="upload" /> Click to Upload logo</a-button>
           </a-upload>
-        </a-form-item>
+        </a-form-item></a-col>
+        </a-row>
       </a-form>
-    </a-modal>
+      <div
+        :style="{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+          zIndex: 1,
+        }"
+      >
+        <a-button :style="{ marginRight: '8px' }" @click="handleCancel">
+          Cancel
+        </a-button>
+        <a-button type="primary" :loading="loading" @click="handleSubmit">
+          Submit
+        </a-button>
+      </div>
+    </a-drawer>
     <a-row type="flex">
       <a-col class="col-content" :span="24" :xl="12">
         <div class="card-content">
-          <h6>ID:{{ currentClient.kra_pin }}</h6>
-          <h5>{{ currentClient.company_name }}</h5>
-          <p>email:{{ currentClient.company_email }}</p>
-          <p>Phone:{{ currentClient.company_phone }}</p>
+          <h6>ID:{{ client.kra_pin }}</h6>
+          <h5>{{ client.company_name }}</h5>
+          <p>email:{{ client.company_email }}</p>
+          <p>Phone:{{ client.company_phone }}</p>
         </div>
         <div class="card-footer">
           <a size="small" @click="visible = !visible">
@@ -150,7 +183,7 @@
       </a-col>
       <a-col class="col-img" :span="24" :xl="12">
         <div class="card-img-bg">
-          <img :src="currentClient.logo" alt="" />
+          <img :src="client.logo" alt="" />
         </div>
       </a-col>
     </a-row>
@@ -160,6 +193,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  props:['client'],
   data() {
     return {
       visible: false,
@@ -169,6 +203,7 @@ export default {
       image: null,
       fileList: [],
       uploading: false,
+
     };
   },
   methods: {
@@ -225,7 +260,6 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
           this.$store.dispatch("updateClients",values).then(()=>{
             if(!this.error){
               this.form.resetFields()
@@ -234,6 +268,7 @@ export default {
         }
       });
     },
+
   },
   beforeCreate() {
     // Creates the form and adds to it component's "form" property.

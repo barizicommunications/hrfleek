@@ -271,6 +271,8 @@ export default new Vuex.Store({
         company_phone: data.prefix + data.company_phone,
         kra_pin: data.kra_pin,
         address: data.company_address,
+        nssf_number:data.nssf_number,
+        nhif_number:data.nhif_number,
       };
 
 

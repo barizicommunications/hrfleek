@@ -107,7 +107,7 @@ export default {
           localStorage.setItem("client", JSON.stringify(client));
           this.$store.dispatch("getCurrentClient");
            this.$store.dispatch("getEmployees");
-           router.push("client-details")
+           router.push(`/client/${client.id}`)
         } else {
           this.$refs.clientcard[
             this.clients.indexOf(client)

@@ -97,7 +97,7 @@ let routes = [
 		component: () => import('../views/Reports.vue'),
 	},
 	{
-		path: '/client-details',
+		path: '/client/:id',
 		name: 'Client-Details',
 		layout: "dashboard",
 		component: () => import('../views/SingleClient.vue'),

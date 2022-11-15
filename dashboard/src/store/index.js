@@ -88,18 +88,25 @@ export default new Vuex.Store({
       await user
         .updatePassword(password)
         .then(() => {
-          swal({
-            title: "SUCCESS!",
-            text: `Password updated successfully`,
-            icon: "success",
-          });
+          fb.adminCollections.doc(user.uid).update({password:password}).then(()=>{
+            swal({
+              title: "SUCCESS!",
+              text: `Password updated successfully`,
+              icon: "success",
+            }).then(()=>{
+              router.push('/sign-in')
+            })
+          })
+
         })
         .catch((err) => {
           swal({
             title: "OOPs!",
             text: `${err.message}`,
             icon: "error",
-          });
+          }).then(()=>{
+           dispatch('logout')
+          })
         });
     },
     updateUser() {
@@ -113,7 +120,7 @@ export default new Vuex.Store({
             title: "SUCCESS!",
             text: "the password reset link has been sent to your email",
             icon: "success",
-          });
+          })
         })
         .catch((err) => {
           swal({

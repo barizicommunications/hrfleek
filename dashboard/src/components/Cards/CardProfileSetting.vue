@@ -2,11 +2,11 @@
   <!-- Platform Settings Card -->
   <a-card
     :bordered="false"
-    class="header-solid h-full"
+    class="header-solid h-full px-5"
     :bodyStyle="{ paddingTop: 0, paddingBottom: 0 }"
   >
     <template #title>
-      <h6 class="font-semibold m-0">Profile Settings</h6>
+      <h6 class="font-semibold m-0">Change Password</h6>
     </template>
     <a-form
       id="components-form-demo-normal-login"
@@ -15,14 +15,44 @@
       @submit="handleSubmit"
       :hideRequiredMark="true"
     >
-    <a-form-item label="Enter Password">
+    <a-form-item label="Enter New Password" has-feedback>
       <a-input
-        v-decorator="['note', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+        v-decorator="[
+          'password',
+          {
+            rules: [
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+              {
+                validator: validateToNextPassword,
+              },
+            ],
+          },
+        ]"
+        type="password"
       />
+
     </a-form-item>
-    <a-form-item label="Confirm Password">
+    <a-form-item label="Confirm Password" has-feedback>
       <a-input
-        v-decorator="['note', { rules: [{ required: true, message: 'Please input your note!' }] }]"
+        v-decorator="[
+          'confirm',
+          {
+            rules: [
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              {
+                validator: compareToFirstPassword,
+              },
+            ],
+          },
+        ]"
+        type="password"
+        @blur="handleConfirmBlur"
       />
     </a-form-item>
     <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
@@ -63,14 +93,41 @@ export default {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   methods: {
+    // handleSubmit(e) {
+    //   e.preventDefault();
+    //   this.form.validateFields((err, values) => {
+    //     if (!err) {
+    //       console.log(values);
+    
+    //     }
+    //   });
+    // },
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields((err, values) => {
+      this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          console.log(values);
-          this.$store.dispatch("updatePassword",values.password)
+              this.$store.dispatch("updatePassword",values.password)
         }
       });
+    },
+    handleConfirmBlur(e) {
+      const value = e.target.value;
+      this.confirmDirty = this.confirmDirty || !!value;
+    },
+    compareToFirstPassword(rule, value, callback) {
+      const form = this.form;
+      if (value && value !== form.getFieldValue('password')) {
+        callback('Two passwords that you enter is inconsistent!');
+      } else {
+        callback();
+      }
+    },
+    validateToNextPassword(rule, value, callback) {
+      const form = this.form;
+      if (value && this.confirmDirty) {
+        form.validateFields(['confirm'], { force: true });
+      }
+      callback();
     },
   },
 };

@@ -258,25 +258,23 @@ export default {
       this.loading = true;
       this.form.validateFields(async (err, values) => {
         if (!err) {
-          console.log(values);
-          const selectedClient = JSON.parse(localStorage.getItem("client"));
           for (let i = 0; i < values.designations.length; i++) {
             let data = {
               department: values.department,
               name: values.designations[i],
             };
-            console.log(data);
             fb.businessCollection
-              .doc(selectedClient.id)
+              .doc(this.client.id)
               .update({
                 designations: fb.types.FieldValue.arrayUnion(data),
               })
               .then(() => {
-                this.$message.success("successfully added");
+                this.$message.success("successfully added designation");
                 this.drawer = false;
               })
               .catch(() => {
                 this.$message.error("something went wrong");
+                this.loading=false
               });
           }
         }

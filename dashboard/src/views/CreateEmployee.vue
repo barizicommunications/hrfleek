@@ -6,7 +6,7 @@
 
       @submit.prevent="handleSubmit"
     >
-    <h3>General Information</h3>
+    <h3>Employee Information</h3>
       <a-row :gutter="16">
         <a-col :span="12">
           <a-form-item label="First Name">

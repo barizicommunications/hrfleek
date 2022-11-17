@@ -1,5 +1,30 @@
 <template>
   <a-card>
+<a-drawer
+title="Add a new Employee"
+      :width="720"
+      :visible="visible"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="handleCancel">
+      <create-employee :client="client"></create-employee>
+    <div
+        :style="{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+          zIndex: 1,
+        }"
+      >
+        <a-button :style="{ marginRight: '8px' }" @click="handleCancel">
+          Cancel
+        </a-button>
+      </div>
+</a-drawer>
     <a-modal v-model="modal" title="Bulk Imports">
       <template slot="footer">
         <a-button key="back" @click="handleCancel"> Cancel </a-button>
@@ -7,31 +32,18 @@
           key="submit"
           type="primary"
           :loading="loading"
-          @click="handleUpload"
+          @click="parseFile"
         >
           Upload
         </a-button>
       </template>
-      <div class="table-upload-btn">
-        <a-upload
-          :file-list="fileList"
-          :remove="handleRemove"
-          @change="handleFileChange"
-          :before-upload="beforeUpload"
-          accept=".csv"
-          style="width: 100%"
-        >
-          <a-button block type="primary">
-            <a-icon type="upload" /> Select CSV File
-          </a-button>
-        </a-upload>
-      </div>
       <div class="table-upload-btn">
         <a-button type="dashed" block @click.prevent="downloadFile">
           <a-icon type="download" />
           Download Sample CSV
         </a-button>
       </div>
+      <a-input type="file" accept=".csv" @change="handleUpload( $event )"/>
     </a-modal>
     <template #title>
       <a-row type="flex" align="middle">
@@ -47,8 +59,8 @@
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-            <a-button type="primary">
-              <router-link to="/create-employee">Add New Employee</router-link>
+            <a-button type="primary" @click="visible=true">
+              Add New Employee
             </a-button>
           </a-radio-group>
           <a-radio-group size="small" class="mx-5">
@@ -139,9 +151,13 @@ import { mapState } from "vuex";
 import exportFromJSON from "export-from-json";
 import * as fb from "../../firebase";
 import swal from "sweetalert";
+import Papa from 'papaparse';
+import CreateEmployee from '../../views/CreateEmployee.vue';
 const data = [];
 
 export default {
+  components: { CreateEmployee },
+  props:['client'],
   data() {
     this.cacheData = data.map((item) => ({ ...item }));
     return {
@@ -271,9 +287,40 @@ export default {
           employee_id: "",
         },
       ],
+      parsed: false,
+      content: [],
+      file: '',
     };
   },
   methods: {
+   async handleUpload(e) {
+    e.preventDefault()
+    this.file = event.target.files[0];
+    },
+    parseFile(){
+      this.loading=true
+    Papa.parse( this.file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function( results ){
+            this.content = results;
+            this.parsed = true;
+            this.uploadtoFirebase(results.data)
+        }.bind(this)
+    } );
+},
+uploadtoFirebase(data){
+  if(data.length){
+    console.log(data)
+    data.forEach((bank)=>{
+      fb.db.collection("banks").add(bank)
+    })
+    this.loading=false
+  }else{
+    this.loading=false
+  }
+
+},
     handleFileChange(info) {
       let fileList = [...info.fileList];
       // 1. Limit the number of uploaded files
@@ -381,6 +428,7 @@ export default {
     },
     handleCancel() {
       this.modal = false;
+      this.visible =false;
     },
     showModal() {
       this.visible = true;
@@ -402,7 +450,7 @@ export default {
       newFileList.splice(index, 1);
       this.fileList = newFileList;
     },
-    handleUpload(e) {
+    handleUploads(e) {
       e.preventDefault();
       if (this.fileList.length) {
         this.loading = true;
@@ -485,76 +533,77 @@ export default {
                   this.loading = false;
                   this.$message.error("some NHIF numbers are duplicates");
                 } else {
-                  data = {
-                    national_id: newresult[data].national_id,
-                    first_name: newresult[data].first_name,
-                    last_name: newresult[data].last_name,
-                    Gender: newresult[data].Gender,
-                    email: newresult[data].email,
-                    phone_number: newresult[data].phone_number,
-                    address: newresult[data].address,
-                    Country: newresult[data].Country,
-                    department: newresult[data].department,
-                    designation: newresult[data].designation,
-                    employment_type: newresult[data].employment_type,
-                    kra_pin: newresult[data].kra_pin,
-                    nhif_number: newresult[data].nhif_number,
-                    nssf_number: newresult[data].nssf_number,
-                    bank_name: newresult[data].bank_name,
-                    account_name: newresult[data].account_name,
-                    account_number: newresult[data].account_number,
-                    bank_branch: newresult[data].bank_branch,
-                    basic_pay: newresult[data].basic_pay,
-                    Status: newresult[data].Status,
-                    date_of_appointment: "",
-                    contract_type: "",
-                    date_of_birth:newresult[data].date_of_birth,
-                    allowances: {
-                      house_allowance: newresult[data].house_allowance,
-                      transportAllowance: newresult[data].transportAllowance,
-                      telephoneAllowance: newresult[data].telephoneAllowance,
-                      hardshipAllowance: newresult[data].hardshipAllowance,
-                      transferAllowance: newresult[data].transferAllowance,
-                      riskAllowance: newresult[data].riskAllowance,
-                      carAllowance: newresult[data].carAllowance,
-                      fuelAllowance: newresult[data].fuelAllowance,
-                      house_allowance: newresult[data].house_allowance,
-                      entertainmentAllowance:
-                        newresult[data].entertainmentAllowance,
-                    },
-                    deductions: {
-                      salary_advance: newresult[data].salary_advance,
-                      helb: newresult[data].helb,
-                      pension: newresult[data].pension,
-                      sacco: newresult[data].sacco,
-                      life_insurance: newresult[data].life_insurance
-                    },
-                  };
+                  console.log(newresult[data])
+                  // data = {
+                  //   national_id: newresult[data].national_id,
+                  //   first_name: newresult[data].first_name,
+                  //   last_name: newresult[data].last_name,
+                  //   Gender: newresult[data].Gender,
+                  //   email: newresult[data].email,
+                  //   phone_number: newresult[data].phone_number,
+                  //   address: newresult[data].address,
+                  //   Country: newresult[data].Country,
+                  //   department: newresult[data].department,
+                  //   designation: newresult[data].designation,
+                  //   employment_type: newresult[data].employment_type,
+                  //   kra_pin: newresult[data].kra_pin,
+                  //   nhif_number: newresult[data].nhif_number,
+                  //   nssf_number: newresult[data].nssf_number,
+                  //   bank_name: newresult[data].bank_name,
+                  //   account_name: newresult[data].account_name,
+                  //   account_number: newresult[data].account_number,
+                  //   bank_branch: newresult[data].bank_branch,
+                  //   basic_pay: newresult[data].basic_pay,
+                  //   Status: newresult[data].Status,
+                  //   date_of_appointment: "",
+                  //   contract_type: "",
+                  //   date_of_birth:newresult[data].date_of_birth,
+                  //   allowances: {
+                  //     house_allowance: newresult[data].house_allowance,
+                  //     transportAllowance: newresult[data].transportAllowance,
+                  //     telephoneAllowance: newresult[data].telephoneAllowance,
+                  //     hardshipAllowance: newresult[data].hardshipAllowance,
+                  //     transferAllowance: newresult[data].transferAllowance,
+                  //     riskAllowance: newresult[data].riskAllowance,
+                  //     carAllowance: newresult[data].carAllowance,
+                  //     fuelAllowance: newresult[data].fuelAllowance,
+                  //     house_allowance: newresult[data].house_allowance,
+                  //     entertainmentAllowance:
+                  //       newresult[data].entertainmentAllowance,
+                  //   },
+                  //   deductions: {
+                  //     salary_advance: newresult[data].salary_advance,
+                  //     helb: newresult[data].helb,
+                  //     pension: newresult[data].pension,
+                  //     sacco: newresult[data].sacco,
+                  //     life_insurance: newresult[data].life_insurance
+                  //   },
+                  // };
 
-                  await fb.businessCollection
-                    .doc(selectedClient.kra_pin)
-                    .collection("team")
-                    .doc(data.national_id)
-                    .set(data)
-                    .then(() => {
-                      this.loading = false;
-                      this.$store.dispatch("getEmployees");
-                      this.$store.dispatch("getCurrentClient");
-                      this.convertTableData();
-                      swal({
-                        title: "Sucess!",
-                        text: `record added successfully`,
-                        icon: "success",
-                      });
-                    })
-                    .catch((err) => {
-                      swal({
-                        title: "OOPS!",
-                        text: `${err.message}`,
-                        icon: "error",
-                      });
-                      this.loading = false;
-                    });
+                  // await fb.businessCollection
+                  //   .doc(selectedClient.kra_pin)
+                  //   .collection("team")
+                  //   .doc(data.national_id)
+                  //   .set(data)
+                  //   .then(() => {
+                  //     this.loading = false;
+                  //     this.$store.dispatch("getEmployees");
+                  //     this.$store.dispatch("getCurrentClient");
+                  //     this.convertTableData();
+                  //     swal({
+                  //       title: "Sucess!",
+                  //       text: `record added successfully`,
+                  //       icon: "success",
+                  //     });
+                  //   })
+                  //   .catch((err) => {
+                  //     swal({
+                  //       title: "OOPS!",
+                  //       text: `${err.message}`,
+                  //       icon: "error",
+                  //     });
+                  //     this.loading = false;
+                  //   });
                 }
               });
             }

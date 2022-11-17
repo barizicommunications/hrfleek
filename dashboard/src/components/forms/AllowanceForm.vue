@@ -23,7 +23,7 @@
               { rules: [{ required: true, message: 'Field is required!' }] },
             ]">
             <a-select-option value="all">All </a-select-option>
-            <a-select-option v-for="dep of departments" :key="dep" :value="dep"> {{dep}}</a-select-option>
+            <a-select-option v-for="dep of client.departments" :key="dep.id" :value="dep.department_name"> {{dep.department_name}}</a-select-option>
            
           </a-select>
         </a-form-item>
@@ -58,6 +58,7 @@
 <script>
 import { mapState,mapGetters } from "vuex";
 export default {
+  props:['client'],
   data() {
     return {
       formLayout: "horizontal",
@@ -77,9 +78,8 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values,this.currentClient.id);
           this.$store.dispatch("addAllowance",{
-            id :this.currentClient.id,
+            id :this.client.id,
             values:values
           }).then(() => {
             if (!this.error) {
@@ -89,21 +89,9 @@ export default {
         }
       });
     },
-    getAllDepartments() {
-      let departments = [];
-      for (let i = 0; i < this.clients.length; i++) {
-        if (this.clients[i].departments == undefined) {
-          break;
-        }
-        this.clients[i].departments.forEach((e) => {
-          departments.push(e.department_name);
-        });
-      }
-      this.departments = [...new Set(departments)];
-    },
   },
   computed: {
-    ...mapState(["employees", "currentClient", "clients"]),
+    ...mapState(["employees"]),
     ...mapGetters({
       loadingFromStore: "loading",
     }),
@@ -118,11 +106,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getEmployees");
-    const selectedClient = JSON.parse(localStorage.getItem("client"));
-    this.$store.dispatch("updateClientFromFirebase", selectedClient);
-    this.$store.dispatch("getCurrentClient");
-    this.$store.dispatch("getClients");
-    this.getAllDepartments();
   },
 };
 </script>

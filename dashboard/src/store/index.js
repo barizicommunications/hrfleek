@@ -19,6 +19,7 @@ export default new Vuex.Store({
     designations: [],
     departments:[],
     error: "",
+    banks:[]
   },
   mutations: {
     setUserProfile(state, val) {
@@ -50,6 +51,9 @@ export default new Vuex.Store({
     },
     setDepartments(state,val){
       state.departments=val
+    },
+    setBanks(state,val){
+      state.banks =val
     }
   },
   actions: {
@@ -179,6 +183,16 @@ export default new Vuex.Store({
       // })
     },
 
+    async getBanks({ commit }) {
+      fb.banksCollection.onSnapshot((snapshot) => {
+        const loadedEmployers = [];
+        snapshot.forEach((doc) => {
+          const loadedEmployer = doc.data();
+          (loadedEmployer.id = doc.id), loadedEmployers.push(loadedEmployer);
+        });
+        commit("setBanks", loadedEmployers);
+      });
+    },
     async getClients({ commit }) {
       fb.businessCollection.onSnapshot((snapshot) => {
         const loadedEmployers = [];

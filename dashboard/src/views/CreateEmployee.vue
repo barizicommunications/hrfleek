@@ -511,19 +511,6 @@ export default {
             console.log(values);
             this.$store.dispatch("addEmployee", values);
           }
-          // console.log(this.employeeDetails.gross_pay);
-          // let net_gross =
-          //   this.employeeDetails.gross_pay -
-          //   values.pension -
-          //   values.life_insurance;
-
-          // console.log("this is the Tax", this.firstTaxBand(net_gross));
-
-          // let details =this.employeeDetails,
-          // allowances =this.allowances,
-          // deductions=values
-          // let formDetails={...details,deductions,allowances}
-          // console.log(formDetails)
         } else {
           this.$message.error("some fields are empty");
         }

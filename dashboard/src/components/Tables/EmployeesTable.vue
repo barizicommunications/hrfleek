@@ -1,13 +1,14 @@
 <template>
   <a-card>
-<a-drawer
-title="Add a new Employee"
+    <a-drawer
+      title="Add a new Employee"
       :width="720"
       :visible="visible"
       :body-style="{ paddingBottom: '80px' }"
-      @close="handleCancel">
+      @close="handleCancel"
+    >
       <create-employee :client="client"></create-employee>
-    <div
+      <div
         :style="{
           position: 'absolute',
           right: 0,
@@ -24,7 +25,7 @@ title="Add a new Employee"
           Cancel
         </a-button>
       </div>
-</a-drawer>
+    </a-drawer>
     <a-modal v-model="modal" title="Bulk Imports">
       <template slot="footer">
         <a-button key="back" @click="handleCancel"> Cancel </a-button>
@@ -43,7 +44,7 @@ title="Add a new Employee"
           Download Sample CSV
         </a-button>
       </div>
-      <a-input type="file" accept=".csv" @change="handleUpload( $event )"/>
+      <a-input type="file" accept=".csv" @change="handleUpload($event)" />
     </a-modal>
     <template #title>
       <a-row type="flex" align="middle">
@@ -59,7 +60,7 @@ title="Add a new Employee"
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-            <a-button type="primary" @click="visible=true">
+            <a-button type="primary" @click="visible = true">
               Add New Employee
             </a-button>
           </a-radio-group>
@@ -151,86 +152,86 @@ import { mapState } from "vuex";
 import exportFromJSON from "export-from-json";
 import * as fb from "../../firebase";
 import swal from "sweetalert";
-import Papa from 'papaparse';
-import CreateEmployee from '../../views/CreateEmployee.vue';
+import Papa from "papaparse";
+import CreateEmployee from "../../views/CreateEmployee.vue";
 const data = [];
 
 export default {
   components: { CreateEmployee },
-  props:['client'],
+  props: ["client"],
   data() {
     this.cacheData = data.map((item) => ({ ...item }));
     return {
       data,
-      departmentFilters:[],
-      columns:[
-  {
-    title: "First Name",
-    dataIndex: "first_name",
-    scopedSlots: { customRender: "first_name" },
-    fixed: "left",
-  },
-  {
-    title: "Last Name",
-    dataIndex: "last_name",
-    scopedSlots: { customRender: "last_name" },
-  },
-  {
-    title: "Gender",
-    dataIndex: "Gender",
-    scopedSlots: { customRender: "gender" },
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    scopedSlots: { customRender: "email" },
-  },
-  {
-    title: "Phone Number",
-    dataIndex: "phone_number",
-    scopedSlots: { customRender: "phone_number" },
-  },
-  {
-    title: "KRA PIN",
-    dataIndex: "kra_pin",
-    scopedSlots: { customRender: "kra_pin" },
-  },
-  {
-    title: "Department",
-    dataIndex: "department",
-    scopedSlots: { customRender: "department" },
-    filters: [],
-    onFilter: (value, record) => record.department.indexOf(value) === 0,
-  },
-  {
-    title: "designation",
-    dataIndex: "designation",
-    scopedSlots: { customRender: "designation" },
-  },
-  {
-    title: "NHIF Number",
-    dataIndex: "nhif_number",
-    scopedSlots: { customRender: "nhif" },
-  },
-  {
-    title: "NSSF Number",
-    dataIndex: "nssf_number",
-    scopedSlots: { customRender: "nssf" },
-  },
-  {
-    title: "Basic Salary",
-    className: "column-money",
-    dataIndex: "basic_pay",
-    scopedSlots: { customRender: "basicpay" },
-    sorter: (a, b) => a.basic_pay - b.basic_pay,
-  },
-  {
-    title: "Quick Edit",
-    dataIndex: "operation",
-    scopedSlots: { customRender: "operation" },
-    fixed: "right",
-  },
-],
+      departmentFilters: [],
+      columns: [
+        {
+          title: "First Name",
+          dataIndex: "first_name",
+          scopedSlots: { customRender: "first_name" },
+          fixed: "left",
+        },
+        {
+          title: "Last Name",
+          dataIndex: "last_name",
+          scopedSlots: { customRender: "last_name" },
+        },
+        {
+          title: "Gender",
+          dataIndex: "Gender",
+          scopedSlots: { customRender: "gender" },
+        },
+        {
+          title: "Email",
+          dataIndex: "email",
+          scopedSlots: { customRender: "email" },
+        },
+        {
+          title: "Phone Number",
+          dataIndex: "phone_number",
+          scopedSlots: { customRender: "phone_number" },
+        },
+        {
+          title: "KRA PIN",
+          dataIndex: "kra_pin",
+          scopedSlots: { customRender: "kra_pin" },
+        },
+        {
+          title: "Department",
+          dataIndex: "department",
+          scopedSlots: { customRender: "department" },
+          filters: [],
+          onFilter: (value, record) => record.department.indexOf(value) === 0,
+        },
+        {
+          title: "designation",
+          dataIndex: "designation",
+          scopedSlots: { customRender: "designation" },
+        },
+        {
+          title: "NHIF Number",
+          dataIndex: "nhif_number",
+          scopedSlots: { customRender: "nhif" },
+        },
+        {
+          title: "NSSF Number",
+          dataIndex: "nssf_number",
+          scopedSlots: { customRender: "nssf" },
+        },
+        {
+          title: "Basic Salary",
+          className: "column-money",
+          dataIndex: "basic_pay",
+          scopedSlots: { customRender: "basicpay" },
+          sorter: (a, b) => a.basic_pay - b.basic_pay,
+        },
+        {
+          title: "Quick Edit",
+          dataIndex: "operation",
+          scopedSlots: { customRender: "operation" },
+          fixed: "right",
+        },
+      ],
       editingKey: "",
       projectHeaderBtns: "all",
       visible: false,
@@ -265,11 +266,11 @@ export default {
           bank_branch: "Kenyatta Avenue",
           basic_pay: "1000000",
           Status: "active",
-          life_insurance:0,
+          life_insurance: 0,
           salary_advance: 0,
           helb: 0,
           pension: 0,
-          nssf:200,
+          nssf: 200,
           sacco: 0,
           house_allowance: 0,
           transportAllowance: 0,
@@ -283,44 +284,112 @@ export default {
           entertainmentAllowance: 0,
           date_of_appointment: "",
           contract_type: "",
-          date_of_birth:"",
+          date_of_birth: "",
           employee_id: "",
         },
       ],
       parsed: false,
       content: [],
-      file: '',
+      file: "",
     };
   },
   methods: {
-   async handleUpload(e) {
-    e.preventDefault()
-    this.file = event.target.files[0];
+    async handleUpload(e) {
+      e.preventDefault();
+      this.file = event.target.files[0];
     },
-    parseFile(){
-      this.loading=true
-    Papa.parse( this.file, {
+    parseFile() {
+      this.loading = true;
+      Papa.parse(this.file, {
         header: true,
         skipEmptyLines: true,
-        complete: function( results ){
-            this.content = results;
-            this.parsed = true;
-            this.uploadtoFirebase(results.data)
-        }.bind(this)
-    } );
-},
-uploadtoFirebase(data){
-  if(data.length){
-    console.log(data)
-    data.forEach((bank)=>{
-      fb.db.collection("banks").add(bank)
-    })
-    this.loading=false
-  }else{
-    this.loading=false
-  }
+        complete: function (results) {
+          this.content = results;
+          this.parsed = true;
+          this.uploadtoFirebase(results.data);
+        }.bind(this),
+      });
+    },
+    uploadtoFirebase(data) {
+      if (data.length) {
+        function checkIdDuplicates(array, value) {
+          var count = 0;
+          array.forEach((v) => v.national_id === value && count++);
+          return count;
+        }
+        function checkKRADuplicates(array, value) {
+          var count = 0;
+          array.forEach((v) => v.kra_pin === value && count++);
+          return count;
+        }
+        function checkNSSFDuplicates(array, value) {
+          var count = 0;
+          array.forEach((v) => v.nssf_number === value && count++);
+          return count;
+        }
+        function checkNHIFDuplicates(array, value) {
+          var count = 0;
+          array.forEach((v) => v.nhif_number === value && count++);
+          return count;
+        }
+        if (
+                  checkIdDuplicates(data, data.national_id) > 1
+                ) {
+                  /* vendors contains the element we're looking for */
+                  this.loading = false;
+                  this.$message.error("some ID are duplicates");
+                } else if (
+                  checkKRADuplicates(data, data.kra_pin) > 1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some KRA PINs are duplicates");
+                } else if (
+                  checkNSSFDuplicates(data, data.nssf_number) >
+                  1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some NSSF numbers are duplicates");
+                } else if (
+                  checkNHIFDuplicates(data, data.nhif_number) >
+                  1
+                ) {
+                  this.loading = false;
+                  this.$message.error("some NHIF numbers are duplicates");
+                } else {
+                  for(let i=0;i<data.length;+i++){
+                     fb.businessCollection
+                    .doc(this.client.id)
+                    .collection("team")
+                    .doc(data[i].national_id)
+                    .set(data[i])
+                    .then(() => {
+                      this.loading = false;
+                      this.$store.dispatch("getEmployees");
+                      this.$store.dispatch("getCurrentClient");
+                      this.convertTableData();
+                      swal({
+                        title: "Sucess!",
+                        text: `record added successfully`,
+                        icon: "success",
+                      });
+                    })
+                    .catch((err) => {
+                      swal({
+                        title: "OOPS!",
+                        text: `${err.message}`,
+                        icon: "error",
+                      });
+                      this.loading = false;
+                    });
+                  }
 
-},
+                }
+  
+      } else {
+        this.loading = false;
+        this.$message.error("no data to upload");
+      }
+    },
     handleFileChange(info) {
       let fileList = [...info.fileList];
       // 1. Limit the number of uploaded files
@@ -399,7 +468,7 @@ uploadtoFirebase(data){
               Country: object.Country,
               Gender: object.Gender,
               Status: object.Status,
-              
+
               account_name: object.account_name,
               department: object.department,
               designation: object.designation,
@@ -428,7 +497,7 @@ uploadtoFirebase(data){
     },
     handleCancel() {
       this.modal = false;
-      this.visible =false;
+      this.visible = false;
     },
     showModal() {
       this.visible = true;
@@ -460,7 +529,7 @@ uploadtoFirebase(data){
           reader.onload = (e) => {
             resolve((vm.fileinput = reader.result));
           };
-          console.log(this.fileList[0])
+          console.log(this.fileList[0]);
           reader.readAsText(this.fileList[0]);
         });
         promise.then(
@@ -533,7 +602,7 @@ uploadtoFirebase(data){
                   this.loading = false;
                   this.$message.error("some NHIF numbers are duplicates");
                 } else {
-                  console.log(newresult[data])
+                  console.log(newresult[data]);
                   // data = {
                   //   national_id: newresult[data].national_id,
                   //   first_name: newresult[data].first_name,
@@ -648,16 +717,13 @@ uploadtoFirebase(data){
 
       if (data) exportFromJSON({ data, fileName, exportType });
     },
-    filterDepartments(){
-      this.currentClient.departments.forEach((d)=>{
-        let newFitler={text:d.department_name,value:d.department_name
-        }
-        this.columns[6].filters.push(newFitler) 
-       
-      })
-      console.log(this.columns[6].filters) 
-      
-    }
+    filterDepartments() {
+      this.currentClient.departments.forEach((d) => {
+        let newFitler = { text: d.department_name, value: d.department_name };
+        this.columns[6].filters.push(newFitler);
+      });
+      console.log(this.columns[6].filters);
+    },
   },
   computed: {
     ...mapState(["employees", "currentClient"]),
@@ -689,9 +755,7 @@ uploadtoFirebase(data){
     this.convertTableData();
     this.filterDepartments();
   },
-  updated(){
-    
-  }
+  updated() {},
 };
 </script>
 <style scoped>

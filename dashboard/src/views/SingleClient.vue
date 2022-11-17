@@ -35,7 +35,7 @@
       </a-menu>
     </div>
     <EmployeesTableVue v-if="current[0] == 'employees'" :client="client"></EmployeesTableVue>
-    <CardCalendarVue v-if="current[0] == 'calendar'"></CardCalendarVue>
+    <CardCalendarVue v-if="current[0] == 'calendar'" :client="client"></CardCalendarVue>
     <CalendarForm v-if="current[0] == 'createcalendar'"></CalendarForm>
     <DeductionsForm v-if="current[0] == 'otherdeductions'" :client="client"></DeductionsForm>
     <AllowanceForm v-if="current[0] == 'allowances'" :client="client"></AllowanceForm>

@@ -22,8 +22,8 @@
               'departments',
               { rules: [{ required: true, message: 'Field is required!' }] },
             ]">
-            <a-select-option value="all">All </a-select-option>
-            <a-select-option v-for="dep of departments" :key="dep" :value="dep"> {{dep}}</a-select-option>
+            <!-- <a-select-option value="all">All </a-select-option> -->
+            <a-select-option v-for="dep of client.departments" :key="dep.id" :value="dep.department_name"> {{dep.department_name}}</a-select-option>
            
           </a-select>
         </a-form-item>
@@ -57,7 +57,10 @@
 
 <script>
 import { mapState,mapGetters } from "vuex";
+import * as fb from "../../firebase";
+import swal from "sweetalert";
 export default {
+  props:['client'],
   data() {
     return {
       formLayout: "horizontal",
@@ -68,6 +71,7 @@ export default {
       value: [],
       departments: [],
       designations: [],
+      loading:false
     };
   },
   methods: {
@@ -75,54 +79,43 @@ export default {
     handleChange() {},
     handleSubmit(e) {
       e.preventDefault();
+      console.log("form was submitted")
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values,this.currentClient.id);
-          this.$store.dispatch("addDeduction",{
-            id :this.currentClient.id,
-            values:values
-          }).then(() => {
-            if (!this.error) {
-              this.form.resetFields();
-            }
+         this.loading=true
+          for(let i=0;i<values.departments.length;i++){
+            let results = this.employees.filter((e)=>e.department===values.departments[i])
+            let dept=values.departments[i]
+            if(results.length){
+              for(let i=0;i<results.length;i++){
+               fb.businessCollection.doc(this.client.id).collection("team").doc(results[i].id).update({
+                deductions:fb.types.FieldValue.arrayUnion({
+                  name:values.name,
+                  amount:values.amount,
+                  frequency:values.frequency
+                })
+               }).then(()=>{
+                console.log("updated successfully")
+               })
+              }
+
+              this.loading=false
+              swal({
+            title: "SUCCESS!",
+            text: `updated successfully`,
+            icon: "success",
           });
+            }
+          }
         }
       });
     },
-    getAllDepartments() {
-      let departments = [];
-      for (let i = 0; i < this.clients.length; i++) {
-        if (this.clients[i].departments == undefined) {
-          break;
-        }
-        this.clients[i].departments.forEach((e) => {
-          departments.push(e.department_name);
-        });
-      }
-      this.departments = [...new Set(departments)];
-    },
   },
   computed: {
-    ...mapState(["employees", "currentClient", "clients"]),
-    ...mapGetters({
-      loadingFromStore: "loading",
-    }),
-    loading: {
-      get() {
-        return this.loadingFromStore;
-      },
-      set(value) {
-        return value;
-      },
-    },
+    ...mapState(["employees"]),
   },
   mounted() {
     this.$store.dispatch("getEmployees");
-    const selectedClient = JSON.parse(localStorage.getItem("client"));
-    this.$store.dispatch("updateClientFromFirebase", selectedClient);
-    this.$store.dispatch("getCurrentClient");
-    this.$store.dispatch("getClients");
-    this.getAllDepartments();
   },
 };
 </script>

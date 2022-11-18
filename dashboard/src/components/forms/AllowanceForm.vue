@@ -22,13 +22,13 @@
               'departments',
               { rules: [{ required: true, message: 'Field is required!' }] },
             ]">
-            <a-select-option value="all">All </a-select-option>
+            <!-- <a-select-option value="all">All </a-select-option> -->
             <a-select-option v-for="dep of client.departments" :key="dep.id" :value="dep.department_name"> {{dep.department_name}}</a-select-option>
            
           </a-select>
         </a-form-item>
         <a-form-item label="Frequency">
-          <a-radio-group name="radioGroup" :default-value="1"    v-decorator="[
+          <a-radio-group name="radioGroup"     v-decorator="[
               'frequency',
               { rules: [{ required: true, message: 'Field is required!' }] },
             ]">
@@ -57,6 +57,8 @@
 
 <script>
 import { mapState,mapGetters } from "vuex";
+import * as fb from "../../firebase";
+import swal from "sweetalert";
 export default {
   props:['client'],
   data() {
@@ -69,6 +71,7 @@ export default {
       value: [],
       departments: [],
       designations: [],
+      loading:false
     };
   },
   methods: {
@@ -76,33 +79,49 @@ export default {
     handleChange() {},
     handleSubmit(e) {
       e.preventDefault();
+      console.log("form was submitted")
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.$store.dispatch("addAllowance",{
-            id :this.client.id,
-            values:values
-          }).then(() => {
-            if (!this.error) {
-              this.form.resetFields();
-            }
+         this.loading=true
+          for(let i=0;i<values.departments.length;i++){
+            let results = this.employees.filter((e)=>e.department===values.departments[i])
+            let dept=values.departments[i]
+            if(results.length){
+              for(let i=0;i<results.length;i++){
+               fb.businessCollection.doc(this.client.id).collection("team").doc(results[i].id).update({
+                allowances:fb.types.FieldValue.arrayUnion({
+                  name:values.allowance_name,
+                  amount:values.amount,
+                  frequency:values.frequency
+                })
+               }).then(()=>{
+                console.log("updated successfully")
+               })
+              }
+
+              this.loading=false
+              swal({
+            title: "SUCCESS!",
+            text: `updated successfully`,
+            icon: "success",
           });
+            }
+          }
+
+          // this.$store.dispatch("addAllowance",{
+          //   id :this.client.id,
+          //   values:values
+          // }).then(() => {
+          //   if (!this.error) {
+          //     this.form.resetFields();
+          //   }
+          // });
         }
       });
     },
   },
   computed: {
     ...mapState(["employees"]),
-    ...mapGetters({
-      loadingFromStore: "loading",
-    }),
-    loading: {
-      get() {
-        return this.loadingFromStore;
-      },
-      set(value) {
-        return value;
-      },
-    },
   },
   mounted() {
     this.$store.dispatch("getEmployees");

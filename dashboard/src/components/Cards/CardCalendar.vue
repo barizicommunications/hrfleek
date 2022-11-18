@@ -9,7 +9,7 @@
        
       </template>
       	<a-card :bordered="false" class="card-info-2 h-full" v-for="selected in selectedCalendar" :key="selected.id">
-		<div class="col-content h-full" style="background-image: url('images/info-card-2.jpg')">
+		<div class="col-content h-full" style="background-image: url('../images/info-card-2.jpg')">
 			<div class="card-content">
 				<h5>{{selected.calendar_name}}</h5>
 				<p>Payment cycle:{{selected.payment_cycle}}</p>

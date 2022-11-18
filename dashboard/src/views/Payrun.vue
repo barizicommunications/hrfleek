@@ -4,7 +4,7 @@
       <a-tab-pane key="1" tab="Add Employees">
         <CardPayrun :calendar="calendar"></CardPayrun>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Payslips" force-render>
+      <a-tab-pane key="2" tab="Payroll Review" force-render>
         <card-payslips :calendar="calendar"></card-payslips>
       </a-tab-pane>
       <a-tab-pane key="3" tab="Bank Overview">

@@ -112,6 +112,15 @@ let routes = [
 		component: () => import('../views/Profile.vue'),
 	},
 	{
+		path: '/employee/:id',
+		name: 'Employee',
+		layout: "dashboard",
+		meta: {
+			layoutClass: 'layout-profile',
+		},
+		component: () => import('../views/EmployeeProfile.vue'),
+	},
+	{
 		path: '/sign-in',
 		name: 'Sign-In',
 		component: () => import('../views/Sign-In.vue'),

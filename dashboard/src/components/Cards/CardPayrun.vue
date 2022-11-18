@@ -115,6 +115,21 @@
           </span>
         </div>
       </template>
+      <template slot="view" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span>
+            <router-link>View</router-link>
+            <a
+              @click="
+                () => {
+                  viewEmployee(record);
+                }
+              "
+              >View</a
+            >
+          </span>
+        </div>
+      </template>
     </a-table>
     <div></div>
   </a-card>
@@ -124,6 +139,7 @@
 import { mapState } from "vuex";
 import swal from "sweetalert";
 import * as fb from "../../firebase";
+import router from '../../router';
 
 const columns = [
   {
@@ -171,6 +187,11 @@ const columns = [
     dataIndex: "operation",
     scopedSlots: { customRender: "operation" },
   },
+  {
+    title: "view",
+    dataIndex: "view",
+    scopedSlots: { customRender: "view" },
+  },
 ];
 export default {
   props: {
@@ -188,6 +209,9 @@ export default {
     };
   },
   methods: {
+    viewEmployee(record){
+      router.push(`/employee/${record.id}`)
+    },
     reviewandSubmit() {
       this.loading = true;
       if (!this.payrunEmployees.length) {

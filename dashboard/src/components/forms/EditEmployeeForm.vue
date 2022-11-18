@@ -1,25 +1,19 @@
 <template>
   <div>
     <a-card>
-       <a-form
-        :form="form"
-        layout="vertical"
-        :hide-required-mark="false"
-        @submit.prevent="handleSubmit"
-      >
+      <a-form :form="form" @submit.prevent="handleSubmit">
+        <h3>Employee Information</h3>
         <a-row :gutter="16">
           <a-col :span="12">
             <a-form-item label="First Name">
               <a-input
                 v-decorator="[
                   'first_name',
-                  {
-                    rules: [
-                      { required: true, message: 'Please enter user name' },
-                    ],
+                  {initialValue: employee.first_name,
+                    rules: [{ required: true, message: 'Please enter  name' }],
                   },
                 ]"
-                :initial-value="profile.first_name"
+                placeholder="First Name"
               />
             </a-form-item>
           </a-col>
@@ -28,7 +22,7 @@
               <a-input
                 v-decorator="[
                   'last_name',
-                  {
+                  {initialValue: employee.last_name,
                     rules: [
                       {
                         required: true,
@@ -38,7 +32,7 @@
                   },
                 ]"
                 style="width: 100%"
-               :initial-value="profile.last_name"
+                placeholder="last name"
               />
             </a-form-item>
           </a-col>
@@ -49,12 +43,12 @@
               <a-input
                 v-decorator="[
                   'email',
-                  {
+                  {initialValue: employee.email,
                     rules: [{ required: true, message: 'please enter email' }],
                   },
                 ]"
                 style="width: 100%"
-               :initial-value="profile.email"
+                placeholder="email"
               />
             </a-form-item>
           </a-col>
@@ -63,12 +57,12 @@
               <a-input
                 v-decorator="[
                   'phone_number',
-                  {
+                  {initialValue: employee.phone_number,
                     rules: [{ required: true, message: 'please enter phone' }],
                   },
                 ]"
                 style="width: 100%"
-                :initial-value="profile.phone_number"
+                placeholder="phone"
               />
             </a-form-item>
           </a-col>
@@ -79,12 +73,12 @@
               <a-input
                 v-decorator="[
                   'national_id',
-                  {
+                  {initialValue: employee.national_id,
                     rules: [{ required: true, message: 'Field is required' }],
                   },
                 ]"
                 style="width: 100%"
-               :initial-value="profile.national_id"
+                placeholder="national_id"
               />
             </a-form-item>
           </a-col>
@@ -93,12 +87,42 @@
               <a-input
                 v-decorator="[
                   'kra_pin',
-                  {
+                  {initialValue: employee.kra_pin,
                     rules: [{ required: true, message: 'Field is required' }],
                   },
                 ]"
                 style="width: 100%"
-               :initial-value="profile.kra_pin"
+                placeholder="KRA PIN"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="NSSF NUMBER">
+              <a-input
+                v-decorator="[
+                  'nssf_number',
+                  {initialValue: employee.nssf_number,
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="nssf number"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="NHIF NUMBER">
+              <a-input
+                v-decorator="[
+                  'nhif_number',
+                  {initialValue: employee.nhif_number,
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="NHIF"
               />
             </a-form-item>
           </a-col>
@@ -109,34 +133,84 @@
               <a-select
                 v-decorator="[
                   'department',
-                  {
+                  {initialValue: employee.department,
                     rules: [
-                      { required: true, message: 'Please select a department' },
+                      {
+                        required: true,
+                        message: 'Please select a department',
+                      },
                     ],
                   },
                 ]"
-               :initial-value="profile.department"
+                placeholder="department"
+                @change="handleDepartmentChange"
               >
-                <a-select-option value="engineering">
-                  engineering
+                <a-select-option
+                  v-for="department in client.departments"
+                  :key="department.department_name"
+                  :value="department.department_name"
+                >
+                  {{ department.department_name }}
                 </a-select-option>
-                <a-select-option value="sales"> sales </a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="12">
             <a-form-item label="Designation">
-              <a-input
+              <a-select
                 v-decorator="[
                   'designation',
-                  {
+                  {initialValue: employee.designation,
                     rules: [
-                      { required: true, message: 'please enter designation' },
+                      {
+                        required: true,
+                        message: 'Please select a designation',
+                      },
                     ],
                   },
                 ]"
+                placeholder="select department"
+              >
+                <a-select-option
+                  v-for="designation in designations"
+                  :key="designation.name"
+                  :value="designation.name"
+                >
+                  {{ designation.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Basic Pay">
+              <a-input
+                v-decorator="[
+                  'basic_pay',
+                  {initialValue: employee.basic_pay,
+                    rules: [{ required: true, message: 'please enter amount' }],
+                  },
+                ]"
                 style="width: 100%"
-             :initial-value="profile.designation"
+                placeholder="Basic Pay"
+                type="number"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Date of Birth">
+              <a-date-picker
+                v-decorator="[
+                  'date_of_birth',
+                  {initialValue: employee.date_of_birth,
+                    initialValue: date,
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="Date of Birth"
               />
             </a-form-item>
           </a-col>
@@ -147,33 +221,43 @@
               <a-select
                 v-decorator="[
                   'bank_name',
-                  {
+                  {initialValue: employee.bank_name,
                     rules: [
                       { required: true, message: 'Please choose the bank' },
                     ],
                   },
                 ]"
-               :initial-value="profile.bank_name"
-
-               
+                @change="handleBankChange"
+                placeholder="Please choose the bank"
               >
-                <a-select-option value="equity"> Equity Bank </a-select-option>
-                <a-select-option value="kcb"> KCB Bank </a-select-option>
+                <a-select-option
+                  v-for="bank of bankNames"
+                  :key="bank"
+                  :value="bank"
+                  >{{ bank }}
+                </a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="12">
             <a-form-item label="Branch Name">
-              <a-input
+              <a-select
                 v-decorator="[
-                  'branch_name',
-                  {
+                  'bank_branch',
+                  {initialValue: employee.bank_branch,
                     rules: [{ required: true, message: 'please enter branch' }],
                   },
                 ]"
                 style="width: 100%"
-              :initial-value="profile.branch_name"
-              />
+                placeholder="Branch Name"
+              >
+              <a-select-option
+                  v-for="branch of branches"
+                  :key="branch.id"
+                  :value="branch.BranchName"
+                  >{{ branch.BranchName }}
+                </a-select-option>
+            </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -183,15 +267,14 @@
               <a-input
                 v-decorator="[
                   'account_name',
-                  {
+                  {initialValue: employee.account_name,
                     rules: [
                       { required: true, message: 'please enter account' },
                     ],
                   },
                 ]"
                 style="width: 100%"
-
-               :initial-value="profile.account_name"
+                placeholder="account Name"
               />
             </a-form-item>
           </a-col>
@@ -200,7 +283,7 @@
               <a-input
                 v-decorator="[
                   'account_number',
-                  {
+                  {initialValue: employee.account_number,
                     rules: [
                       {
                         required: true,
@@ -210,72 +293,31 @@
                   },
                 ]"
                 style="width: 100%"
-                :initial-value="profile.account_number"
-
+                placeholder="account number"
                 type="number"
               />
             </a-form-item>
           </a-col>
         </a-row>
+
         <a-row :gutter="16">
           <a-col :span="12">
-            <a-form-item label="Deductions">
+            <a-form-item label="Gender">
               <a-select
-                mode="multiple"
                 v-decorator="[
-                  'deductions',
-                  {
-                    rules: [
-                      { required: true, message: 'Please choose the bank' },
-                    ],
-                  },
-                ]"
-               :initial-value="profile.deductions"
-              >
-                <a-select-option value="equity"> NHIF </a-select-option>
-                <a-select-option value="kcb"> NSSF</a-select-option>
-                <a-select-option value="sacco"> Saccos</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Basic Pay">
-              <a-input
-                v-decorator="[
-                  'basic_pay',
-                  {
-                    rules: [
-                      { required: true, message: 'please enter account' },
-                    ],
-                  },
-                ]"
-                style="width: 100%"
-                :initial-value="profile.basic_pay"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Allowances">
-              <a-select
-                mode="multiple"
-                v-decorator="[
-                  'allowances',
-                  {
+                  'gender',
+                  {initialValue: employee.Gender,
                     rules: [
                       {
-                        required: false,
-                        message: 'Please choose the allowances',
+                        required: true,
+                        message: 'Please select',
                       },
                     ],
                   },
                 ]"
-              :initial-value="profile.allowances"
               >
-                <a-select-option value="equity"> Housing </a-select-option>
-                <a-select-option value="kcb"> Food</a-select-option>
-                <a-select-option value="sacco"> Transport</a-select-option>
+                <a-select-option value="male"> Male </a-select-option>
+                <a-select-option value="female">Female</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -284,7 +326,7 @@
               <a-select
                 v-decorator="[
                   'status',
-                  {
+                  {initialValue: employee.status,
                     rules: [
                       {
                         required: true,
@@ -293,8 +335,7 @@
                     ],
                   },
                 ]"
-               
-               :initial-value="profile.status"
+                placeholder="Status"
               >
                 <a-select-option value="active"> Active </a-select-option>
                 <a-select-option value="inactive">Inactive</a-select-option>
@@ -302,52 +343,227 @@
             </a-form-item>
           </a-col>
         </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Date Of Appointment">
+              <a-date-picker
+                v-decorator="[
+                  'date_of_appointment',
+                  {initialValue: employee.date_of_appointment,
+                    rules: [{ required: true, message: 'Field is required' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="Date of Appointment"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Contract Type">
+              <a-select
+                v-decorator="[
+                  'contract_type',
+                  {initialValue: employee.contract_type,
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please select contract type',
+                      },
+                    ],
+                  },
+                ]"
+                placeholder="contract type"
+              >
+                <a-select-option value="permanet"> Permanent </a-select-option>
+                <a-select-option value="temporary">Temporary</a-select-option>
+                <a-select-option value="casual">Casual</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+          <a-button type="primary" html-type="submit" block> Edit </a-button>
+        </a-form-item>
       </a-form>
     </a-card>
   </div>
 </template>
-
 <script>
+import moment from "moment";
 import { mapState } from "vuex";
 export default {
-    props:["profile"],
+  props: ["client","employee"],
   data() {
     return {
-      formLayout: "horizontal",
+      current: 0,
+      date: null,
+      steps: [
+        {
+          title: "Employee Details",
+          content: "First-content",
+        },
+        {
+          title: "Allowances",
+          content: "Second-content",
+        },
+        {
+          title: "Deductions",
+          content: "Last-content",
+        },
+      ],
       form: this.$form.createForm(this, { name: "coordinated" }),
-      image: null,
+      employeeDetails: {},
+      allowances: {},
+      PAYE: 0,
+      net_gross: 0,
+      designations: [],
+      branches: [],
     };
   },
   methods: {
- onChange(){},
- handleChange(){},
-    handleSubmit(e) {
+    handleDepartmentChange(value) {
+      let dept = this.client.departments.find(
+        (d) => d.department_name === value
+      );
+      let designations = [];
+      for (let i = 0; i < this.clients.length; i++) {
+        if (this.clients[i].designations == undefined) {
+          break;
+        }
+        this.clients[i].designations.forEach((e) => {
+          designations.push(e);
+        });
+      }
+
+      let filtered = designations.filter((e) => e.department == value);
+      this.designations = filtered;
+    },
+    handleBankChange(value) {
+      let filtered = this.banks.filter((e) => e.BankName == value);
+      this.branches = filtered;
+    },
+
+    validateDate(rule, value, callback) {
+      const { getFieldError, isFieldTouched } = this.form;
+      let tentDate = new Date().getFullYear() - value.toDate().getFullYear();
+      if (tentDate < 18) {
+        callback("Employee must be over 18yrs!");
+        return;
+      } else {
+        callback();
+      }
+    },
+    next() {
+      if (this.current == 0) {
+        console.log("you are at the current form");
+        this.current++;
+      }
+      if (this.current == 1) {
+        console.log("you are at the second form");
+        this.current++;
+      }
+    },
+    submitEmployeeDetails(e) {
+      console.log("you are at the current form");
+
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
-          this.$store.dispatch("addClients", values).then(() => {
-            if (!this.error) {
-              this.form.resetFields();
-            }
-          });
+          // this.$store.dispatch("addEmployee", values);
+          console.log(values);
+          this.employeeDetails = values;
+          this.current++;
+        }
+      });
+    },
+    submitAllowances(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          this.$store.dispatch("addEmployee", values);
+        }
+      });
+    },
+    prev() {
+      this.current--;
+    },
+    firstTaxBand(value) {
+      if (this.net_gross <= 24000) {
+        return 0.1 * net_gross;
+      } else if (this.net_gross > 24000 && this.net_gross <= 32332) {
+        return 0.25 * this.net_gross;
+      } else {
+        return 0.25 * this.net_gross;
+      }
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        let tentDate =
+          new Date().getFullYear() -
+          values.date_of_birth.toDate().getFullYear();
+
+        if (!err) {
+          if (tentDate < 18) {
+            this.$message.error("employee must be over 18 years of age");
+          } else {
+            console.log(values);
+            this.$store.dispatch("addEmployee", values);
+          }
+        } else {
+          this.$message.error("some fields are empty");
         }
       });
     },
   },
   computed: {
-    ...mapState["clients"],
-    loading() {
-      return this.$store.state.loading;
+    ...mapState(["employees", "clients", "banks"]),
+    rowSelection() {
+      return {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            "selectedRows: ",
+            selectedRows
+          );
+        },
+        getCheckboxProps: (record) => ({
+          props: {
+            disabled: record.name === "Disabled User", // Column configuration not to be checked
+            name: record.name,
+          },
+        }),
+      };
     },
-    error() {
-      return this.$store.state.error;
+    bankNames() {
+      let names = [];
+      this.banks.forEach((e) => {
+        names.push(e.BankName);
+      });
+      let name = [...new Set(names)];
+      return name;
     },
   },
   mounted() {
+    this.$store.dispatch("getEmployees");
     this.$store.dispatch("getClients");
+    this.$store.dispatch("getBanks");
   },
 };
 </script>
+<style scoped>
+.steps-content {
+  margin-top: 16px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 6px;
+  background-color: #fafafa;
+  min-height: 200px;
+  text-align: center;
+  padding-top: 80px;
+}
 
-<style></style>
+.steps-action {
+  margin-top: 24px;
+}
+</style>

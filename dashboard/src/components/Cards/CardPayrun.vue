@@ -118,7 +118,7 @@
       <template slot="view" slot-scope="text, record">
         <div class="editable-row-operations">
           <span>
-            <router-link>View</router-link>
+          
             <a
               @click="
                 () => {
@@ -228,7 +228,7 @@ export default {
             await fb.businessCollection
               .doc(this.currentClient.id)
               .collection("calendars")
-              .doc(this.calendar.id)
+              .doc(this.$route.params.id)
               .update({
                 employees: this.payrunEmployees,
               })
@@ -261,7 +261,7 @@ export default {
       this.selectedDepartments = selectedItems;
     },
     addToList() {
-      this.$store.dispatch("getPayrunEmployees", this.calendar.id);
+      this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
       if (this.selectedEmployees.length) {
         for (let i = 0; i < this.selectedEmployees.length; i++) {
           let employee = this.employees.find(
@@ -280,7 +280,7 @@ export default {
                 })
                 .then(() => {
                 
-                  this.$store.dispatch("getPayrunEmployees", this.calendar.id);
+                  this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
                   this.$message.success("employee added successfully")
                   this.loading = false;
                 })
@@ -302,7 +302,6 @@ export default {
           text: `No employees to add`,
           icon: "error",
         });
-        console.log(this.$route.params.id,"id is here")
       }
     },
     addDepartment() {

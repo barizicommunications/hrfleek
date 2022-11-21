@@ -115,7 +115,7 @@ const columns = [
   },
   {
     title: "NSSF",
-    dataIndex: "deductions.nssf",
+    dataIndex: "nssf",
   },
   {
     title: "NHIF",
@@ -202,12 +202,16 @@ export default {
     },
     taxableIncomeAfterPension(pension, grosspay) {
       let income = 0;
-      let netPension = pension + 200;
-      if (Number(netPension) > 20000) {
+      if(pension){
+        if (Number(pension)+200 > 20000) {
         income = grosspay - 20000;
       } else {
-        income = grosspay - Number(netPension);
+        income = grosspay - (Number(pension)+200);
       }
+      }else{
+        income=grosspay
+      }
+     
       return income;
     },
     payeWithoutRelief(taxableIncome) {
@@ -215,7 +219,6 @@ export default {
       let pay2 = 0;
       let pay2pro = 0;
       let pay3 = 0;
-      console.log(taxableIncome);
       if (taxableIncome < 24000) {
         paye = 0;
         console.log("band o", paye);
@@ -281,9 +284,12 @@ export default {
       let lifeInsuranceRelief = 0;
       let nhifPremiums = 0.15 * nhif;
       let nhifRelief = 0;
-      let insurancepremiums = 0.15 * employee.deductions.life_insurance;
+      let life =employee.deductions.life_insurance??0
+      console.log("life",life)
+      let insurancepremiums = 0.15 * life;
 
       //get life insurance relief
+
       if (insurancepremiums > 5000) {
         lifeInsuranceRelief = 5000;
       } else {
@@ -319,6 +325,13 @@ export default {
         });
       }
     },
+    totalAllowances(array){
+      let sum =0
+      for(let i=0;i<array.length;i++){
+        sum+=Number(array[i].amount)
+      }
+      return sum
+    },
     convertTableData() {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       fb.businessCollection
@@ -330,24 +343,13 @@ export default {
           let emp = docs.data();
           emp.employees.forEach((e) => {
             // calculate total allowances
-            const totalAllowances=0
-            console.log(e)
-          e.allowances.forEach((a)=>{
-              totalAllowances+a.amount
-              console.log("ehehhvhjcj")
-          })
-          console.log(totalAllowances)
-            
+           const totalAllowances= this.totalAllowances(e.allowances)          
             // calculate gross pay
             let grossPay = Number(e.basic_pay) + totalAllowances;
             //PAYE without relief
             //nhif
             // net pay
-            let deductions = Object.values(e.deductions);
-            const totalDeductions = deductions.reduce(
-              (a, b) => Number(a) + Number(b),
-              0
-            );
+            const totalDeductions =this.totalAllowances(e.deductions)
             // net pay
             let NHIF = this.calculateNhif(grossPay);
             let PAYEs = this.payeWithRelief(
@@ -384,6 +386,7 @@ export default {
               totalAllowances,
               totalDeductions,
               grossPay,
+              nssf:200
             };
 
             this.employeePayslip = new_employee;

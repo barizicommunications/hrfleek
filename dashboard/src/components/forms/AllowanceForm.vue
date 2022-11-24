@@ -27,6 +27,16 @@
            
           </a-select>
         </a-form-item>
+        <a-form-item label="Allowance Taxed">
+          <a-select v-decorator="[
+              'taxed',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]">
+            <a-select-option value="yes">Yes </a-select-option>
+            <a-select-option value="no">No</a-select-option>
+           
+          </a-select>
+        </a-form-item>
         <a-form-item label="Frequency">
           <a-radio-group name="radioGroup"     v-decorator="[
               'frequency',
@@ -92,7 +102,8 @@ export default {
                 allowances:fb.types.FieldValue.arrayUnion({
                   name:values.allowance_name,
                   amount:values.amount,
-                  frequency:values.frequency
+                  frequency:values.frequency,
+                  taxed:values.taxed
                 })
                }).then(()=>{
                 console.log("updated successfully")

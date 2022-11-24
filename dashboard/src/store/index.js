@@ -221,6 +221,8 @@ export default new Vuex.Store({
         bank_branch:data.bank_branch,
         account_name:data.account_name,
         account_number:data.account_number,
+        nssf_rates:data.nssf_rates,
+        branches:data.branches??[],
         logo: url,
       };
       console.log(url);

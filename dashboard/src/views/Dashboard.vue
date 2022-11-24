@@ -272,8 +272,27 @@
           
         </a-row>
         <a-row :gutter="16">
-          <a-col :span="24">
-
+          <a-col :span="12">
+            <a-form-item label="NSSF Rates Used">
+          <a-select 
+          v-decorator="[
+              'nssf_rates',
+              { rules: [{ required: true, message: 'Field is required!' }] },
+            ]">
+            <a-select-option value="old">Old </a-select-option>
+            <a-select-option value="new">New</a-select-option>
+          </a-select>
+        </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Branches">
+          <a-select  mode="tags"
+           v-decorator="[
+              'branches',
+              { rules: [{ required: false, message: 'Field is required!' }] },
+            ]">
+          </a-select>
+        </a-form-item>
           </a-col>
         </a-row>
       </a-form>
@@ -471,11 +490,11 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          this.$store.dispatch("addClients",values).then(()=>{
-            if(!this.error){
-              this.form.resetFields()
-            }
-          })
+          // this.$store.dispatch("addClients",values).then(()=>{
+          //   if(!this.error){
+          //     this.form.resetFields()
+          //   }
+          // })
         }
       });
     },

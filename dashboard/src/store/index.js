@@ -217,6 +217,10 @@ export default new Vuex.Store({
         company_phone: data.prefix + data.company_phone,
         kra_pin: data.kra_pin,
         address: data.company_address,
+        bank_name:data.bank_name,
+        bank_branch:data.bank_branch,
+        account_name:data.account_name,
+        account_number:data.account_number,
         logo: url,
       };
       console.log(url);

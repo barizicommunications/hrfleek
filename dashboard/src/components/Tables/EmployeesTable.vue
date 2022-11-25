@@ -120,7 +120,16 @@
           </span>
           <span v-else>
             <a :disabled="editingKey !== ''" @click="() => edit(record.id)"
-              >Edit</a
+              >Quick Edit</a
+            >
+          </span>
+        </div>
+      </template>
+      <template slot="view" slot-scope="text, record, index">
+        <div class="editable-row-operations">
+          <span >
+            <a :disabled="editingKey !== ''" @click="() => edit(record.id)"
+              >View</a
             >
           </span>
         </div>
@@ -229,6 +238,12 @@ export default {
           title: "Quick Edit",
           dataIndex: "operation",
           scopedSlots: { customRender: "operation" },
+          fixed: "right",
+        },
+        {
+          title: "View",
+          dataIndex: "view",
+          scopedSlots: { customRender: "view" },
           fixed: "right",
         },
       ],

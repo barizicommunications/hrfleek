@@ -103,6 +103,90 @@
         </a-row>
         <a-row :gutter="16">
           <a-col :span="12">
+            <a-form-item label="Bank Name">
+              <a-select
+                v-decorator="[
+                  'bank_name',
+                  {initialValue:client.bank_name,
+                    rules: [
+                      { required: true, message: 'Please choose the bank' },
+                    ],
+                  },
+                ]"
+                @change="handleBankChange"
+                placeholder="Please choose the bank"
+              >
+                <a-select-option
+                  v-for="bank of bankNames"
+                  :key="bank"
+                  :value="bank"
+                  >{{ bank }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Branch Name">
+              <a-select
+                v-decorator="[
+                  'bank_branch',
+                  {initialValue:client.bank_branch,
+                    rules: [{ required: true, message: 'please enter branch' }],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="Branch Name"
+              >
+              <a-select-option
+                  v-for="branch of branches"
+                  :key="branch.id"
+                  :value="branch.BranchName"
+                  >{{ branch.BranchName }}
+                </a-select-option>
+            </a-select>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
+            <a-form-item label="Account Name">
+              <a-input
+                v-decorator="[
+                  'account_name',
+                  {initialValue:client.account_name,
+                    rules: [
+                      { required: true, message: 'please enter account' },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="account Name"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Account Number">
+              <a-input
+                v-decorator="[
+                  'account_number',
+                  {initialValue:client.account_number,
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter account number',
+                      },
+                    ],
+                  },
+                ]"
+                style="width: 100%"
+                placeholder="account number"
+                type="number"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="16">
+          <a-col :span="12">
             <a-form-item label="Company Address">
           <a-input
             v-decorator="[
@@ -131,6 +215,7 @@
           </a-upload>
         </a-form-item></a-col>
         </a-row>
+
       </a-form>
       <div
         :style="{
@@ -203,11 +288,16 @@ export default {
       image: null,
       fileList: [],
       uploading: false,
+      branches: []
 
     };
   },
   methods: {
-
+   
+    handleBankChange(value) {
+      let filtered = this.banks.filter((e) => e.BankName == value);
+      this.branches = filtered;
+    },
     handleChange(e) {
       e.preventDefault();
       this.form.validateFields(async (err, values) => {
@@ -275,11 +365,20 @@ export default {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   computed: {
-    ...mapState(["currentClient", "clients"]),
+    ...mapState(["currentClient", "clients","banks"]),
+    bankNames() {
+      let names = [];
+      this.banks.forEach((e) => {
+        names.push(e.BankName);
+      });
+      let name = [...new Set(names)];
+      return name;
+    },
   },
   mounted() {
     this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getClients");
+    this.$store.dispatch("getBanks");
   },
 };
 </script>

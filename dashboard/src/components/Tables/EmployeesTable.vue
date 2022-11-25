@@ -128,7 +128,10 @@
       <template slot="view" slot-scope="text, record, index">
         <div class="editable-row-operations">
           <span >
-            <a :disabled="editingKey !== ''" @click="() => edit(record.id)"
+            <a  @click="
+                () => {
+                  viewEmployee(record);
+                }"
               >View</a
             >
           </span>
@@ -163,6 +166,7 @@ import * as fb from "../../firebase";
 import swal from "sweetalert";
 import Papa from "papaparse";
 import CreateEmployee from "../../views/CreateEmployee.vue";
+import router from '../../router';
 const data = [];
 
 export default {
@@ -293,6 +297,9 @@ export default {
     };
   },
   methods: {
+    viewEmployee(record){
+      router.push(`/employee/${record.id}`)
+    },
     async handleUpload(e) {
       e.preventDefault();
       this.file = event.target.files[0];

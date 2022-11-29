@@ -1,5 +1,190 @@
 <template>
   <a-card>
+    <a-drawer
+      title="Payslip Breakdown"
+      :width="720"
+      :visible="visible"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="handleCancel"
+    >
+      <a-card
+        :bordered="false"
+        class="header-solid h-full"
+        :bodyStyle="{ padding: 1 }"
+      >
+        <div class="salary-slip-pdf">
+          <div clas="p-3">
+            <p class="companyName mt-5">
+              {{ currentClient.company_name }}
+            </p>
+          </div>
+          <div class="p-4 my-4">
+            <p class="my-5" style="background-color: aliceblue">
+              {{ new Date().toDateString() }}
+            </p>
+            <p>Payslip NO: <span>XXXXXXXXXXX</span></p>
+          </div>
+          <div class="p-5 my-5">
+            <p class="my-5" style="background-color: aliceblue">
+              Name:{{ selectUser.first_name }} <span class="ml-4"></span
+              >{{ selectUser.last_name }}
+            </p>
+            <p class="my-5">National ID:{{ selectUser.national_id }}</p>
+            <p class="my-5 py-4" style="background-color: aliceblue">
+              KRA PIN:{{ selectUser.kra_pin }}
+            </p>
+            <p class="my-5">Phone Number: {{ selectUser.phone_number }}</p>
+            <p class="my-5 py-4" style="background-color: aliceblue">
+              Email:{{ selectUser.email }}
+            </p>
+          </div>
+          <div
+            class="p-5 my-5"
+            style="border: 2px solid black; margin-top: 10px"
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: aliceblue;
+              "
+              class="my-5 p-3"
+            >
+              <p class="slip-title">EARNINGS</p>
+              <p class="slip-title">AMOUNT</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">BASIC PAY</p>
+              <P>{{ selectUser.basic_pay }}</P>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+              v-for="allowance of selectUser.allowances"
+              :key="allowance.name"
+            >
+              <p class="slip-title">{{ allowance.name }}</p>
+              <p>{{ allowance.amount }}</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">TOTAL ALLOWANCES</p>
+              <P>{{ selectUser.totalAllowances }}</P>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">GROSS PAY</p>
+              <P>{{ selectUser.grossPay }}</P>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: aliceblue;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">DEDUCTIONS</p>
+              <p class="slip-title">AMOUNT</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">PAYE</p>
+              <p>{{ selectUser.PAYE }}</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">NHIF</p>
+              <p>{{ selectUser.NHIF }}</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">NSSF</p>
+              <p>{{ selectUser.nssf }}</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+              v-for="deduction of selectUser.deductions"
+              :key="deduction.name"
+            >
+              <p class="slip-title">{{ deduction.name }}</p>
+              <p>{{ deduction.amount }}</p>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">TOTAL DEDUCTIONS</p>
+              <P>{{ selectUser.totalDeductions }}</P>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: aliceblue;
+              "
+              class="my-5"
+            >
+              <p class="slip-title">NET SALARY</p>
+              <P>{{ selectUser.net_pay }}</P>
+            </div>
+          </div>
+        </div>
+      </a-card>
+    </a-drawer>
     <template #title>
       <a-row type="flex" align="middle">
         <a-col
@@ -21,6 +206,20 @@
       rowKey="id"
       :scroll="{ x: 2000 }"
     >
+      <template slot="breakdown" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span>
+            <a
+              @click="
+                () => {
+                  viewBreakDown(record);
+                }
+              "
+              >View Break Down</a
+            >
+          </span>
+        </div>
+      </template>
       <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span>
@@ -35,6 +234,7 @@
           </span>
         </div>
       </template>
+
       <template slot="emailslip" slot-scope="text, record">
         <div>
           <vue-html2pdf
@@ -304,6 +504,10 @@ const columns = [
     dataIndex: "net_pay",
   },
   {
+    title: "Break Down",
+    scopedSlots: { customRender: "breakdown" },
+  },
+  {
     title: "Payslips",
     dataIndex: "operation",
     scopedSlots: { customRender: "operation" },
@@ -326,6 +530,8 @@ export default {
       data: [],
       taxable_income: 0,
       columns,
+      selectUser: {},
+      visible: false,
     };
   },
   computed: {
@@ -335,6 +541,13 @@ export default {
     },
   },
   methods: {
+    viewBreakDown(record) {
+      this.selectUser = record;
+      this.visible = true;
+    },
+    handleCancel() {
+      this.visible = false;
+    },
     sendMail(record) {
       console.log(this.$refs.html2Pdf);
     },

@@ -34,6 +34,19 @@
             <a-select-option value="hourly" disabled> Hourly </a-select-option>
           </a-select>
         </a-form-item>
+        <a-form-item label="Reviewer">
+          <a-select
+            v-decorator="[
+              'reviewer',
+              {
+                rules: [{ required: true, message: 'Field is required!' }],
+              },
+            ]"
+          >
+            <a-select-option v-for="reviewer of admins" :key="reviewer.id"  :value="reviewer.email">{{reviewer.email}}</a-select-option>
+            
+          </a-select>
+        </a-form-item>
         <a-form-item label="Normal Payday">
           <a-date-picker
             v-decorator="[
@@ -58,6 +71,7 @@
 import { mapState } from "vuex";
 import Payrun from "../../views/Payrun.vue";
 export default {
+  props:["admins"],
   data() {
     return {
       formLayout: "horizontal",

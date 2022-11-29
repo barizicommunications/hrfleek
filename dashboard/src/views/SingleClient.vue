@@ -36,7 +36,7 @@
     </div>
     <EmployeesTableVue v-if="current[0] == 'employees'" :client="client"></EmployeesTableVue>
     <CardCalendarVue v-if="current[0] == 'calendar'" :client="client"></CardCalendarVue>
-    <CalendarForm v-if="current[0] == 'createcalendar'"></CalendarForm>
+    <CalendarForm v-if="current[0] == 'createcalendar'" :admins="admins"></CalendarForm>
     <DeductionsForm v-if="current[0] == 'otherdeductions'" :client="client"></DeductionsForm>
     <AllowanceForm v-if="current[0] == 'allowances'" :client="client"></AllowanceForm>
     <Departments v-if="current[0] == 'departments'" :client="client"></Departments>
@@ -91,7 +91,7 @@ export default {
 
   },
   computed: {
-    ...mapState(["clients"]),
+    ...mapState(["clients","admins"]),
     client(){
     return this.clients.find((client)=>client.id==this.$route.params.id)
 
@@ -99,6 +99,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getClients");
+    this.$store.dispatch("getAdmins");
 
   },
 };

@@ -19,7 +19,8 @@ export default new Vuex.Store({
     designations: [],
     departments:[],
     error: "",
-    banks:[]
+    banks:[],
+    admins:[]
   },
   mutations: {
     setUserProfile(state, val) {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
     },
     setBanks(state,val){
       state.banks =val
+    },
+    setAdmins(state,val){
+      state.admins=val
     }
   },
   actions: {
@@ -191,6 +195,16 @@ export default new Vuex.Store({
           (loadedEmployer.id = doc.id), loadedEmployers.push(loadedEmployer);
         });
         commit("setBanks", loadedEmployers);
+      });
+    },
+    async getAdmins({ commit }) {
+      fb.adminCollections.onSnapshot((snapshot) => {
+        const loadedEmployers = [];
+        snapshot.forEach((doc) => {
+          const loadedEmployer = doc.data();
+          (loadedEmployer.id = doc.id), loadedEmployers.push(loadedEmployer);
+        });
+        commit("setAdmins", loadedEmployers);
       });
     },
     async getClients({ commit }) {
@@ -405,6 +419,7 @@ export default new Vuex.Store({
         calendar_name: data.calendar_name,
         date: data.date.toDate(),
         payment_cycle: data.payment_cycle,
+        reviewr:data.reviewer
       };
       await fb.businessCollection
         .doc(selectedClient.kra_pin)

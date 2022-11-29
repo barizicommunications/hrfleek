@@ -532,6 +532,7 @@ export default {
       columns,
       selectUser: {},
       visible: false,
+      currentUser:fb.auth.currentUser
     };
   },
   computed: {
@@ -544,6 +545,7 @@ export default {
     viewBreakDown(record) {
       this.selectUser = record;
       this.visible = true;
+      console.log(this.currentUser)
     },
     handleCancel() {
       this.visible = false;
@@ -792,6 +794,7 @@ export default {
     this.$store.dispatch("getCurrentClient");
     this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
     this.convertTableData();
+    
   },
 };
 </script>

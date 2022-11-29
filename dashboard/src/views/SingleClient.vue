@@ -27,7 +27,6 @@
           <a-menu-item key="allowances">Allowances </a-menu-item>
           <!-- <a-menu-item key="statdeductions">Statutory Deductions </a-menu-item> -->
           <a-menu-item key="otherdeductions">Deductions </a-menu-item>
-          <a-menu-item key="users">Users </a-menu-item>
         </a-sub-menu>
         <!-- <a-menu-item key="reports">
           <span class="label">Reports</span>
@@ -41,7 +40,6 @@
     <AllowanceForm v-if="current[0] == 'allowances'" :client="client"></AllowanceForm>
     <Departments v-if="current[0] == 'departments'" :client="client"></Departments>
     <DesignationForm v-if="current[0] == 'designations'"></DesignationForm>
-    <UserfromVue v-if="current[0] == 'users'"></UserfromVue>
 
     <!-- / Cards -->
   </div>

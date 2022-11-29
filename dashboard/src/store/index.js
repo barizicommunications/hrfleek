@@ -293,12 +293,6 @@ export default new Vuex.Store({
     },
     async updateClients({ commit }, data) {
       commit("setLoading", true);
-
-      // const ref = fb.storage.ref();
-      // const url = await ref
-      //   .child(data.logo.file.name)
-      //   .put(data.logo.file, data.logo.file.type)
-      //   .then((snapshot) => snapshot.ref.getDownloadURL());
       const payload = {
         company_name: data.company_name,
         company_email: data.company_email,
@@ -419,7 +413,7 @@ export default new Vuex.Store({
         calendar_name: data.calendar_name,
         date: data.date.toDate(),
         payment_cycle: data.payment_cycle,
-        reviewr:data.reviewer
+        reviewer:data.reviewer
       };
       await fb.businessCollection
         .doc(selectedClient.kra_pin)

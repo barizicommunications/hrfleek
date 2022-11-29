@@ -22,20 +22,6 @@
             >
           </a-input-group>
         </a-col>
-        <!-- <a-col
-            :span="24"
-            :md="6"
-            style="display: flex; align-items: center; justify-content: flex-end"
-          >
-            <a-button
-              type="primary"
-              @click="reviewandSubmit"
-              id="otp-verfiy-button"
-              icon="upload"
-              :loading="loading"
-              >Review and Submit</a-button
-            >
-          </a-col> -->
       </a-row>
     </template>
     <a-table

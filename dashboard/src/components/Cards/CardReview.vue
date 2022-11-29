@@ -55,7 +55,7 @@
                 "
                 >View</a-button
               >
-              <a-button type="primary" icon="download">Download</a-button>
+              <a-button type="primary" icon="download" @click="downloadNssfCsv">Download</a-button>
             </template>
           </a-card-meta></a-card
         >
@@ -79,7 +79,7 @@
                 "
                 >View</a-button
               >
-              <a-button type="primary" icon="download"
+              <a-button type="primary" icon="download" @click="downloadNhifCsv"
                 >Download</a-button
               ></template
             >
@@ -118,6 +118,8 @@ import { mapState } from "vuex";
 import ReviewSettings from "./ReviewSettings.vue";
 import VueHtml2pdf from "vue-html2pdf";
 import * as fb from "../../firebase";
+import swal from "sweetalert";
+import exportFromJSON from "export-from-json";
 
 const nssfcolumns = [
   {
@@ -212,9 +214,51 @@ export default {
     },
   },
   methods: {
+    downloadNssfCsv() {
+      let picked = [];
+      this.data.forEach((object) => {
+        const sliced = {
+          "SIRNAME": object.first_name,
+          "LAST NAME": object.last_name,
+          "ID NUMBER": object.national_id,
+          "KRA PIN": object.kra_pin,
+          "NSSF NO": object.nssf_number,
+          "GROSS PAY": object.grossPay,
+          "voluntary": object.nssf,
+        };
+        picked.push(sliced);
+      });
+      const data = picked;
+      console.log(typeof picked[0]);
+      const fileName = "NSSF Report";
+      const exportType = exportFromJSON.types.csv;
+
+      if (data) exportFromJSON({ data, fileName, exportType });
+    },
+    downloadNhifCsv() {
+      let picked = [];
+      this.data.forEach((object) => {
+        const sliced = {
+          "FIRST NAME": object.first_name,
+          "LAST NAME": object.last_name,
+          "ID NUMBER": object.national_id,
+          "KRA PIN": object.kra_pin,
+          "NHIF NO": object.nhif_number,
+          "GROSS PAY": object.grossPay,
+          "AMOUNT": object.NHIF,
+        };
+        picked.push(sliced);
+      });
+      const data = picked;
+      console.log(typeof picked[0]);
+      const fileName = "NSSF Report";
+      const exportType = exportFromJSON.types.csv;
+
+      if (data) exportFromJSON({ data, fileName, exportType });
+    },
     changeReport(val) {
       this.report = val;
-	  console.log(this.report)
+      console.log(this.report);
     },
     viewPayslip(record) {
       console.log(record);

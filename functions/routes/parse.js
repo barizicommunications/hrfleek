@@ -1,6 +1,4 @@
 const moment = require("moment");
-
-
 function parse(responseData) {
     const parsedData = {};
     parsedData.merchantRequestID = responseData.MerchantRequestID;

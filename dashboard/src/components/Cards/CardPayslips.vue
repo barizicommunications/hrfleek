@@ -38,112 +38,210 @@
       <template slot="emailslip" slot-scope="text, record">
         <div>
           <vue-html2pdf
-        :show-layout="false"
-        :float-layout="true"
-        :enable-download="true"
-        :preview-modal="true"
-        :paginate-elements-by-height="2900"
-        :filename="record.first_name + '' + 'Payslip'"
-        :pdf-quality="2"
-        :manual-pagination="false"
-        pdf-format="a5"
-        pdf-orientation="portrait"
-        pdf-content-width="553px"
-        @progress="onProgress($event)"
-        @hasStartedGeneration="hasStartedGeneration()"
-        @hasGenerated="hasGenerated($event)"
-        ref="html2Pdf"
-      >
-        <section slot="pdf-content">
-          <!-- PDF Content Here -->
-          <a-card
-            :bordered="false"
-            class="header-solid h-full"
-            :bodyStyle="{ padding: 1 }"
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="true"
+            :preview-modal="true"
+            :paginate-elements-by-height="2900"
+            :filename="record.first_name + '' + 'Payslip'"
+            :pdf-quality="2"
+            :manual-pagination="true"
+            pdf-format="a5"
+            pdf-orientation="portrait"
+            pdf-content-width="100%"
+            @progress="onProgress($event)"
+            @hasStartedGeneration="hasStartedGeneration()"
+            @hasGenerated="hasGenerated($event)"
+            ref="html2Pdf"
           >
-            <div class="salary-slip-pdf">
-              <div clas="p-3">
-                  <p class="companyName mt-5"> {{ currentClient.company_name }}</p>     
-              </div>
-              <div class="p-4 my-4">
-                <p class="my-5" style="background-color: aliceblue;">
-                {{new Date().toDateString()}}
-              </p>
-              <p>
-                Payslip NO: <span>XXXXXXXXXXX</span>
-              </p>
-              </div>
-              <div class="p-5 my-5">
-                <p class="my-5" style="background-color: aliceblue;">Name:{{record.first_name}} <span class="ml-4"></span>{{record.last_name}}</p>
-                <p class="my-5">National ID:{{record.national_id}}</p>
-                <p class="my-5 py-4" style="background-color: aliceblue;">KRA PIN:{{record.kra_pin}}</p>
-                <p class="my-5 " >Phone Number: {{record.phone_number}}</p>
-                <p class="my-5 py-4" style="background-color: aliceblue;">Email:{{record.email}}</p>
-              </div>
-              <div class="p-5 my-5" style="border:2px solid black;margin-top: 10px;">
-                
-                <div style="display:flex; align-items:center;justify-content:space-between;background-color: aliceblue;" class="my-5 p-3">
-                  <p class="slip-title">EARNINGS</p>
-                  <p  class="slip-title">AMOUNT</p>
-
+            <section slot="pdf-content">
+              <!-- PDF Content Here -->
+              <a-card
+                :bordered="false"
+                class="header-solid h-full"
+                :bodyStyle="{ padding: 1 }"
+              >
+                <div class="salary-slip-pdf">
+                  <div clas="p-3">
+                    <p class="companyName mt-5">
+                      {{ currentClient.company_name }}
+                    </p>
+                  </div>
+                  <div class="p-4 my-4">
+                    <p class="my-5" style="background-color: aliceblue">
+                      {{ new Date().toDateString() }}
+                    </p>
+                    <p>Payslip NO: <span>XXXXXXXXXXX</span></p>
+                  </div>
+                  <div class="p-5 my-5">
+                    <p class="my-5" style="background-color: aliceblue">
+                      Name:{{ record.first_name }} <span class="ml-4"></span
+                      >{{ record.last_name }}
+                    </p>
+                    <p class="my-5">National ID:{{ record.national_id }}</p>
+                    <p class="my-5 py-4" style="background-color: aliceblue">
+                      KRA PIN:{{ record.kra_pin }}
+                    </p>
+                    <p class="my-5">Phone Number: {{ record.phone_number }}</p>
+                    <p class="my-5 py-4" style="background-color: aliceblue">
+                      Email:{{ record.email }}
+                    </p>
+                  </div>
+                  <div
+                    class="p-5 my-5"
+                    style="border: 2px solid black; margin-top: 10px"
+                  >
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        background-color: aliceblue;
+                      "
+                      class="my-5 p-3"
+                    >
+                      <p class="slip-title">EARNINGS</p>
+                      <p class="slip-title">AMOUNT</p>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">BASIC PAY</p>
+                      <P>{{ record.basic_pay }}</P>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                      v-for="allowance of record.allowances"
+                      :key="allowance.name"
+                    >
+                      <p class="slip-title">{{ allowance.name }}</p>
+                      <p>{{ allowance.amount }}</p>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">TOTAL ALLOWANCES</p>
+                      <P>{{ record.totalAllowances }}</P>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">GROSS PAY</p>
+                      <P>{{ record.grossPay }}</P>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        background-color: aliceblue;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">DEDUCTIONS</p>
+                      <p class="slip-title">AMOUNT</p>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">PAYE</p>
+                      <p>{{ record.PAYE }}</p>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">NHIF</p>
+                      <p>{{ record.NHIF }}</p>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">NSSF</p>
+                      <p>{{ record.nssf }}</p>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                      v-for="deduction of record.deductions"
+                      :key="deduction.name"
+                    >
+                      <p class="slip-title">{{ deduction.name }}</p>
+                      <p>{{ deduction.amount }}</p>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">TOTAL DEDUCTIONS</p>
+                      <P>{{ record.totalDeductions }}</P>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        background-color: aliceblue;
+                      "
+                      class="my-5"
+                    >
+                      <p class="slip-title">NET SALARY</p>
+                      <P>{{ record.net_pay }}</P>
+                    </div>
+                  </div>
                 </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5">
-                  <p  class="slip-title">BASIC PAY</p>
-                  <P>{{record.basic_pay}}</P>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5" v-for="allowance of record.allowances" :key="allowance.name">
-                  <p  class="slip-title">{{allowance.name}}</p>
-                  <p>{{allowance.amount}}</p>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5">
-                  <p  class="slip-title">TOTAL ALLOWANCES</p>
-                  <P>{{record.totalAllowances}}</P>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5">
-                  <p  class="slip-title">GROSS PAY</p>
-                  <P>{{record.grossPay}}</P>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between;background-color: aliceblue;" class="my-5">
-                  <p class="slip-title">DEDUCTIONS</p>
-                  <p  class="slip-title">AMOUNT</p>
-
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5" >
-                  <p  class="slip-title">PAYE</p>
-                  <p>{{record.PAYE}}</p>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5" >
-                  <p  class="slip-title">NHIF</p>
-                  <p>{{record.NHIF}}</p>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5">
-                  <p  class="slip-title">NSSF</p>
-                  <p>{{record.nssf}}</p>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5" v-for="deduction of record.deductions" :key="deduction.name">
-                  <p  class="slip-title">{{deduction.name}}</p>
-                  <p>{{deduction.amount}}</p>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between" class="my-5">
-                  <p  class="slip-title">TOTAL DEDUCTIONS</p>
-                  <P>{{record.totalDeductions}}</P>
-                </div>
-                <div style="display:flex; align-items:center;justify-content:space-between;background-color: aliceblue;" class="my-5">
-                  <p  class="slip-title">NET SALARY</p>
-                  <P>{{record.net_pay}}</P>
-                </div>
-              </div>
-            </div>
-          </a-card>
-        </section>
-      </vue-html2pdf>
-    </div>
+              </a-card>
+            </section>
+          </vue-html2pdf>
+        </div>
         <div class="editable-row-operations">
           <span>
             <a
               @click="
                 () => {
-                  downloadSlips(record);
+                  sendMail(record);
                 }
               "
               >Email</a
@@ -152,8 +250,6 @@
         </div>
       </template>
     </a-table>
-
- 
   </a-card>
 </template>
 
@@ -239,6 +335,9 @@ export default {
     },
   },
   methods: {
+    sendMail(record) {
+      console.log(this.$refs.html2Pdf);
+    },
     viewPayslip(record) {
       console.log(record);
     },
@@ -280,16 +379,16 @@ export default {
     },
     taxableIncomeAfterPension(pension, grosspay) {
       let income = 0;
-      if(pension){
-        if (Number(pension)+200 > 20000) {
-        income = grosspay - 20000;
+      if (pension) {
+        if (Number(pension) + 200 > 20000) {
+          income = grosspay - 20000;
+        } else {
+          income = grosspay - (Number(pension) + 200);
+        }
       } else {
-        income = grosspay - (Number(pension)+200);
+        income = grosspay;
       }
-      }else{
-        income=grosspay
-      }
-     
+
       return income;
     },
     payeWithoutRelief(taxableIncome) {
@@ -362,8 +461,8 @@ export default {
       let lifeInsuranceRelief = 0;
       let nhifPremiums = 0.15 * nhif;
       let nhifRelief = 0;
-      let life =employee.deductions.life_insurance??0
-      console.log("life",life)
+      let life = employee.deductions.life_insurance ?? 0;
+      console.log("life", life);
       let insurancepremiums = 0.15 * life;
 
       //get life insurance relief
@@ -403,12 +502,12 @@ export default {
         });
       }
     },
-    totalAllowances(array){
-      let sum =0
-      for(let i=0;i<array.length;i++){
-        sum+=Number(array[i].amount)
+    totalAllowances(array) {
+      let sum = 0;
+      for (let i = 0; i < array.length; i++) {
+        sum += Number(array[i].amount);
       }
-      return sum
+      return sum;
     },
     convertTableData() {
       const selectedClient = JSON.parse(localStorage.getItem("client"));
@@ -421,13 +520,13 @@ export default {
           let emp = docs.data();
           emp.employees.forEach((e) => {
             // calculate total allowances
-           const totalAllowances= this.totalAllowances(e.allowances)          
+            const totalAllowances = this.totalAllowances(e.allowances);
             // calculate gross pay
             let grossPay = Number(e.basic_pay) + totalAllowances;
             //PAYE without relief
             //nhif
             // net pay
-            const totalDeductions =this.totalAllowances(e.deductions)
+            const totalDeductions = this.totalAllowances(e.deductions);
             // net pay
             let NHIF = this.calculateNhif(grossPay);
             let PAYEs = this.payeWithRelief(
@@ -464,7 +563,7 @@ export default {
               totalAllowances,
               totalDeductions,
               grossPay,
-              nssf:200
+              nssf: 200,
             };
 
             this.record = new_employee;
@@ -485,21 +584,21 @@ export default {
 </script>
 
 <style scoped>
-.slip-title{
-  font-family: 'Roboto';
-font-style: normal;
-font-weight: 600;
-font-size: 16px;
-line-height: 28px;
-text-align: center;
-text-transform: uppercase;
+.slip-title {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 28px;
+  text-align: center;
+  text-transform: uppercase;
 
-color: #000000;
+  color: #000000;
 }
-.payslip-outline{
-  width:100%;
+.payslip-outline {
+  width: 100%;
   height: 100%;
-  padding:10px
+  padding: 10px;
 }
 
 .salary-slip {

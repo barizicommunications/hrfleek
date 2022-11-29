@@ -20,7 +20,7 @@ router.post('/',(req,res,next)=>{
      from: 'wochieng@barizicommunications.com', // sender address
      to: 'ochiengwarren10@gmail.com', // list of receivers
      subject: 'Test Email', // Subject line
-     html: '<p>Your html here</p>'// plain text body
+     html: '<p style="color:red;">Your html here</p>'// plain text body
    };
 
    transporter.sendMail(mailOptions, function (err, info) {

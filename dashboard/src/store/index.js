@@ -219,7 +219,6 @@ export default new Vuex.Store({
     },
     async addClients({ commit }, data) {
       commit("setLoading", true);
-
       const ref = fb.storage.ref();
       const url = await ref
         .child(data.logo.file.name)
@@ -237,6 +236,7 @@ export default new Vuex.Store({
         account_number:data.account_number,
         nssf_rates:data.nssf_rates,
         branches:data.branches??[],
+        setup:"incomplete",
         logo: url,
       };
       console.log(url);

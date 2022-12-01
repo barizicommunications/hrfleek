@@ -6,6 +6,7 @@
       :class="['ant-layout-sider-' + 'primary', 'ant-layout-sider-' + 'light']"
       theme="light"
       :style="{ backgroundColor: 'transparent' }"
+      v-if="client.setup=='complete'"
     >
       <a-menu theme="light" mode="horizontal" v-model="current">
         <a-menu-item key="employees">
@@ -33,7 +34,10 @@
         </a-menu-item> -->
       </a-menu>
     </div>
-    <EmployeesTableVue v-if="current[0] == 'employees'" :client="client"></EmployeesTableVue>
+    <div v-else>
+      <setup-company :client="client"></setup-company>
+    </div>
+    <EmployeesTableVue v-if="(current[0] == 'employees'&&client.setup=='complete')" :client="client"></EmployeesTableVue>
     <CardCalendarVue v-if="current[0] == 'calendar'" :client="client"></CardCalendarVue>
     <CalendarForm v-if="current[0] == 'createcalendar'" :admins="admins"></CalendarForm>
     <DeductionsForm v-if="current[0] == 'otherdeductions'" :client="client"></DeductionsForm>
@@ -60,6 +64,7 @@ import ClientCardVue from "../components/Cards/ClientCard.vue";
 import Departments from "./Departments.vue"
 import UserfromVue from '../components/forms/Userfrom.vue';
 import { mapState } from 'vuex';
+import SetupCompany from '../components/Widgets/SetupCompany.vue';
 export default {
   components: {
     CardInfo,
@@ -74,7 +79,8 @@ export default {
     DesignationForm,
     ClientCardVue,
     Departments,
-    UserfromVue
+    UserfromVue,
+    SetupCompany
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false" class="card-info">
+  <a-card :bordered="false" class="card-info" style="background:#009592">
     <a-drawer
       :title="client.company_name"
       :width="720"
@@ -241,14 +241,14 @@
     <a-row type="flex">
       <a-col class="col-content" :span="24" :xl="12">
         <div class="card-content">
-          <h6>ID:{{ client.kra_pin }}</h6>
-          <h5>{{ client.company_name }}</h5>
-          <p>email:{{ client.company_email }}</p>
-          <p>Phone:{{ client.company_phone }}</p>
+          <h5>ID:{{ client.kra_pin }}</h5>
+          <h5>{{ client.company_name }}<span class="mx-5"></span>WORKSPACE</h5>
+          <h5>email:{{ client.company_email }}</h5>
+          <h5>Phone:{{ client.company_phone }}</h5>
         </div>
         <div class="card-footer">
           <a size="small" @click="visible = !visible">
-            <span>Edit Details</span>
+            <span style="color:#ffffff;">Edit Details</span>
             <svg
               width="16"
               height="16"
@@ -260,7 +260,7 @@
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M7.29289 14.7071C6.90237 14.3166 6.90237 13.6834 7.29289 13.2929L10.5858 10L7.29289 6.70711C6.90237 6.31658 6.90237 5.68342 7.29289 5.29289C7.68342 4.90237 8.31658 4.90237 8.70711 5.29289L12.7071 9.29289C13.0976 9.68342 13.0976 10.3166 12.7071 10.7071L8.70711 14.7071C8.31658 15.0976 7.68342 15.0976 7.29289 14.7071Z"
-                fill="#111827"
+                fill="#ffffff"
               />
             </svg>
           </a>

@@ -457,6 +457,7 @@
 import { mapState } from "vuex";
 import VueHtml2pdf from "vue-html2pdf";
 import * as fb from "../../firebase";
+import swal from "sweetalert";
 
 const columns = [
   {
@@ -551,7 +552,11 @@ export default {
       this.visible = false;
     },
     sendMail(record) {
-      console.log(this.$refs.html2Pdf);
+      swal({
+          title: "OOPS!",
+          text: `this Payroll has not yet been approved`,
+          icon: "error",
+        });
     },
     viewPayslip(record) {
       console.log(record);

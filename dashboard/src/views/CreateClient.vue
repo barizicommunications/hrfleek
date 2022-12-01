@@ -30,12 +30,12 @@
         current: 0,
         steps: [
           {
-            title: 'First',
+            title: 'Company Details',
             content: 'First-content',
           },
           {
             title: 'Second',
-            content: 'Second-content',
+            content: 'Departments',
           },
           {
             title: 'Last',

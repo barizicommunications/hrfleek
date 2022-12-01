@@ -344,6 +344,7 @@ import CardInfo2 from "../components/Cards/CardInfo2";
 import EmployeesTableVue from "../components/Tables/EmployeesTable.vue";
 import ClientCardVue from "../components/Cards/ClientCard.vue";
 import ClientForm from "../components/forms/ClientForm.vue";
+import router from "../router/index";
 
 // Counter Widgets stats
 const stats = [
@@ -384,6 +385,7 @@ const stats = [
 import { mapState } from "vuex";
 import * as fb from "../firebase";
 
+
 export default {
   components: {
     CardBarChart,
@@ -416,6 +418,9 @@ export default {
     };
   },
   methods: {
+    createClient(){
+      router.push("/create-client")
+    },
     getMeData() {
       fb.db
         .collectionGroup("team")

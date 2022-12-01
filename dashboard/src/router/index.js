@@ -140,6 +140,7 @@ let routes = [
   {
     path: "/create-client",
     name: "Create-Client",
+    layout: "dashboard",
     component: () => import("../views/CreateClient.vue"),
   },
 ];

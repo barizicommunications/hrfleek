@@ -4,13 +4,13 @@ import "firebase/firestore";
 import "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDsAviWtrOkhrQQAPkZc6yY5z1bTS-u0Fk",
-  authDomain: "daviemail-b68ab.firebaseapp.com",
-  projectId: "daviemail-b68ab",
-  storageBucket: "daviemail-b68ab.appspot.com",
-  messagingSenderId: "1036524775188",
-  appId: "1:1036524775188:web:f95f0d3c503832ffb9c401",
-  measurementId: "G-SPZVWK424P"
+  apiKey: "AIzaSyAmWu6W4tUFGBMUovSGOa229Xw7IfURXAs",
+  authDomain: "hrfleek-84599.firebaseapp.com",
+  projectId: "hrfleek-84599",
+  storageBucket: "hrfleek-84599.appspot.com",
+  messagingSenderId: "793784062223",
+  appId: "1:793784062223:web:fc39e62e6bcdda35846e7a",
+  measurementId: "G-FKFGXRVHRB"
 };
 firebase.initializeApp(firebaseConfig);
 

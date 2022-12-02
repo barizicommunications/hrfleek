@@ -1,16 +1,16 @@
 <template>
     <a-card class="my-5">
-        <vue-json-to-csv :json-data="[
+   <!-- <vue-json-to-csv :json-data="[
     { name: 'Joe', surname: 'Roe' },
     { name: 'John', surname: 'Doe' }
   ]"
-  :labels="{ name: { title: 'First name' } }"
+  :labels="{ name: { title: ['finance','legal','devops'] } }"
   csv-title="My_CSV"
   >
   <button>
     <b>My custom button</b>
   </button>
-</vue-json-to-csv>
+</vue-json-to-csv> -->
       <a-steps :current="current">
         <a-step v-for="item in steps" :key="item.title" :title="item.title" />
       </a-steps>
@@ -45,11 +45,11 @@
         current: 0,
         steps: [
           {
-            title: 'First',
+            title: 'Departments',
             content: 'First-content',
           },
           {
-            title: 'Second',
+            title: 'Designations',
             content: 'Second-content',
           },
           {

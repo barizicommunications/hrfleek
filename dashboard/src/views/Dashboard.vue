@@ -47,7 +47,7 @@
     </a-row>
     <a-card>
       <template #title>
-        <a-row type="flex" align="stretch" class="mb-10">
+        <a-row type="flex" align="start" class="mb-10">
       <a-col :span="24" :md="12" class="col-info">
         <a-input-search
           placeholder="search client"
@@ -56,12 +56,19 @@
           :loading="searchLoading"
           v-model="searchQuery"
         />
-      </a-col>
-      <a-col :span="24" :md="12" class="col-info">
-        <a-button type="primary" @click="visible=true" size="large">Add New Client</a-button>
+        <a-button type="primary" @click="visible=true" size="large" class="mx-5" icon="plus">Add New Client</a-button>
       </a-col>
     </a-row>
-
+    <template>
+    <vue-excel-editor v-model="jsondata">
+        <vue-excel-column field="user"   label="User ID"       type="string" width="80px" />
+        <vue-excel-column field="name"   label="Name"          type="string" width="150px" />
+        <vue-excel-column field="phone"  label="Contact"       type="string" width="130px" />
+        <vue-excel-column field="gender" label="Gender"        type="select" width="50px" :options="['Female','Male','U']" />
+        <vue-excel-column field="age"    label="Age"           type="number" width="70px" />
+        <vue-excel-column field="birth"  label="Date Of Birth" type="date"   width="80px" />
+    </vue-excel-editor>
+</template>
     <CardInfo :clients="resultQuery" class="mt-5"></CardInfo>
     </template>
     </a-card>
@@ -414,7 +421,24 @@ export default {
       image:null,
       fileList: [],
       uploading: false,
-      branches: []
+      branches: [],
+      jsondata:[
+        {user:'1',
+          name:"warren ochieng",
+          phone:'+254705122230',
+          gender:"male"
+        },
+        { user:'2',
+          name:"Hardy Kathurima",
+          phone:'+254705122230',
+          gender:"male"
+        },
+        { user:'3',
+          name:"warren ochieng",
+          phone:'+254705122230',
+          gender:"male"
+        }
+      ]
     };
   },
   methods: {

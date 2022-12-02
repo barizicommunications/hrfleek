@@ -8,7 +8,7 @@ import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import router from './router'
 import { auth } from "./firebase";
 import { FormModel } from 'ant-design-vue';
-
+import VueExcelEditor from 'vue-excel-editor'
 
 
 import './scss/app.scss';
@@ -17,6 +17,7 @@ import store from './store'
 
 Vue.use(Antd);
 Vue.use(FormModel);
+Vue.use(VueExcelEditor)
 
 Vue.config.productionTip = false
 

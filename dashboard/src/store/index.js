@@ -237,6 +237,8 @@ export default new Vuex.Store({
         nssf_rates:data.nssf_rates,
         branches:data.branches??[],
         setup:"incomplete",
+        nssf_number:data.nssf_number,
+        nhif_number:data.nhif_number,
         logo: url,
       };
       console.log(url);

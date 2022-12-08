@@ -26,12 +26,7 @@
         </a-button>
       </div>
     </a-drawer>
-    <a-modal
-      v-model="modal"
-      title="Bulk Imports"
-      style="width: 100vw"
-      width="80%"
-    >
+    <a-modal v-model="modal" title="Bulk Imports">
       <template slot="footer">
         <a-button key="back" @click="handleCancel"> Cancel </a-button>
         <a-button
@@ -43,42 +38,8 @@
           Upload
         </a-button>
       </template>
-      <vue-excel-editor v-model="jsondata" ref="grid">
-        <vue-excel-column
-          field="user"
-          label="User ID"
-          type="string"
-          width="80px"
-        />
-        <vue-excel-column
-          field="name"
-          label="Name"
-          type="string"
-          width="150px"
-        />
-        <vue-excel-column
-          field="phone"
-          label="Contact"
-          type="string"
-          width="130px"
-        />
-        <vue-excel-column
-          field="gender"
-          label="Gender"
-          type="select"
-          width="50px"
-          :options="['Female', 'Male', 'U']"
-        />
-        <vue-excel-column field="age" label="Age" type="number" width="70px" />
-        <vue-excel-column
-          field="birth"
-          label="Date Of Birth"
-          type="date"
-          width="80px"
-        />
-      </vue-excel-editor>
       <div class="table-upload-btn">
-        <a-button type="primary" block @click.prevent="exportAsExcel">
+        <a-button type="dashed" block @click.prevent="exportExcel">
           <a-icon type="download" />
           Download Sample CSV
         </a-button>
@@ -180,7 +141,7 @@
       </template>
     </a-table>
     <div class="table-upload-btn">
-      <a-button type="dashed" block @click="exportExcel">
+      <a-button type="dashed" block @click="showDrawer">
         <svg
           width="16"
           height="16"
@@ -195,7 +156,7 @@
             fill="#111827"
           />
         </svg>
-        import CSV
+        import CSV {{departmenti[0]}}
       </a-button>
     </div>
   </a-card>
@@ -209,6 +170,7 @@ import Papa from "papaparse";
 import CreateEmployee from "../../views/CreateEmployee.vue";
 import router from "../../router";
 import * as ExcelJS from "exceljs";
+import { debugPort } from "process";
 const data = [];
 
 export default {
@@ -356,6 +318,7 @@ export default {
       parsed: false,
       content: [],
       file: "",
+      departments:[]
     };
   },
   methods: {
@@ -365,7 +328,7 @@ export default {
         { id: 2, name: "Boni", dob: "1996-01-02", grade: "C", gender: "male" },
         { id: 3, name: "Tono", dob: "1995-12-03", grade: "B", gender: "male" },
         { id: 4, name: "Asep", dob: "1992-11-04", grade: "D", gender: "male" },
-        
+
         {
           id: 5,
           name: "Marwinto",
@@ -379,62 +342,59 @@ export default {
       var header = [
         { key: "id", header: "ID", width: 20 },
         {
-        header: "First Name",
+          header: "First Name",
           key: "first_name",
-          width: 30
-       
+          width: 30,
         },
         {
           header: "Last Name",
           key: "last_name",
-          width: 30
-
+          width: 30,
         },
         {
-         header: "Gender",
-         key: "Gender",
-         width: 30
+          header: "Gender",
+          key: "Gender",
+          width: 30,
         },
         {
           title: "Email",
           key: "email",
-          width: 30
-
+          width: 30,
         },
         {
-         header: "Phone Number",
-         key: "phone_number",
-         width: 30
+          header: "Phone Number",
+          key: "phone_number",
+          width: 30,
         },
         {
           header: "KRA PIN",
           key: "kra_pin",
-          width: 30
+          width: 30,
         },
         {
           header: "Department",
           key: "department",
-          width: 30
+          width: 30,
         },
         {
           header: "designation",
           key: "designation",
-          width: 30
+          width: 30,
         },
         {
           header: "NHIF Number",
           key: "nhif_number",
-          width: 30
+          width: 30,
         },
         {
-         header: "NSSF Number",
-         key: "nssf_number",
-         width: 30
+          header: "NSSF Number",
+          key: "nssf_number",
+          width: 30,
         },
         {
           header: "Basic Salary",
           key: "basic_pay",
-          width: 30
+          width: 30,
         },
       ];
       this.exportToExcel(header, data, "Employee Data");
@@ -460,14 +420,25 @@ export default {
         worksheet.addRow(data[index]);
       }
 
-      worksheet.getColumn("D").eachCell({ includeEmpty: true }, function(cell, rowNumber) {
-  cell.dataValidation = {
-    type: 'list',
-    allowBlank: true,
-    formulae: ['"male,female,other"']
-  };
-});
-
+      worksheet
+        .getColumn("D")
+        .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
+          cell.dataValidation = {
+            type: "list",
+            allowBlank: false,
+            formulae: ['"male,female,other"'],
+          };
+        });
+        let dept=['"finances,admin"']
+      worksheet
+        .getColumn("H")
+        .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
+          cell.dataValidation = {
+            type: "list",
+            allowBlank: true,
+            formulae: dept,
+          };
+        });
 
       //Export Excel to Base64
       const base64 = Buffer.from(await workbook.xlsx.writeBuffer()).toString(
@@ -927,6 +898,14 @@ export default {
         }),
       };
     },
+    departmenti(){
+      let depo=[]
+        for (let i = 0; i < this.client.departments.length; i++) {
+        depo.push(this.client.departments[i].department_name);
+      }
+      return depo
+
+      }
   },
   created() {
     this.$store.dispatch("getEmployees");
@@ -937,6 +916,7 @@ export default {
     this.$store.dispatch("getCurrentClient");
     this.convertTableData();
     this.filterDepartments();
+
   },
   updated() {},
 };

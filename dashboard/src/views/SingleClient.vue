@@ -37,7 +37,7 @@
     <!-- <div v-else>
       <setup-company :client="client"></setup-company>
     </div> -->
-    <EmployeesTableVue v-if="(current[0] == 'employees'&&client.setup=='complete')" :client="client"></EmployeesTableVue>
+    <EmployeesTableVue v-if="current[0] == 'employees'" :client="client"></EmployeesTableVue>
     <CardCalendarVue v-if="current[0] == 'calendar'" :client="client"></CardCalendarVue>
     <CalendarForm v-if="current[0] == 'createcalendar'" :admins="admins"></CalendarForm>
     <DeductionsForm v-if="current[0] == 'otherdeductions'" :client="client"></DeductionsForm>

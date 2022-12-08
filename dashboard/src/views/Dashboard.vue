@@ -316,7 +316,6 @@
         </a-button>
       </div>
     </a-drawer>
-    <EmployeesTableVue></EmployeesTableVue>
   </div>
 </template>
 
@@ -512,11 +511,11 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          // this.$store.dispatch("addClients",values).then(()=>{
-          //   if(!this.error){
-          //     this.form.resetFields()
-          //   }
-          // })
+          this.$store.dispatch("addClients",values).then(()=>{
+            if(!this.error){
+              this.form.resetFields()
+            }
+          })
         }
       });
     },

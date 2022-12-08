@@ -38,6 +38,7 @@
                 type="primary"
                 @click="confirmOtp"
                 id="otp-verfiy-button"
+                :loading="loading"
                 >Confirm</a-button
               >
             </a-input-group>

@@ -60,14 +60,6 @@
       </a-col>
     </a-row>
     <template>
-    <vue-excel-editor v-model="jsondata">
-        <vue-excel-column field="user"   label="User ID"       type="string" width="80px" />
-        <vue-excel-column field="name"   label="Name"          type="string" width="150px" />
-        <vue-excel-column field="phone"  label="Contact"       type="string" width="130px" />
-        <vue-excel-column field="gender" label="Gender"        type="select" width="50px" :options="['Female','Male','U']" />
-        <vue-excel-column field="age"    label="Age"           type="number" width="70px" />
-        <vue-excel-column field="birth"  label="Date Of Birth" type="date"   width="80px" />
-    </vue-excel-editor>
 </template>
     <CardInfo :clients="resultQuery" class="mt-5"></CardInfo>
     </template>
@@ -324,6 +316,7 @@
         </a-button>
       </div>
     </a-drawer>
+    <EmployeesTableVue></EmployeesTableVue>
   </div>
 </template>
 

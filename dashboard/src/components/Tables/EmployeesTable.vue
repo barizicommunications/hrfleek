@@ -26,7 +26,12 @@
         </a-button>
       </div>
     </a-drawer>
-    <a-modal v-model="modal" title="Bulk Imports">
+    <a-modal
+      v-model="modal"
+      title="Bulk Imports"
+      style="width: 100vw"
+      width="80%"
+    >
       <template slot="footer">
         <a-button key="back" @click="handleCancel"> Cancel </a-button>
         <a-button
@@ -38,8 +43,42 @@
           Upload
         </a-button>
       </template>
+      <vue-excel-editor v-model="jsondata" ref="grid">
+        <vue-excel-column
+          field="user"
+          label="User ID"
+          type="string"
+          width="80px"
+        />
+        <vue-excel-column
+          field="name"
+          label="Name"
+          type="string"
+          width="150px"
+        />
+        <vue-excel-column
+          field="phone"
+          label="Contact"
+          type="string"
+          width="130px"
+        />
+        <vue-excel-column
+          field="gender"
+          label="Gender"
+          type="select"
+          width="50px"
+          :options="['Female', 'Male', 'U']"
+        />
+        <vue-excel-column field="age" label="Age" type="number" width="70px" />
+        <vue-excel-column
+          field="birth"
+          label="Date Of Birth"
+          type="date"
+          width="80px"
+        />
+      </vue-excel-editor>
       <div class="table-upload-btn">
-        <a-button type="dashed" block @click.prevent="downloadFile">
+        <a-button type="primary" block @click.prevent="exportAsExcel">
           <a-icon type="download" />
           Download Sample CSV
         </a-button>
@@ -127,11 +166,13 @@
       </template>
       <template slot="view" slot-scope="text, record, index">
         <div class="editable-row-operations">
-          <span >
-            <a  @click="
+          <span>
+            <a
+              @click="
                 () => {
                   viewEmployee(record);
-                }"
+                }
+              "
               >View</a
             >
           </span>
@@ -139,7 +180,7 @@
       </template>
     </a-table>
     <div class="table-upload-btn">
-      <a-button type="dashed" block @click="showDrawer">
+      <a-button type="dashed" block @click="exportExcel">
         <svg
           width="16"
           height="16"
@@ -166,7 +207,8 @@ import * as fb from "../../firebase";
 import swal from "sweetalert";
 import Papa from "papaparse";
 import CreateEmployee from "../../views/CreateEmployee.vue";
-import router from '../../router';
+import router from "../../router";
+import * as ExcelJS from "exceljs";
 const data = [];
 
 export default {
@@ -291,14 +333,161 @@ export default {
           employee_id: "",
         },
       ],
+      jsondata: [
+        {
+          user: "1",
+          name: "warren ochieng",
+          phone: "+254705122230",
+          gender: "male",
+        },
+        {
+          user: "2",
+          name: "Hardy Kathurima",
+          phone: "+254705122230",
+          gender: "male",
+        },
+        {
+          user: "3",
+          name: "warren ochieng",
+          phone: "+254705122230",
+          gender: "male",
+        },
+      ],
       parsed: false,
       content: [],
       file: "",
     };
   },
   methods: {
-    viewEmployee(record){
-      router.push(`/employee/${record.id}`)
+    exportExcel() {
+      var data = [
+        { id: 1, name: "Agus", dob: "1997-02-01", grade: "A", gender: "male" },
+        { id: 2, name: "Boni", dob: "1996-01-02", grade: "C", gender: "male" },
+        { id: 3, name: "Tono", dob: "1995-12-03", grade: "B", gender: "male" },
+        { id: 4, name: "Asep", dob: "1992-11-04", grade: "D", gender: "male" },
+        
+        {
+          id: 5,
+          name: "Marwinto",
+          dob: "1997-10-05",
+          grade: "A",
+          gender: "male",
+        },
+      ];
+
+      // Important part is key and header
+      var header = [
+        { key: "id", header: "ID", width: 20 },
+        {
+        header: "First Name",
+          key: "first_name",
+          width: 30
+       
+        },
+        {
+          header: "Last Name",
+          key: "last_name",
+          width: 30
+
+        },
+        {
+         header: "Gender",
+         key: "Gender",
+         width: 30
+        },
+        {
+          title: "Email",
+          key: "email",
+          width: 30
+
+        },
+        {
+         header: "Phone Number",
+         key: "phone_number",
+         width: 30
+        },
+        {
+          header: "KRA PIN",
+          key: "kra_pin",
+          width: 30
+        },
+        {
+          header: "Department",
+          key: "department",
+          width: 30
+        },
+        {
+          header: "designation",
+          key: "designation",
+          width: 30
+        },
+        {
+          header: "NHIF Number",
+          key: "nhif_number",
+          width: 30
+        },
+        {
+         header: "NSSF Number",
+         key: "nssf_number",
+         width: 30
+        },
+        {
+          header: "Basic Salary",
+          key: "basic_pay",
+          width: 30
+        },
+      ];
+      this.exportToExcel(header, data, "Employee Data");
+    },
+    async exportToExcel(header, data, filename) {
+      const options = {
+        filename: filename + ".xlsx",
+      };
+
+      //Init Workbook
+      const workbook = new ExcelJS.Workbook(options);
+      const worksheet = workbook.addWorksheet(filename);
+
+      worksheet.columns = header;
+
+      //Setting font size and bold for header
+      worksheet.getRow(1).font = {
+        bold: true,
+      };
+
+      //Insert data row to excel the data key will follow header key
+      for (let index = 0; index < data.length; index++) {
+        worksheet.addRow(data[index]);
+      }
+
+      worksheet.getColumn("D").eachCell({ includeEmpty: true }, function(cell, rowNumber) {
+  cell.dataValidation = {
+    type: 'list',
+    allowBlank: true,
+    formulae: ['"male,female,other"']
+  };
+});
+
+
+      //Export Excel to Base64
+      const base64 = Buffer.from(await workbook.xlsx.writeBuffer()).toString(
+        "base64"
+      );
+
+      // Download File
+      const a = document.createElement("a");
+      a.href = "data:application/xlsx;base64," + base64;
+      a.download = `${filename}.xlsx`; // File name Here
+      a.click();
+    },
+    exportAsExcel() {
+      const format = "xlsx";
+      const exportSelectedOnly = false;
+      const filename = "sample data";
+      this.$refs.grid.exportTable(format, exportSelectedOnly, filename);
+    },
+    viewEmployee(record) {
+      router.push(`/employee/${record.id}`);
     },
     async handleUpload(e) {
       e.preventDefault();
@@ -338,59 +527,47 @@ export default {
           array.forEach((v) => v.nhif_number === value && count++);
           return count;
         }
-        if (
-                  checkIdDuplicates(data, data.national_id) > 1
-                ) {
-                  /* vendors contains the element we're looking for */
-                  this.loading = false;
-                  this.$message.error("some ID are duplicates");
-                } else if (
-                  checkKRADuplicates(data, data.kra_pin) > 1
-                ) {
-                  this.loading = false;
-                  this.$message.error("some KRA PINs are duplicates");
-                } else if (
-                  checkNSSFDuplicates(data, data.nssf_number) >
-                  1
-                ) {
-                  this.loading = false;
-                  this.$message.error("some NSSF numbers are duplicates");
-                } else if (
-                  checkNHIFDuplicates(data, data.nhif_number) >
-                  1
-                ) {
-                  this.loading = false;
-                  this.$message.error("some NHIF numbers are duplicates");
-                } else {
-                  for(let i=0;i<data.length;+i++){
-                     fb.businessCollection
-                    .doc(this.client.id)
-                    .collection("team")
-                    .doc(data[i].national_id)
-                    .set(data[i])
-                    .then(() => {
-                      this.loading = false;
-                      this.$store.dispatch("getEmployees");
-                      this.$store.dispatch("getCurrentClient");
-                      this.convertTableData();
-                      swal({
-                        title: "Sucess!",
-                        text: `record added successfully`,
-                        icon: "success",
-                      });
-                    })
-                    .catch((err) => {
-                      swal({
-                        title: "OOPS!",
-                        text: `${err.message}`,
-                        icon: "error",
-                      });
-                      this.loading = false;
-                    });
-                  }
-
-                }
-  
+        if (checkIdDuplicates(data, data.national_id) > 1) {
+          /* vendors contains the element we're looking for */
+          this.loading = false;
+          this.$message.error("some ID are duplicates");
+        } else if (checkKRADuplicates(data, data.kra_pin) > 1) {
+          this.loading = false;
+          this.$message.error("some KRA PINs are duplicates");
+        } else if (checkNSSFDuplicates(data, data.nssf_number) > 1) {
+          this.loading = false;
+          this.$message.error("some NSSF numbers are duplicates");
+        } else if (checkNHIFDuplicates(data, data.nhif_number) > 1) {
+          this.loading = false;
+          this.$message.error("some NHIF numbers are duplicates");
+        } else {
+          for (let i = 0; i < data.length; +i++) {
+            fb.businessCollection
+              .doc(this.client.id)
+              .collection("team")
+              .doc(data[i].national_id)
+              .set(data[i])
+              .then(() => {
+                this.loading = false;
+                this.$store.dispatch("getEmployees");
+                this.$store.dispatch("getCurrentClient");
+                this.convertTableData();
+                swal({
+                  title: "Sucess!",
+                  text: `record added successfully`,
+                  icon: "success",
+                });
+              })
+              .catch((err) => {
+                swal({
+                  title: "OOPS!",
+                  text: `${err.message}`,
+                  icon: "error",
+                });
+                this.loading = false;
+              });
+          }
+        }
       } else {
         this.loading = false;
         this.$message.error("no data to upload");

@@ -6,7 +6,7 @@
       :class="['ant-layout-sider-' + 'primary', 'ant-layout-sider-' + 'light']"
       theme="light"
       :style="{ backgroundColor: 'transparent' }"
-      v-if="client.setup=='complete'"
+      
     >
       <a-menu theme="light" mode="horizontal" v-model="current">
         <a-menu-item key="employees">
@@ -34,9 +34,9 @@
         </a-menu-item> -->
       </a-menu>
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <setup-company :client="client"></setup-company>
-    </div>
+    </div> -->
     <EmployeesTableVue v-if="(current[0] == 'employees'&&client.setup=='complete')" :client="client"></EmployeesTableVue>
     <CardCalendarVue v-if="current[0] == 'calendar'" :client="client"></CardCalendarVue>
     <CalendarForm v-if="current[0] == 'createcalendar'" :admins="admins"></CalendarForm>

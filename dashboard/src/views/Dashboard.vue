@@ -284,7 +284,7 @@
         </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="Branches">
+            <a-form-item label="Location">
           <a-select  mode="tags"
            v-decorator="[
               'branches',

@@ -9,6 +9,12 @@
       
     >
       <a-menu theme="light" mode="horizontal" v-model="current">
+        <a-sub-menu>
+          <span slot="title" class="submenu-title-wrapper"
+            ><a-icon type="setting" />Organisation Setup</span
+          >
+          <a-menu-item key="departments">Departments & Designations</a-menu-item>
+        </a-sub-menu>
         <a-menu-item key="employees">
           <span class="label"><a-icon type="usergroup-add" />Employees</span>
         </a-menu-item>
@@ -16,19 +22,13 @@
           <span slot="title" class="submenu-title-wrapper"
             ><a-icon type="calendar" />Payroll</span
           >
+          
+          <a-menu-item key="allowances">Allowances </a-menu-item>
+          <a-menu-item key="otherdeductions">Deductions </a-menu-item>
           <a-menu-item key="createcalendar"> Create Calendar </a-menu-item>
           <a-menu-item key="calendar"> View Calendars </a-menu-item>
         </a-sub-menu>
-        <a-sub-menu>
-          <span slot="title" class="submenu-title-wrapper"
-            ><a-icon type="setting" />Company Profile</span
-          >
-          <a-menu-item key="departments">Departments</a-menu-item>
 
-          <a-menu-item key="allowances">Allowances </a-menu-item>
-          <!-- <a-menu-item key="statdeductions">Statutory Deductions </a-menu-item> -->
-          <a-menu-item key="otherdeductions">Deductions </a-menu-item>
-        </a-sub-menu>
         <!-- <a-menu-item key="reports">
           <span class="label">Reports</span>
         </a-menu-item> -->

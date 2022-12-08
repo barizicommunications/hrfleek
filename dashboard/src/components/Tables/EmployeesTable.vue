@@ -156,7 +156,7 @@
             fill="#111827"
           />
         </svg>
-        import CSV {{departmenti[0]}}
+        import CSV
       </a-button>
     </div>
   </a-card>
@@ -324,18 +324,7 @@ export default {
   methods: {
     exportExcel() {
       var data = [
-        { id: 1, name: "Agus", dob: "1997-02-01", grade: "A", gender: "male" },
-        { id: 2, name: "Boni", dob: "1996-01-02", grade: "C", gender: "male" },
-        { id: 3, name: "Tono", dob: "1995-12-03", grade: "B", gender: "male" },
-        { id: 4, name: "Asep", dob: "1992-11-04", grade: "D", gender: "male" },
-
-        {
-          id: 5,
-          name: "Marwinto",
-          dob: "1997-10-05",
-          grade: "A",
-          gender: "male",
-        },
+        { id: 1, name: "Agus",lastname:'Ochieng', dob: "1997-02-01", grade: "A", genders: "male" },
       ];
 
       // Important part is key and header
@@ -353,11 +342,11 @@ export default {
         },
         {
           header: "Gender",
-          key: "Gender",
+          key: "gender",
           width: 30,
         },
         {
-          title: "Email",
+          header: "Email",
           key: "email",
           width: 30,
         },
@@ -377,7 +366,7 @@ export default {
           width: 30,
         },
         {
-          header: "designation",
+          header: "Designation",
           key: "designation",
           width: 30,
         },
@@ -396,6 +385,22 @@ export default {
           key: "basic_pay",
           width: 30,
         },
+        {
+          header: "Bank Name",
+          key: "bank_name",
+          width: 30,
+        },
+        {
+          header: "Account Number",
+          key: "account_number",
+          width: 30,
+        },
+        {
+          header: "Bank Branch",
+          key: "bank_branch",
+          width: 30,
+        },
+
       ];
       this.exportToExcel(header, data, "Employee Data");
     },
@@ -478,67 +483,10 @@ export default {
     },
     uploadtoFirebase(data) {
       if (data.length) {
-        function checkIdDuplicates(array, value) {
-          var count = 0;
-          array.forEach((v) => v.national_id === value && count++);
-          return count;
-        }
-        function checkKRADuplicates(array, value) {
-          var count = 0;
-          array.forEach((v) => v.kra_pin === value && count++);
-          return count;
-        }
-        function checkNSSFDuplicates(array, value) {
-          var count = 0;
-          array.forEach((v) => v.nssf_number === value && count++);
-          return count;
-        }
-        function checkNHIFDuplicates(array, value) {
-          var count = 0;
-          array.forEach((v) => v.nhif_number === value && count++);
-          return count;
-        }
-        if (checkIdDuplicates(data, data.national_id) > 1) {
-          /* vendors contains the element we're looking for */
-          this.loading = false;
-          this.$message.error("some ID are duplicates");
-        } else if (checkKRADuplicates(data, data.kra_pin) > 1) {
-          this.loading = false;
-          this.$message.error("some KRA PINs are duplicates");
-        } else if (checkNSSFDuplicates(data, data.nssf_number) > 1) {
-          this.loading = false;
-          this.$message.error("some NSSF numbers are duplicates");
-        } else if (checkNHIFDuplicates(data, data.nhif_number) > 1) {
-          this.loading = false;
-          this.$message.error("some NHIF numbers are duplicates");
-        } else {
-          for (let i = 0; i < data.length; +i++) {
-            fb.businessCollection
-              .doc(this.client.id)
-              .collection("team")
-              .doc(data[i].national_id)
-              .set(data[i])
-              .then(() => {
-                this.loading = false;
-                this.$store.dispatch("getEmployees");
-                this.$store.dispatch("getCurrentClient");
-                this.convertTableData();
-                swal({
-                  title: "Sucess!",
-                  text: `record added successfully`,
-                  icon: "success",
-                });
-              })
-              .catch((err) => {
-                swal({
-                  title: "OOPS!",
-                  text: `${err.message}`,
-                  icon: "error",
-                });
-                this.loading = false;
-              });
-          }
-        }
+        // for (let i = 0; i < data.length; +i++) {
+        //   fb.banksCollection.add(data[i])
+        // }
+        console.log(data)
       } else {
         this.loading = false;
         this.$message.error("no data to upload");

@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in">
-    <a-row type="flex" :gutter="[24, 24]" justify="space-around" align="middle">
+    <a-row type="flex" :gutter="[24, 24]" justify="space-around">
       <!-- Sign In Form Column -->
       <a-col
         :span="24"

@@ -23,7 +23,7 @@
 		<!-- / Counter Widgets -->
 
 		<!-- Charts -->
-		<a-row :gutter="24" type="flex" align="stretch">
+		<a-row :gutter="24" type="flex" >
 			<a-col :span="24" :lg="10" class="mb-24">
 
 				<!-- Active Users Card -->
@@ -42,7 +42,7 @@
 		<!-- / Charts -->
 
 		<!-- Table & Timeline -->
-		<a-row :gutter="24" type="flex" align="stretch">
+		<a-row :gutter="24" type="flex">
 			<!-- Table -->
 			<a-col :span="24" :lg="16" class="mb-24">
 				
@@ -69,7 +69,7 @@
 		<!-- / Table & Timeline -->
 
 		<!-- Cards -->
-		<a-row :gutter="24" type="flex" align="stretch">
+		<a-row :gutter="24" type="flex">
 			<a-col :span="24" :xl="14" class="mb-24">
 
 				<!-- Information Card 1 -->

@@ -120,7 +120,7 @@
     </div>
 
     <template #title>
-      <a-row type="flex" align="middle">
+      <a-row type="flex">
         <a-col :span="24" :md="12">
           <h6>Departments</h6>
         </a-col>
@@ -140,7 +140,7 @@
         </a-col>
       </a-row>
     </template>
-    <a-row type="flex" align="middle" v-if="client.departments">
+    <a-row type="flex" v-if="client.departments">
       <a-col
         :span="2"
         v-for="department of client.departments"

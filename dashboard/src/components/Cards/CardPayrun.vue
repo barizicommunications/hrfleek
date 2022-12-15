@@ -5,7 +5,7 @@
     :bodyStyle="{ padding: 0 }"
   >
     <template #title>
-      <a-row type="flex" align="middle">
+      <a-row type="flex">
         <a-col :span="24" :md="3">
           <h6>Employees</h6>
           <p>

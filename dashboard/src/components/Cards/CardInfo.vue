@@ -1,5 +1,5 @@
 <template>
-  <a-row :gutter="24" type="flex" align="stretch">
+  <a-row :gutter="24" type="flex">
     <a-col
       :span="24"
       :lg="8"

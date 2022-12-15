@@ -383,7 +383,7 @@
         </div>
       </a-drawer>
       <template #title>
-        <a-row type="flex" align="middle">
+        <a-row type="flex">
           <a-col :span="24" :md="12">
             <h6>Employees</h6>
             <p>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row type="flex" align="stretch" class="mb-10">
+    <a-row type="flex" class="mb-10">
       <a-col :span="24" :md="12" class="col-info">
         <a-input-search
           placeholder="search client"

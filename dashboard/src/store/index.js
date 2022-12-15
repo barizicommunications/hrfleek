@@ -180,7 +180,6 @@ export default new Vuex.Store({
 
     updatePayrunEmployees({ commit }, values) {
       commit("setpayrunEmployees", values);
-      console.log(values);
       const selectedClient = JSON.parse(localStorage.getItem("client"));
       // fb.businessCollection.doc(selectedClient.id).collection("calendars").doc().update({
 
@@ -241,7 +240,6 @@ export default new Vuex.Store({
         nhif_number:data.nhif_number,
         logo: url,
       };
-      console.log(url);
 
       await fb.businessCollection
         .doc(data.kra_pin)
@@ -267,7 +265,6 @@ export default new Vuex.Store({
     },
     //allowances & deductions
     async addAllowance({commit},data){
-      console.log(data.id)
       fb.businessCollection.doc(data.id).update({
         allowances:fb.types.FieldValue.arrayUnion(data.values)
       }).then(()=>{
@@ -281,7 +278,6 @@ export default new Vuex.Store({
     },
     
     async addDeduction({commit},data){
-      console.log(data.id)
       fb.businessCollection.doc(data.id).update({
         deductions:fb.types.FieldValue.arrayUnion(data.values)
       }).then(()=>{

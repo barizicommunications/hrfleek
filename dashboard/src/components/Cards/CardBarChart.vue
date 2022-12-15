@@ -7,7 +7,7 @@
 			<h6>Active Employees</h6>
 			<p>than last week <span class="text-success">+23%</span></p>
 		</div>
-		<a-row class="card-footer" type="flex" justify="center" align="top">
+		<a-row class="card-footer" type="flex" justify="center">
 			<a-col :span="6">
 				<h4>3,600</h4>
 				<span>Employees</span>

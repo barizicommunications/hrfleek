@@ -12,7 +12,7 @@
 		<p>
 			{{ content }}
 		</p>
-		<a-row type="flex" :gutter="6" class="card-footer" align="middle">
+		<a-row type="flex" :gutter="6" class="card-footer">
 			<a-col :span="12">
 				<a-button size="small">VIEW PROJECT</a-button>
 			</a-col>

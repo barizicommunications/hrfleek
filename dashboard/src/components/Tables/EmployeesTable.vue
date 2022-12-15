@@ -47,7 +47,7 @@
       <a-input type="file" accept=".csv" @change="handleUpload($event)" />
     </a-modal>
     <template #title>
-      <a-row type="flex" align="middle">
+      <a-row type="flex">
         <a-col :span="24" :md="12">
           <h6>Employees</h6>
           <p>
@@ -60,7 +60,7 @@
           style="display: flex; align-items: center; justify-content: flex-end"
         >
           <a-radio-group size="small">
-            <a-button type="primary" @click="visible = true">
+            <a-button type="primary" @click="openDrawer">
               Add New Employee
             </a-button>
           </a-radio-group>
@@ -318,13 +318,31 @@ export default {
       parsed: false,
       content: [],
       file: "",
-      departments:[]
+      departments: [],
     };
   },
   methods: {
+    openDrawer() {
+      if (this.client.departments) {
+        this.visible = true;
+      } else {
+        swal({
+          title: "ORGANISATION SETUP INCOMPLETE!",
+          text: `please add departments to proceed`,
+          icon: "error",
+        });
+      }
+    },
     exportExcel() {
       var data = [
-        { id: 1, name: "Agus",lastname:'Ochieng', dob: "1997-02-01", grade: "A", genders: "male" },
+        {
+          id: 1,
+          name: "Agus",
+          lastname: "Ochieng",
+          dob: "1997-02-01",
+          grade: "A",
+          genders: "male",
+        },
       ];
 
       // Important part is key and header
@@ -400,7 +418,6 @@ export default {
           key: "bank_branch",
           width: 30,
         },
-
       ];
       this.exportToExcel(header, data, "Employee Data");
     },
@@ -434,7 +451,7 @@ export default {
             formulae: ['"male,female,other"'],
           };
         });
-        let dept=['"finances,admin"']
+      let dept = ['"finances,admin"'];
       worksheet
         .getColumn("H")
         .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
@@ -486,7 +503,7 @@ export default {
         // for (let i = 0; i < data.length; +i++) {
         //   fb.banksCollection.add(data[i])
         // }
-        console.log(data)
+        console.log(data);
       } else {
         this.loading = false;
         this.$message.error("no data to upload");
@@ -594,7 +611,6 @@ export default {
       if (target) {
         target[column] = value;
         this.$store.dispatch("updateEmployeeData", newData);
-        console.log(this.employees);
       }
     },
     handleCancel() {
@@ -824,7 +840,6 @@ export default {
         let newFitler = { text: d.department_name, value: d.department_name };
         this.columns[6].filters.push(newFitler);
       });
-      console.log(this.columns[6].filters);
     },
   },
   computed: {
@@ -846,14 +861,13 @@ export default {
         }),
       };
     },
-    departmenti(){
-      let depo=[]
-        for (let i = 0; i < this.client.departments.length; i++) {
+    departmenti() {
+      let depo = [];
+      for (let i = 0; i < this.client.departments.length; i++) {
         depo.push(this.client.departments[i].department_name);
       }
-      return depo
-
-      }
+      return depo;
+    },
   },
   created() {
     this.$store.dispatch("getEmployees");
@@ -864,7 +878,6 @@ export default {
     this.$store.dispatch("getCurrentClient");
     this.convertTableData();
     this.filterDepartments();
-
   },
   updated() {},
 };

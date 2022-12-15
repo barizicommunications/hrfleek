@@ -47,7 +47,7 @@
     </a-row>
     <a-card>
       <template #title>
-        <a-row type="flex" align="start" class="mb-10">
+        <a-row type="flex" class="mb-10">
       <a-col :span="24" :md="12" class="col-info">
         <a-input-search
           placeholder="search client"
@@ -443,7 +443,6 @@ export default {
         .collectionGroup("team")
         .get()
         .then((docs) => {
-          console.log(docs.docs.length);
           this.totalEmployees = docs.docs.length;
         });
     },
@@ -452,7 +451,6 @@ export default {
         .collectionGroup("calendars")
         .get()
         .then((docs) => {
-          console.log(docs.docs.length);
           this.totalCalendars = docs.docs.length;
         });
     },
@@ -460,7 +458,6 @@ export default {
       console.log(this.current[0]);
     },
       onSearch(value) {
-      console.log(value, this.searchQuery);
       if (this.searchQuery) {
         this.visible = true;
         return this.assets.filter((item) => {

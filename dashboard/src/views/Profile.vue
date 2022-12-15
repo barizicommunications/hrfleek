@@ -19,7 +19,7 @@
       :bodyStyle="{ padding: 0 }"
     >
       <template #title>
-        <a-row type="flex" align="middle">
+        <a-row type="flex">
           <a-col :span="24" :md="12" class="col-info">
             <a-avatar :size="74" shape="square" src="images/face-1.jpg" />
             <div class="avatar-info">

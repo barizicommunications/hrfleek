@@ -3,7 +3,7 @@
 	<!-- Payment Methods Card -->
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{paddingTop: 0,}">
 		<template #title>
-			<a-row type="flex" align="middle">
+			<a-row type="flex">
 				<a-col :span="24" :md="12">
 					<h6 class="font-semibold m-0">Payment Methods</h6>
 				</a-col>

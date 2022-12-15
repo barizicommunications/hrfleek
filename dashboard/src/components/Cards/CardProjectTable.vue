@@ -3,7 +3,7 @@
 	<!-- Projects Table Card -->
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 0,}">
 		<template #title>
-			<a-row type="flex" align="middle">
+			<a-row type="flex">
 				<a-col :span="24" :md="12">
 					<h6>Projects</h6>			
 					<p>done this month <span class="text-primary">+40%</span></p>	

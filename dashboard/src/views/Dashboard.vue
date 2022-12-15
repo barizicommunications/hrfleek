@@ -284,7 +284,7 @@
         </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="Location">
+            <a-form-item label="Locations/branches(enter multiple)">
           <a-select  mode="tags"
            v-decorator="[
               'branches',
@@ -309,7 +309,7 @@
         }"
       >
         <a-button :style="{ marginRight: '8px' }" @click="handleCancel">
-          Cancel
+          Close
         </a-button>
         <a-button type="primary" :loading="loading" @click="handleSubmit">
           Submit

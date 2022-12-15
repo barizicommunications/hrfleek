@@ -20,7 +20,7 @@
           @submit.prevent="handleSubmit"
           :hideRequiredMark="true"
         >
-          <a-form-item class="mb-10" label="Select Department" :colon="false">
+          <a-form-item class="mb-10" label=" Select Department" :colon="false">
             <a-select
               mode="tags"
               style="width: 100%"
@@ -67,7 +67,7 @@
             <a-col :span="12">
               <a-form-item
                 class="mb-10"
-                label="Select Department"
+                label="Type or Select Department"
                 :colon="false"
               >
                 <a-select
@@ -95,7 +95,7 @@
                 <a-select
                   mode="tags"
                   style="width: 100%"
-                  placeholder="Type or search to select"
+                  placeholder="Search to select"
                   v-decorator="[
                     'designations',
                     {
@@ -142,11 +142,11 @@
     </template>
     <a-row type="flex" align="middle" v-if="client.departments">
       <a-col
-        :span="4"
+        :span="2"
         v-for="department of client.departments"
         :key="department.department_name"
       >
-        <h5>{{ department.department_name }}</h5>
+        <a-tag style="height:50px;display:flex;align-items:center;width:100px;justify-content:center">{{ department.department_name }}</a-tag>
       </a-col>
     </a-row>
     <a-empty v-else />

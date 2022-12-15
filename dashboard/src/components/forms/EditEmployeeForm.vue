@@ -169,7 +169,7 @@
                     ],
                   },
                 ]"
-                placeholder="select department"
+                placeholder="Select Department"
               >
                 <a-select-option
                   v-for="designation in designations"

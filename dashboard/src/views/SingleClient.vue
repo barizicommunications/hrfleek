@@ -14,6 +14,7 @@
             ><a-icon type="setting" />Organisation Setup</span
           >
           <a-menu-item key="departments">Departments & Designations</a-menu-item>
+          <a-menu-item key="settings">Edit Company Details</a-menu-item>
         </a-sub-menu>
         <a-menu-item key="employees">
           <span class="label"><a-icon type="usergroup-add" />Employees</span>
@@ -21,22 +22,14 @@
         <a-sub-menu key="calendar">
           <span slot="title" class="submenu-title-wrapper"
             ><a-icon type="calendar" />Payroll</span
-          >
-          
+          >  
           <a-menu-item key="allowances">Allowances </a-menu-item>
           <a-menu-item key="otherdeductions">Deductions </a-menu-item>
           <a-menu-item key="createcalendar"> Create Calendar </a-menu-item>
           <a-menu-item key="calendar"> View Calendars </a-menu-item>
         </a-sub-menu>
-
-        <!-- <a-menu-item key="reports">
-          <span class="label">Reports</span>
-        </a-menu-item> -->
       </a-menu>
     </div>
-    <!-- <div v-else>
-      <setup-company :client="client"></setup-company>
-    </div> -->
     <EmployeesTableVue v-if="current[0] == 'employees'" :client="client"></EmployeesTableVue>
     <CardCalendarVue v-if="current[0] == 'calendar'" :client="client"></CardCalendarVue>
     <CalendarForm v-if="current[0] == 'createcalendar'" :admins="admins"></CalendarForm>
@@ -95,15 +88,24 @@ export default {
 
   },
   computed: {
-    ...mapState(["clients","admins"]),
+    ...mapState(["clients","admins","banks"]),
     client(){
     return this.clients.find((client)=>client.id==this.$route.params.id)
 
-    }
+    },
+    bankNames() {
+      let names = [];
+      this.banks.forEach((e) => {
+        names.push(e.BankName);
+      });
+      let name = [...new Set(names)];
+      return name;
+    },
   },
   mounted() {
     this.$store.dispatch("getClients");
     this.$store.dispatch("getAdmins");
+    this.$store.dispatch("getBanks");
 
   },
 };

@@ -508,7 +508,7 @@ export default {
       }
     },
     handleSubmit(e) {
-      this.loading=true
+      
       e.preventDefault();
       this.form.validateFields((err, values) => {
         let tentDate=18
@@ -518,6 +518,7 @@ export default {
           values.date_of_birth.toDate().getFullYear();
         }
         if (!err) {
+          this.loading=true
           if (tentDate < 18) {
             this.$message.error("employee must be over 18 years of age");
             this.loading=false

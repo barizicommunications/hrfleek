@@ -5,6 +5,14 @@
     :bodyStyle="{ paddingTop: 0, paddingBottom: 0 }"
   >
   <a-modal v-model="visible" title="Add Allowance" @ok="handleSubmit">
+    <template slot="footer">
+        <a-button key="back" @click="visible=false">
+          Cancel
+        </a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleSubmit">
+          Submit
+        </a-button>
+      </template>
     <a-form
         :form="form"
         @submit.prevent="handleSubmit"
@@ -62,6 +70,7 @@
 </template>
 
 <script>
+import * as fb from "../../firebase";
 export default {
   props:['data'],
   data(){
@@ -69,13 +78,37 @@ export default {
       visible:false,
       formLayout: "vertical",
       form: this.$form.createForm(this, { name: "coordinated" }),
+      loading:false
     }
   },
   methods:{
     handleOk(){
       this.visible=true
     },
-    handleSubmit(){
+
+    handleSubmit(e){
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+      if (!err) {
+        this.loading=true
+        const selectedClient = JSON.parse(localStorage.getItem("client"));
+        console.log(this.data.id, selectedClient.id)
+        fb.businessCollection.doc(selectedClient.id).collection("team").doc(this.data.id).update({
+                allowances:fb.types.FieldValue.arrayUnion({
+                  name:values.allowance_name,
+                  amount:values.amount,
+                  frequency:values.frequency,
+                  taxed:values.taxed
+                })
+               }).then(()=>{
+                this.$message.succes("details updated succcessfully")
+                this.loading=false
+               }).catch(()=>{
+                this.loading=false
+                this.$message.error("something went wrong")
+               })
+
+      }})
       
     }
 

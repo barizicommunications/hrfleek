@@ -34,7 +34,7 @@
 
     <a-row type="flex" :gutter="24">
       <a-col :span="24" :md="24" class="mb-24">
-        <a-tabs default-active-key="1" @change="callback">
+        <a-tabs default-active-key="1">
       <a-tab-pane key="1" tab="Employee Information">
         <edit-employee-form
           :client="currentClient"

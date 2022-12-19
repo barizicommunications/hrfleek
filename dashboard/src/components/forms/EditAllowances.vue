@@ -57,7 +57,7 @@
   <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="data.allowances">
     <a-list-item slot="renderItem" slot-scope="item, index">
       <a-card :title="item.name">
-        <a slot="extra" href="#">Remove</a>
+        <!-- <a slot="extra" href="#">Remove</a> -->
         {{item.amount}}
       </a-card>
     </a-list-item>
@@ -101,9 +101,10 @@ export default {
                   taxed:values.taxed
                 })
                }).then(()=>{
-                this.$message.succes("details updated succcessfully")
+                this.$message.success("details updated succcessfully")
                 this.loading=false
-               }).catch(()=>{
+               }).catch((err)=>{
+                console.log(err)
                 this.loading=false
                 this.$message.error("something went wrong")
                })

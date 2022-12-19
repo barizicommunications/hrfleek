@@ -161,10 +161,6 @@ const columns = [
     title: "Department",
     dataIndex: "department",
     scopedSlots: { customRender: "department" },
-    filters: [
-      { text: "Sales", value: "sales" },
-      { text: "Engineering", value: "engineering" },
-    ],
     onFilter: (value, record) => record.department.indexOf(value) === 0,
   },
   {

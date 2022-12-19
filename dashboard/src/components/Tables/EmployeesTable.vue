@@ -349,12 +349,12 @@ export default {
       var header = [
         { key: "id", header: "ID", width: 20 },
         {
-          header: "First Name",
+          header: "First_Name",
           key: "first_name",
           width: 30,
         },
         {
-          header: "Last Name",
+          header: "Last_Name",
           key: "last_name",
           width: 30,
         },
@@ -369,12 +369,17 @@ export default {
           width: 30,
         },
         {
-          header: "Phone Number",
+          header: "Phone_Number",
           key: "phone_number",
           width: 30,
         },
         {
-          header: "KRA PIN",
+          header: "National_ID",
+          key: "national_id",
+          width: 30,
+        },
+        {
+          header: "KRA_PIN",
           key: "kra_pin",
           width: 30,
         },
@@ -389,32 +394,52 @@ export default {
           width: 30,
         },
         {
-          header: "NHIF Number",
+          header: "Date_Of_Birth",
+          key: "date_of_birth",
+          width: 30,
+        },
+        {
+          header: "Date_Of_Appointment",
+          key: "date_of_appointment",
+          width: 30,
+        },
+        {
+          header: "NHIF_Number",
           key: "nhif_number",
           width: 30,
         },
         {
-          header: "NSSF Number",
+          header: "NSSF_Number",
           key: "nssf_number",
           width: 30,
         },
         {
-          header: "Basic Salary",
+          header: "Contract_Type",
+          key: "contract_type",
+          width: 30,
+        },
+        {
+          header: "Basic_Salary",
           key: "basic_pay",
           width: 30,
         },
         {
-          header: "Bank Name",
+          header: "Bank_Name",
           key: "bank_name",
           width: 30,
         },
         {
-          header: "Account Number",
+          header: "Account_Number",
           key: "account_number",
           width: 30,
         },
         {
-          header: "Bank Branch",
+          header: "Account_Name",
+          key: "account_name",
+          width: 30,
+        },
+        {
+          header: "Bank_Branch",
           key: "bank_branch",
           width: 30,
         },
@@ -423,7 +448,7 @@ export default {
     },
     async exportToExcel(header, data, filename) {
       const options = {
-        filename: filename + ".xlsx",
+        filename: filename + ".csv",
       };
 
       //Init Workbook
@@ -453,7 +478,7 @@ export default {
         });
       let dept = ['"finances,admin"'];
       worksheet
-        .getColumn("H")
+        .getColumn("I")
         .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
           cell.dataValidation = {
             type: "list",
@@ -461,7 +486,6 @@ export default {
             formulae: dept,
           };
         });
-
       //Export Excel to Base64
       const base64 = Buffer.from(await workbook.xlsx.writeBuffer()).toString(
         "base64"
@@ -500,9 +524,38 @@ export default {
     },
     uploadtoFirebase(data) {
       if (data.length) {
-        // for (let i = 0; i < data.length; +i++) {
-        //   fb.banksCollection.add(data[i])
-        // }
+        for (let i = 0; i < data.length; +i++) {
+          const payload ={
+        email: data[i].Email,
+        phone_number: data[i].Phone_Number,
+        kra_pin: data[i].Kra_Pin,
+        national_id: data[i].National_ID,
+        status: "active",
+        date_of_appointment:data[i].Date_Of_Appointment,
+        date_of_birth: data[i].Date_Of_Birth,
+        contract_type: data[i].Contract_Type,
+        bank_name: data[i].Bank_Name,
+        account_number: data[i].Account_Number,
+        account_name: data[i].Account_Name,
+        bank_branch: data[i].Bank_Branch,
+        first_name: data[i].First_Name,
+        last_name: data[i].Last_Name,
+        full_name: data.first_name + data.last_name,
+        department: data[i].Department,
+        designation: data[i].Designation,
+        pay_rate: 0,
+        hours_worked: 0,
+        basic_pay: data[i].Basic_Salary,
+        net_pay: 0,
+        employment_type: "",
+        nssf_number: data[i].Nssf_Number,
+        nhif_number: data[i].Nssf_Number,
+        Gender: data[i].Gender,
+
+            
+          }
+          fb.banksCollection.add(payload)
+        }
         console.log(data);
       } else {
         this.loading = false;
@@ -720,76 +773,7 @@ export default {
                   this.$message.error("some NHIF numbers are duplicates");
                 } else {
                   console.log(newresult[data]);
-                  // data = {
-                  //   national_id: newresult[data].national_id,
-                  //   first_name: newresult[data].first_name,
-                  //   last_name: newresult[data].last_name,
-                  //   Gender: newresult[data].Gender,
-                  //   email: newresult[data].email,
-                  //   phone_number: newresult[data].phone_number,
-                  //   address: newresult[data].address,
-                  //   Country: newresult[data].Country,
-                  //   department: newresult[data].department,
-                  //   designation: newresult[data].designation,
-                  //   employment_type: newresult[data].employment_type,
-                  //   kra_pin: newresult[data].kra_pin,
-                  //   nhif_number: newresult[data].nhif_number,
-                  //   nssf_number: newresult[data].nssf_number,
-                  //   bank_name: newresult[data].bank_name,
-                  //   account_name: newresult[data].account_name,
-                  //   account_number: newresult[data].account_number,
-                  //   bank_branch: newresult[data].bank_branch,
-                  //   basic_pay: newresult[data].basic_pay,
-                  //   Status: newresult[data].Status,
-                  //   date_of_appointment: "",
-                  //   contract_type: "",
-                  //   date_of_birth:newresult[data].date_of_birth,
-                  //   allowances: {
-                  //     house_allowance: newresult[data].house_allowance,
-                  //     transportAllowance: newresult[data].transportAllowance,
-                  //     telephoneAllowance: newresult[data].telephoneAllowance,
-                  //     hardshipAllowance: newresult[data].hardshipAllowance,
-                  //     transferAllowance: newresult[data].transferAllowance,
-                  //     riskAllowance: newresult[data].riskAllowance,
-                  //     carAllowance: newresult[data].carAllowance,
-                  //     fuelAllowance: newresult[data].fuelAllowance,
-                  //     house_allowance: newresult[data].house_allowance,
-                  //     entertainmentAllowance:
-                  //       newresult[data].entertainmentAllowance,
-                  //   },
-                  //   deductions: {
-                  //     salary_advance: newresult[data].salary_advance,
-                  //     helb: newresult[data].helb,
-                  //     pension: newresult[data].pension,
-                  //     sacco: newresult[data].sacco,
-                  //     life_insurance: newresult[data].life_insurance
-                  //   },
-                  // };
-
-                  // await fb.businessCollection
-                  //   .doc(selectedClient.kra_pin)
-                  //   .collection("team")
-                  //   .doc(data.national_id)
-                  //   .set(data)
-                  //   .then(() => {
-                  //     this.loading = false;
-                  //     this.$store.dispatch("getEmployees");
-                  //     this.$store.dispatch("getCurrentClient");
-                  //     this.convertTableData();
-                  //     swal({
-                  //       title: "Sucess!",
-                  //       text: `record added successfully`,
-                  //       icon: "success",
-                  //     });
-                  //   })
-                  //   .catch((err) => {
-                  //     swal({
-                  //       title: "OOPS!",
-                  //       text: `${err.message}`,
-                  //       icon: "error",
-                  //     });
-                  //     this.loading = false;
-                  //   });
+                 
                 }
               });
             }

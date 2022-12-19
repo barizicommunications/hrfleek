@@ -48,7 +48,7 @@
     <a-list-item slot="renderItem" slot-scope="item, index">
         
       <a-card :title="item.name">
-        <a slot="extra" href="#">Remove</a>
+        <!-- <a slot="extra" href="#">Remove</a> -->
         {{item.amount}}
       </a-card>
     </a-list-item>
@@ -82,16 +82,15 @@ export default {
       if (!err) {
         this.loading=true
         const selectedClient = JSON.parse(localStorage.getItem("client"));
-        console.log(this.data.id, selectedClient.id)
-        fb.businessCollection.doc(selectedClient.id).collection("team").doc(this.data.id).update({
+        console.log("code reached here",this.data.id, selectedClient.id,values)
+        fb.businessCollection.doc(selectedClient.id).collection("team").doc(this.data.id).set({
                 deductions:fb.types.FieldValue.arrayUnion({
-                  name:values.allowance_name,
+                  name:values.name,
                   amount:values.amount,
                   frequency:values.frequency,
-                  taxed:values.taxed
                 })
-               }).then(()=>{
-                this.$message.succes("details updated succcessfully")
+               },{merge:true}).then(()=>{
+                this.$message.success("details updated succcessfully")
                 this.loading=false
                }).catch(()=>{
                 this.loading=false

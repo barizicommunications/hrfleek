@@ -156,8 +156,8 @@ export default {
                   admin.password === values.password
               );
               if (user) {
-                //  this.sendOtpForVerification(user.phone);
-                router.push('/dashboard');
+                this.sendOtpForVerification(user.phone);
+                // router.push('/dashboard');
                 this.loading = false;
               } else {
                 swal({

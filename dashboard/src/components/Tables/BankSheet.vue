@@ -129,6 +129,7 @@ export default {
           "PAYEE NAME":[object.first_name,object.last_name].join(" "),
           "ACCOUNT NUMBER":object.account_number,
           "AMOUNT":object.basic_pay,
+          "BANK": object.bank_name,
           "BRANCH":object.bank_branch,
           "REFERENCE":"salary"
 

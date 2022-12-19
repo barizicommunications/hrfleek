@@ -37,6 +37,7 @@
     <AllowanceForm v-if="current[0] == 'allowances'" :client="client"></AllowanceForm>
     <Departments v-if="current[0] == 'departments'" :client="client"></Departments>
     <DesignationForm v-if="current[0] == 'designations'"></DesignationForm>
+    <companyform v-if="current[0] == 'settings'" :client="client" :bankNames="bankNames" :banks="banks"></companyform>
 
     <!-- / Cards -->
   </div>
@@ -58,6 +59,7 @@ import Departments from "./Departments.vue"
 import UserfromVue from '../components/forms/Userfrom.vue';
 import { mapState } from 'vuex';
 import SetupCompany from '../components/Widgets/SetupCompany.vue';
+import Companyform from '../components/forms/Companyform.vue';
 export default {
   components: {
     CardInfo,
@@ -73,7 +75,8 @@ export default {
     ClientCardVue,
     Departments,
     UserfromVue,
-    SetupCompany
+    SetupCompany,
+    Companyform
   },
   data() {
     return {

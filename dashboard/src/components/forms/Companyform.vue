@@ -1,16 +1,9 @@
 <template>
-  <a-drawer
-    :title="client.company_name"
-    :width="720"
-    :visible="visible"
-    :body-style="{ paddingBottom: '80px' }"
-    @close="handleCancel"
-  >
     <a-form
       id="components-form-demo-normal-login"
       :form="form"
       class="login-form"
-      @submit="handleChange"
+      @submit="handleSubmit"
       :hideRequiredMark="true"
     >
       <a-row :gutter="16">
@@ -228,35 +221,23 @@
           </a-form-item></a-col
         >
       </a-row>
+      <a-row>
+        <a-col :span="24">
+            <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+          <a-button type="primary" html-type="submit" :loading="loading" block>
+            Edit Details
+          </a-button>
+        </a-form-item>
+        </a-col>
+      </a-row>
     </a-form>
-    <div
-      :style="{
-        position: 'absolute',
-        right: 0,
-        bottom: 0,
-        width: '100%',
-        borderTop: '1px solid #e9e9e9',
-        padding: '10px 16px',
-        background: '#fff',
-        textAlign: 'right',
-        zIndex: 1,
-      }"
-    >
-      <a-button :style="{ marginRight: '8px' }" @click="handleCancel">
-        Cancel
-      </a-button>
-      <a-button type="primary" :loading="loading" @click="handleSubmit">
-        Submit
-      </a-button>
-    </div>
-  </a-drawer>
 </template>
 
 <script>
 export default {
+    props:['client','bankNames','banks'],
     data() {
     return {
-      visible: false,
       loading: false,
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
@@ -276,12 +257,8 @@ export default {
       this.form.validateFields(async (err, values) => {
         this.loading = true;
         if (!err) {
-          let client = this.clients.filter((c) => c.id === values.client_name);
-          localStorage.setItem("client", JSON.stringify(client[0]));
-          this.$store.dispatch("getCurrentClient");
-          this.$store.dispatch("getEmployees");
+            console.log(values)
           this.loading = false;
-          this.visible = false;
         } else {
           this.loading = false;
         }

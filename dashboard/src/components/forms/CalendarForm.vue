@@ -68,44 +68,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import Payrun from "../../views/Payrun.vue";
 export default {
-  props:["admins"],
+  props:["admins","clients"],
   data() {
     return {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
       image: null,
-      current: 0,
-      steps: [
-        {
-          title: "Calendar Details",
-          content: "First-content",
-        },
-        {
-          title: "Employees",
-          content: "Second-content",
-        },
-        {
-          title: "Variable Fields",
-          content: "Last-content",
-        },
-      ],
     };
   },
   methods: {
     onChange() {},
-    next(e) {
-      if (this.current == 0) {
-        this.handleSubmit(e);
-      } else {
-        console.log(this.employees, this.error, "employeees");
-      }
-    },
-    prev() {
-      this.current--;
-    },
     handleChange() {},
     handleSubmit(e) {
       e.preventDefault();
@@ -122,7 +96,6 @@ export default {
     },
   },
   computed: {
-    ...mapState["clients"],
     loading() {
       return this.$store.state.loading;
     },
@@ -132,9 +105,6 @@ export default {
     employees() {
       return this.$store.state.payrunEmployees;
     },
-  },
-  mounted() {
-    this.$store.dispatch("getClients");
   },
   components: { Payrun },
 };

@@ -41,9 +41,8 @@
 </div>
 </template>
 <script>
-import moment from "moment";
-import { mapState } from "vuex";
 export default {
+  props:['calendars'],
   data() {
     return {
       selectedCalendar: [],
@@ -95,12 +94,6 @@ this.visible =false
         return 1394;
       }
     },
-  },
-  computed: {
-    ...mapState(["calendars"]),
-  },
-  mounted() {
-    this.$store.dispatch("getCalendars");
   },
 };
 </script>

@@ -528,11 +528,11 @@ export default {
           const payload ={
         email: data[i].Email,
         phone_number: data[i].Phone_Number,
-        kra_pin: data[i].Kra_Pin,
+        kra_pin: data[i].KRA_PIN,
         national_id: data[i].National_ID,
         status: "active",
-        date_of_appointment:data[i].Date_Of_Appointment,
-        date_of_birth: data[i].Date_Of_Birth,
+        date_of_appointment: new Date(data[i].Date_Of_Appointment),
+        date_of_birth: new Date(data[i].Date_Of_Birth),
         contract_type: data[i].Contract_Type,
         bank_name: data[i].Bank_Name,
         account_number: data[i].Account_Number,
@@ -548,15 +548,21 @@ export default {
         basic_pay: data[i].Basic_Salary,
         net_pay: 0,
         employment_type: "",
-        nssf_number: data[i].Nssf_Number,
-        nhif_number: data[i].Nssf_Number,
-        Gender: data[i].Gender,
-
-            
+        nssf_number: data[i].NSSF_Number,
+        nhif_number: data[i].NHIF_Number,
+        Gender: data[i].Gender, 
+        allowances:[],
+        deductions:[]    
           }
-          fb.banksCollection.add(payload)
+          const selectedClient = JSON.parse(localStorage.getItem("client"));
+          fb.businessCollection.doc(selectedClient.id).collection("team").add(payload).then(()=>{
+            this.loading=false
+            this.$router.go()
+          }).catch((err)=>{
+            this.loading=false
+            this.message.error("something went wrong")
+          })
         }
-        console.log(data);
       } else {
         this.loading = false;
         this.$message.error("no data to upload");
@@ -812,7 +818,6 @@ export default {
     },
     exportData() {
       const data = this.employees;
-      console.log(typeof data);
       const fileName = "employee data";
       const exportType = exportFromJSON.types.csv;
 

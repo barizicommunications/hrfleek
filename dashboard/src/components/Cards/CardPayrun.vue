@@ -236,6 +236,7 @@ export default {
                 );
                 this.$store.dispatch("updatePayrunEmployees", []);
                 this.loading = false;
+                this.$router.go()
               })
               .catch((err) => {
                 swal({
@@ -279,6 +280,7 @@ export default {
                   this.$store.dispatch("getPayrunEmployees", this.$route.params.id);
                   this.$message.success("employee added successfully")
                   this.loading = false;
+                  this.$router.go()
                 })
                 .catch((err) => {
                   console.log(err)

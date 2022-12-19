@@ -24,9 +24,9 @@ let routes = [
     layout: "dashboard",
     component: () =>
       import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
-    meta: {
-      requiresAuth: true,
-    },
+    // meta: {
+    //   requiresAuth: true,
+    // },
   },
   {
     path: "/layout",

@@ -200,18 +200,25 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="Date of Birth">
-              <a-date-picker
+            <a-form-item label="Contract Type">
+              <a-select
                 v-decorator="[
-                  'date_of_birth',
-                  {initialValue: employee.date_of_birth,
-                    initialValue: date,
-                    rules: [{ required: true, message: 'Field is required' }],
+                  'contract_type',
+                  {initialValue: employee.contract_type,
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please select contract type',
+                      },
+                    ],
                   },
                 ]"
-                style="width: 100%"
-                placeholder="Date of Birth"
-              />
+                placeholder="contract type"
+              >
+                <a-select-option value="permanet"> Permanent </a-select-option>
+                <a-select-option value="temporary">Temporary</a-select-option>
+                <a-select-option value="casual">Casual</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -343,47 +350,47 @@
             </a-form-item>
           </a-col>
         </a-row>
+       
         <a-row :gutter="16">
           <a-col :span="12">
-            <a-form-item label="Date Of Appointment">
+            <div>
+         Date of Appointment :{{employee.date_of_appointment.toDate().toDateString()}}
+        </div>
+            <a-form-item label="">
               <a-date-picker
                 v-decorator="[
                   'date_of_appointment',
-                  {initialValue: employee.date_of_appointment,
-                    rules: [{ required: true, message: 'Field is required' }],
+                  {
+                    rules: [{ required: false, message: 'Field is required' }],
                   },
                 ]"
                 style="width: 100%"
-                placeholder="Date of Appointment"
+                placeholder="Edit Appointment Date"
               />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="Contract Type">
-              <a-select
+            <div>
+         Date of Birth :{{employee.date_of_birth.toDate().toDateString()}}
+        </div>
+            <a-form-item label="">
+              <a-date-picker
                 v-decorator="[
-                  'contract_type',
-                  {initialValue: employee.contract_type,
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Please select contract type',
-                      },
-                    ],
+                  'date_of_birth',
+                  {
+                    rules: [{ required: false, message: 'Field is required' }],
                   },
                 ]"
-                placeholder="contract type"
-              >
-                <a-select-option value="permanet"> Permanent </a-select-option>
-                <a-select-option value="temporary">Temporary</a-select-option>
-                <a-select-option value="casual">Casual</a-select-option>
-              </a-select>
+                style="width: 100%"
+                placeholder="Edit Date of birth"
+              />
             </a-form-item>
+
           </a-col>
         </a-row>
 
         <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-          <a-button type="primary" html-type="submit" block> Edit </a-button>
+          <a-button type="primary" html-type="submit" block :loading="loading"> Edit </a-button>
         </a-form-item>
       </a-form>
     </a-card>
@@ -392,6 +399,8 @@
 <script>
 import moment from "moment";
 import { mapState } from "vuex";
+import * as fb from "../../firebase";
+import swal from 'sweetalert';
 export default {
   props: ["client","employee"],
   data() {
@@ -419,6 +428,7 @@ export default {
       net_gross: 0,
       designations: [],
       branches: [],
+      loading:false
     };
   },
   methods: {
@@ -498,21 +508,51 @@ export default {
       }
     },
     handleSubmit(e) {
+      this.loading=true
       e.preventDefault();
       this.form.validateFields((err, values) => {
-        let tentDate =
+        let tentDate=18
+        if(values.date_of_birth){
+        tentDate =
           new Date().getFullYear() -
           values.date_of_birth.toDate().getFullYear();
-
+        }
         if (!err) {
           if (tentDate < 18) {
             this.$message.error("employee must be over 18 years of age");
+            this.loading=false
           } else {
-            console.log(values);
-            this.$store.dispatch("addEmployee", values);
+            if(!values.date_of_appointment){
+          values.date_of_appointment=this.employee.date_of_appointment
+        }else{
+          values.date_of_appointment= new Date(values.date_of_appointment)
+        }
+        if(!values.date_of_birth){
+          values.date_of_birth=this.employee.date_of_birth
+        }else{
+          values.date_of_birth = new Date(values.date_of_birth)
+        }
+        console.log(values);
+        const selectedClient = JSON.parse(localStorage.getItem("client"));
+        fb.businessCollection.doc(selectedClient.id).collection("team").doc(this.employee.id).update(values).then(()=>{
+          this.loading=false
+          swal({
+          title: "SUCCESS!",
+          text: `Details updated successfully`,
+          icon: "success",
+        });
+        }).catch((err)=>{
+          this.loading=false
+          swal({
+          title: "OOPs!",
+          text: `Something went wrong`,
+          icon: "error",
+        });
+        })
           }
         } else {
           this.$message.error("some fields are empty");
+          this.loading =false
         }
       });
     },

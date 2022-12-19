@@ -159,10 +159,10 @@
         import CSV
       </a-button>
     </div>
+    <div>{{ client.departments[0] }}</div>
   </a-card>
 </template>
 <script>
-import { mapState } from "vuex";
 import exportFromJSON from "export-from-json";
 import * as fb from "../../firebase";
 import swal from "sweetalert";
@@ -170,18 +170,8 @@ import Papa from "papaparse";
 import CreateEmployee from "../../views/CreateEmployee.vue";
 import router from "../../router";
 import * as ExcelJS from "exceljs";
-import { debugPort } from "process";
 const data = [];
-
-export default {
-  components: { CreateEmployee },
-  props: ["client"],
-  data() {
-    this.cacheData = data.map((item) => ({ ...item }));
-    return {
-      data,
-      departmentFilters: [],
-      columns: [
+const columns= [
         {
           title: "First Name",
           dataIndex: "first_name",
@@ -254,7 +244,18 @@ export default {
           scopedSlots: { customRender: "view" },
           fixed: "right",
         },
-      ],
+      ]
+
+export default {
+  components: { CreateEmployee },
+  props: ["client","employees"],
+  data() {
+    this.cacheData = data.map((item) => ({ ...item }));
+    return {
+      columns,
+      data,
+      departmentFilters: [],
+     
       editingKey: "",
       projectHeaderBtns: "all",
       visible: false,
@@ -603,7 +604,6 @@ export default {
         .update(target)
         .then(() => {
           this.$message.success("user details updated successfully");
-          this.$store.dispatch("getCurrentClient");
           this.convertTableData();
           delete target.editable;
         });
@@ -824,14 +824,13 @@ export default {
       if (data) exportFromJSON({ data, fileName, exportType });
     },
     filterDepartments() {
-      this.currentClient.departments.forEach((d) => {
+      this.client.departments.forEach((d) => {
         let newFitler = { text: d.department_name, value: d.department_name };
         this.columns[6].filters.push(newFitler);
       });
     },
   },
   computed: {
-    ...mapState(["employees", "currentClient"]),
     rowSelection() {
       return {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -857,13 +856,7 @@ export default {
       return depo;
     },
   },
-  created() {
-    this.$store.dispatch("getEmployees");
-    this.$store.dispatch("getCurrentClient");
-  },
   mounted() {
-    this.$store.dispatch("getEmployees");
-    this.$store.dispatch("getCurrentClient");
     this.convertTableData();
     this.filterDepartments();
   },

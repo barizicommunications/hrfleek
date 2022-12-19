@@ -66,11 +66,10 @@
 </template>
 
 <script>
-import { mapState,mapGetters } from "vuex";
 import * as fb from "../../firebase";
 import swal from "sweetalert";
 export default {
-  props:['client'],
+  props:['client','employees'],
   data() {
     return {
       formLayout: "horizontal",
@@ -130,12 +129,6 @@ export default {
         }
       });
     },
-  },
-  computed: {
-    ...mapState(["employees"]),
-  },
-  mounted() {
-    this.$store.dispatch("getEmployees");
   },
 };
 </script>

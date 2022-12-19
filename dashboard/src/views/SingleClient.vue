@@ -30,11 +30,11 @@
         </a-sub-menu>
       </a-menu>
     </div>
-    <EmployeesTableVue v-if="current[0] == 'employees'" :client="client"></EmployeesTableVue>
+    <EmployeesTableVue v-if="current[0] == 'employees'" :client="client" :employees="employees"></EmployeesTableVue>
     <CardCalendarVue v-if="current[0] == 'calendar'" :client="client"></CardCalendarVue>
     <CalendarForm v-if="current[0] == 'createcalendar'" :admins="admins"></CalendarForm>
-    <DeductionsForm v-if="current[0] == 'otherdeductions'" :client="client"></DeductionsForm>
-    <AllowanceForm v-if="current[0] == 'allowances'" :client="client"></AllowanceForm>
+    <DeductionsForm v-if="current[0] == 'otherdeductions'" :client="client" :employees="employees"></DeductionsForm>
+    <AllowanceForm v-if="current[0] == 'allowances'" :client="client" :employees="employees"></AllowanceForm>
     <Departments v-if="current[0] == 'departments'" :client="client" :clients="clients"></Departments>
     <DesignationForm v-if="current[0] == 'designations'"></DesignationForm>
     <companyform v-if="current[0] == 'settings'" :client="client" :bankNames="bankNames" :banks="banks"></companyform>
@@ -91,7 +91,7 @@ export default {
 
   },
   computed: {
-    ...mapState(["clients","admins","banks"]),
+    ...mapState(["clients","admins","banks","employees"]),
     client(){
     return this.clients.find((client)=>client.id==this.$route.params.id)
 
@@ -109,6 +109,7 @@ export default {
     this.$store.dispatch("getClients");
     this.$store.dispatch("getAdmins");
     this.$store.dispatch("getBanks");
+    this.$store.dispatch("getEmployees");
 
   },
 };

@@ -158,7 +158,7 @@ import { mapState, mapGetters } from "vuex";
 import * as fb from "../firebase";
 
 export default {
-  props: ["client"],
+  props: ["client","clients"],
   data() {
     return {
       visible: false,
@@ -286,7 +286,6 @@ export default {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   computed: {
-    ...mapState(["employees", "clients"]),
     ...mapGetters({
       loadingFromStore: "loading",
     }),
@@ -300,8 +299,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("getEmployees");
-    this.$store.dispatch("getClients");
     this.getAllDepartments();
   },
 };

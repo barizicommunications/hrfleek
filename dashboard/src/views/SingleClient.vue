@@ -35,7 +35,7 @@
     <CalendarForm v-if="current[0] == 'createcalendar'" :admins="admins"></CalendarForm>
     <DeductionsForm v-if="current[0] == 'otherdeductions'" :client="client"></DeductionsForm>
     <AllowanceForm v-if="current[0] == 'allowances'" :client="client"></AllowanceForm>
-    <Departments v-if="current[0] == 'departments'" :client="client"></Departments>
+    <Departments v-if="current[0] == 'departments'" :client="client" :clients="clients"></Departments>
     <DesignationForm v-if="current[0] == 'designations'"></DesignationForm>
     <companyform v-if="current[0] == 'settings'" :client="client" :bankNames="bankNames" :banks="banks"></companyform>
 

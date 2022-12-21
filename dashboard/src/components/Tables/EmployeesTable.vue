@@ -159,7 +159,6 @@
         import CSV
       </a-button>
     </div>
-    <div>{{ client.departments[0] }}</div>
   </a-card>
 </template>
 <script>

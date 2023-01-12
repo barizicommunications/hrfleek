@@ -75,5 +75,15 @@ GEt http://127.0.0.1:5001/scanpal-f74da/us-central1/barizi/mpesa/pay/10/25470512
 GET http://127.0.0.1:5001/scanpal-f74da/us-central1/barizi/ocr
 
 ###send mail
-POST http://127.0.0.1:5001/scanpal-f74da/us-central1/barizi/mail/send
+POST http://127.0.0.1:5001/scanpal-f74da/us-central1/barizi/mail/adatech
+Content-Type: application/json
+
+{
+    "title":"Venture Building",
+    "body":{
+        "companyName":"warren",
+        "email":"ochiengwarren10@gmail.com",
+        "website":"adanianlabs.io"
+    }
+}
 

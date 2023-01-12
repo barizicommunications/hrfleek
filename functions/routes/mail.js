@@ -15,7 +15,7 @@ router.post("/", (req, res, next) => {
       secure: false, // true for 465, false for other ports
       auth: {
         user: "wochieng@barizicommunications.com", // generated ethereal user
-        pass: "Yaw61537", // generated ethereal password
+        pass: "Zul22917", // generated ethereal password
       },
     });
 
@@ -42,7 +42,7 @@ let emailClient = nodemailer.createTransport({
   secure: false, // true for 465, false for other ports
   auth: {
     user: "wochieng@barizicommunications.com", // generated ethereal user
-    pass: "Yaw61537", // generated ethereal password
+    pass: "Zul22917", // generated ethereal password
   },
 });
 
@@ -75,6 +75,34 @@ router.post('/send',(req,res,next)=>{
       subject: "Your Payslip", // Subject line
       html: htmlToSend, // plain text body
       attachments: [{ path: pdfOutput }],
+    };
+  
+  emailClient.sendMail(mailOptions, function (err, info) {
+    if (err) return next(err);
+    else res.status(201).send(info);
+  });
+  };
+  return sendPDF()
+
+})
+
+router.post('/adatech',(req,res,next)=>{
+  const sendPDF = async () => {
+    const emailPath = path.resolve("./routes/email-templates", "adatech.html");
+  
+    const replacements = {
+      title:req.body.title,
+      headings: Object.keys(req.body.body),
+      content: Object.values(req.body.body),
+      date: new Date().toDateString(),
+    };
+  
+    let htmlToSend = createHTMLToSend(emailPath, replacements);
+    const mailOptions = {
+      from: "wochieng@barizicommunications.com", // sender address
+      to: "fredrickmaina@adanianlabs.io", // list of receivers
+      subject: `${req.body.title}'Responses'`, // Subject line
+      html: htmlToSend, // plain text body
     };
   
   emailClient.sendMail(mailOptions, function (err, info) {
